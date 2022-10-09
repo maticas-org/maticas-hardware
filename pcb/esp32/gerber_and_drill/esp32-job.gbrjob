@@ -5,7 +5,7 @@
       "Application": "Pcbnew",
       "Version": "6.0.7+dfsg-1+b1"
     },
-    "CreationDate": "2022-09-28T14:19:47-05:00"
+    "CreationDate": "2022-09-30T15:10:01-05:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
@@ -24,10 +24,10 @@
   "DesignRules": [
     {
       "Layers": "Outer",
-      "PadToPad": 0.3,
-      "PadToTrack": 0.3,
+      "PadToPad": 0.0,
+      "PadToTrack": 0.0,
       "TrackToTrack": 0.3,
-      "MinLineWidth": 0.2
+      "MinLineWidth": 1.0
     }
   ],
   "FilesAttributes": [
