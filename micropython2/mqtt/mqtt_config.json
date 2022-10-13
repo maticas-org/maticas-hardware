@@ -11,18 +11,18 @@
     "ssl":                false,
     "ssl_params":          {},
     "sub_topics":   {
-                        "lux":           {"topic": "esp32data/control/lux",         "qos": 1},
-                        "temp":          {"topic": "esp32data/control/temp",        "qos": 1},
-                        "hum":           {"topic": "esp32data/control/hum",         "qos": 1},
-                        "pressure":      {"topic": "esp32data/control/pressure",    "qos": 1}
+                        "lux":           {"topic": "esp32/dave/58:BF:25:82:31:78/control/lux",         "qos": 1},
+                        "temp":          {"topic": "esp32/dave/58:BF:25:82:31:78/control/temp",        "qos": 1},
+                        "hum":           {"topic": "esp32/dave/58:BF:25:82:31:78/control/hum",         "qos": 1},
+                        "pressure":      {"topic": "esp32/dave/58:BF:25:82:31:78/control/pressure",    "qos": 1}
                     },
 
     "pub_topics":  {
-                        "lux":                {"topic": "esp32data/measure/lux",         "qos": 1},
-                        "temp":               {"topic": "esp32data/measure/temp",        "qos": 1},
-                        "hum":                {"topic": "esp32data/measure/hum",         "qos": 1},
-                        "pressure":           {"topic": "esp32data/measure/pressure",    "qos": 1},
-                        "panel_voltage":      {"topic": "esp32data/measure/pressure",    "qos": 1},
-                        "battery_energy":     {"topic": "esp32data/measure/pressure",    "qos": 1}
+                        "lux":                {"topic": "esp32/dave/58:BF:25:82:31:78/measure/lux",             "qos": 1},
+                        "temp":               {"topic": "esp32/dave/58:BF:25:82:31:78/measure/temp",            "qos": 1},
+                        "hum":                {"topic": "esp32/dave/58:BF:25:82:31:78/measure/hum",             "qos": 1},
+                        "pressure":           {"topic": "esp32/dave/58:BF:25:82:31:78/measure/pressure",        "qos": 1},
+                        "panel_voltage":      {"topic": "esp32/dave/58:BF:25:82:31:78/measure/panel_voltage",   "qos": 1},
+                        "battery_energy":     {"topic": "esp32/dave/58:BF:25:82:31:78/measure/battery_energy",  "qos": 1}
                     }
 }

@@ -52,6 +52,9 @@ ampy --port /dev/ttyUSB0 put ./mqtt/boot.py
 anounce_file_upload "./main.py"
 ampy --port /dev/ttyUSB0 put ./main.py
 
+anounce_file_upload "./get_mac_address.py"
+ampy --port /dev/ttyUSB0 put ./get_mac_address.py
+
 
 #-----------------------------------------------------#
 #              Uploads dependencies                   #
