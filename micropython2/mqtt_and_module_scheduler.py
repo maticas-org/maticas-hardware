@@ -17,6 +17,8 @@ class MQTTModuleScheduler():
 
             if self.pub_topics[alias]["exec"] == "":
                 print("topic \"{}\" has no candidate for answering a call".format(alias))
+                self.mqtt_conn.publish(topic = self.pub_topics[alias]["topic"],
+                                       msg = "ERROR: no {} sensor".format(alias))
                 continue
 
             value = str(self.pub_topics[alias]["exec"]())

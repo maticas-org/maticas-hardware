@@ -16,19 +16,30 @@ sda = Pin(21)
 i2c = I2C(scl = scl,
           sda = sda)
 
-bme = BME280(i2c = i2c)
-bh  = BH1750(bus = i2c)
+#---------------------------------------------------------------------------------#
+try:
+    bme = BME280(i2c = i2c)
+    mod.add_module_function(alias = "temp",     function = bme.temperature_value)
+    mod.add_module_function(alias = "hum",      function = bme.humidity_value)
+    mod.add_module_function(alias = "pressure", function = bme.pressure_value)
 
-# in case we have to send parameters to the function 
-# we have to create a wraper function to pass it to the add_module_function 
-def luminance_wrapper():
-    return bh.luminance(BH1750.ONCE_HIRES_1)
+except:
+    print("BME280 sensor not found")
+
+#---------------------------------------------------------------------------------#
+try:
+    bh  = BH1750(bus = i2c)
+    # in case we have to send parameters to the function 
+    # we have to create a wraper function to pass it to the add_module_function 
+    def luminance_wrapper():
+        return bh.luminance(BH1750.ONCE_HIRES_1)
+
+    mod.add_module_function(alias = "lux",  function = luminance_wrapper)
+
+except:
+    print("BH1750 sensor not found")
 
 
-mod.add_module_function(alias = "temp",     function = bme.temperature_value)
-mod.add_module_function(alias = "hum",      function = bme.humidity_value)
-mod.add_module_function(alias = "pressure", function = bme.pressure_value)
-mod.add_module_function(alias = "lux",      function = luminance_wrapper)
 
 
 
