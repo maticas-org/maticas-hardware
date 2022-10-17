@@ -33,9 +33,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 1.09,
-          "height": 2.54,
-          "width": 2.54
+          "drill": 1.0,
+          "height": 2.0,
+          "width": 2.0
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -120,7 +120,8 @@
       },
       "track_widths": [
         0.0,
-        1.0
+        1.0,
+        1.5
       ],
       "via_dimensions": [
         {
@@ -380,7 +381,6 @@
         "microvia_drill": 0.1,
         "name": "newdefault",
         "nets": [
-          "3.3v",
           "batery1+",
           "batery1-",
           "batery2+",
