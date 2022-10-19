@@ -1,4 +1,5 @@
-from time import sleep, ticks_ms
+from time import sleep, ticks_ms, time
+from machine import deepsleep
 
 
 class MQTTModuleScheduler():
@@ -28,13 +29,14 @@ class MQTTModuleScheduler():
             sleep(0.1)
             print("message sent on topic {}".format(self.pub_topics[alias]["topic"]))
 
-    def deep_sleep(self):
+    def deep_sleep(self, secs = 90):
 
         """
             Sets the module on deep sleep.
         """
+        print("going to sleep for {} seconds".format(secs))
+        deepsleep(secs * 1000)
 
-        pass 
 
     def wake_up(self):
         """
@@ -45,10 +47,17 @@ class MQTTModuleScheduler():
 
     def loop(self):
 
+
+        print("starting loop...")
+        time_init = time()
+
         while True:
 
             self.send_messages()
             sleep(0.1)
+            time_now = time()
+
+            print("time elapsed sending messages: {}".format(time_now - time_init))
             self.deep_sleep()
             self.wake_up()
 
