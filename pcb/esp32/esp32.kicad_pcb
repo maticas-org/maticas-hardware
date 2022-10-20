@@ -83,7 +83,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory "gerber_and_drill/")
+      (outputdirectory "gerber_and_drill_esp32/")
     )
   )
 
