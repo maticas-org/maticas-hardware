@@ -6,6 +6,7 @@ from module import Module
 
 from BME280 import BME280
 from bh1750 import BH1750
+from dht    import DHT11
 
 
 mod = Module(config_file = "./mqtt_config.json")
@@ -64,12 +65,17 @@ def read_battery_voltage(nsamples = 5):
 
     return "{:.3f}".format(from_analog_read_to_voltage(analog_read/nsamples))
 
+#---------------------------------------------------------------------------------#
+#               adds analog sensors (panel and battery voltage)
+#---------------------------------------------------------------------------------#
 try:
     mod.add_module_function(alias = "panel_voltage",  function = read_panel_voltage)
     mod.add_module_function(alias = "battery_energy", function = read_battery_voltage)
 except:
     print("Error with panel voltage sensor or battery energy sensor.")
 
+#---------------------------------------------------------------------------------#
+#                       adds digital sensors (BME280)
 #---------------------------------------------------------------------------------#
 try:
     bme = BME280(i2c = i2c)
@@ -80,6 +86,8 @@ try:
 except:
     print("BME280 sensor not found")
 
+#---------------------------------------------------------------------------------#
+#                       adds digital sensors (BH1750)
 #---------------------------------------------------------------------------------#
 try:
     bh  = BH1750(bus = i2c)
@@ -93,6 +101,25 @@ try:
 except:
     print("BH1750 sensor not found")
 
+#---------------------------------------------------------------------------------#
+#                       adds digital sensors (DHT11)
+#---------------------------------------------------------------------------------#
+try:
+    dht11 = DHT11(Pin(14))
+
+    def read_temperature():
+        dht11.measure()
+        return "{:.3f}".format(dht11.temperature())
+
+    def read_humidity():
+        dht11.measure()
+        return "{:.3f}".format(dht11.humidity())
+
+    mod.add_module_function(alias = "temp",     function = read_temperature)
+    mod.add_module_function(alias = "hum",      function = read_humidity)
+
+except:
+    print("DHT11 sensor not found")
 
 
 
