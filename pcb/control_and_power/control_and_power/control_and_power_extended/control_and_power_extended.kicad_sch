@@ -1938,7 +1938,7 @@
     (uuid 0fef5c7c-835f-4313-ae4f-d1c42fa3ab9b)
     (property "Reference" "J1" (id 0) (at 34.29 38.1 0))
     (property "Value" "Conn_01x07_Male" (id 1) (at 34.29 40.64 0))
-    (property "Footprint" "" (id 2) (at 29.21 53.34 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical" (id 2) (at 29.21 53.34 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 29.21 53.34 0)
