@@ -1,0 +1,5 @@
+(fp_lib_table
+  (lib (name "smart_sensor")(type "KiCad")(uri "/home/dave/Documents/univ/newmaticas/maticas-hardware/libs/smart_sensor.pretty")(options "")(descr ""))
+  (lib (name "kicad-footprints-master-Connector_JST")(type "KiCad")(uri "/home/dave/Documents/univ/newmaticas/maticas-hardware/libs/kicad-footprints-master-Connector_JST.pretty")(options "")(descr ""))
+  (lib (name "esp32")(type "KiCad")(uri "/home/dave/Documents/univ/newmaticas/maticas-hardware/libs/esp32.pretty")(options "")(descr ""))
+)
