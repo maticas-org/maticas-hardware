@@ -1690,6 +1690,23 @@
     (pin "9" (uuid d6d86d87-b8b7-4b7f-b765-b90bc9e5d4fd))
   )
 
+  (symbol (lib_id "Mechanical:MountingHole") (at 39.37 73.66 0) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid d631f944-c6fd-4c1f-b6f6-5dd9ebd19282)
+    (property "Reference" "H?" (id 0) (at 41.91 72.3899 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (id 1) (at 41.91 74.9299 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_2.7mm_M2.5_Pad" (id 2) (at 39.37 73.66 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (id 3) (at 39.37 73.66 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+  )
+
   (symbol (lib_id "Connector:Conn_01x02_Male") (at 92.71 93.98 180) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid e9985b2b-95c9-4d1b-aa33-6bba12cffcb1)
@@ -1777,6 +1794,9 @@
     )
     (path "/eb25c250-7a5d-4a9a-839e-da707c6768fb"
       (reference "H3") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_2.7mm_M2.5_Pad")
+    )
+    (path "/d631f944-c6fd-4c1f-b6f6-5dd9ebd19282"
+      (reference "H?") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_2.7mm_M2.5_Pad")
     )
     (path "/0acd31bd-0a92-415d-b1ae-b860cc8ad816"
       (reference "J1") (unit 1) (value "Conn_01x05_Male") (footprint "Connector_JST:JST_EH_B5B-EH-A_1x05_P2.50mm_Vertical")
