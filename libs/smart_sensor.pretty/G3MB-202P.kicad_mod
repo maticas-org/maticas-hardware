@@ -1,0 +1,40 @@
+(footprint "G3MB-202P" (version 20211014) (generator pcbnew)
+  (layer "F.Cu")
+  (tedit 0)
+  (attr through_hole)
+  (fp_text reference "REF**" (at 0 -4.191 unlocked) (layer "F.SilkS")
+    (effects (font (size 1 1) (thickness 0.15)))
+    (tstamp cb25a12d-8850-4cdb-a25e-e32c90b63e53)
+  )
+  (fp_text value "G3MB-202P" (at 0 3.81 unlocked) (layer "F.Fab")
+    (effects (font (size 1 1) (thickness 0.15)))
+    (tstamp eb162662-461c-42c3-a186-228d49fcfac6)
+  )
+  (fp_text user "${REFERENCE}" (at -0.127 5.461 unlocked) (layer "F.Fab")
+    (effects (font (size 1 1) (thickness 0.15)))
+    (tstamp af8923b5-7c67-41cb-910f-8b6d62c3dfd4)
+  )
+  (fp_rect (start -11.303 -2.794) (end 13.208 2.413) (layer "F.SilkS") (width 0.12) (fill none) (tstamp bb9ea3ae-a650-4afc-8cec-32519feafd9c))
+  (pad "11" thru_hole circle (at 3.7465 -0.127) (size 1.524 1.524) (drill 0.762) (layers *.Cu *.Mask) (tstamp 1f4a8065-f1ac-44cf-b931-58cec30ea65a))
+  (pad "14" thru_hole circle (at 10.9855 -0.127) (size 1.524 1.524) (drill 0.762) (layers *.Cu *.Mask) (tstamp c77dbc87-003e-4709-9586-b6d1399e0641))
+  (pad "A1" thru_hole circle (at -6.4995 -0.127) (size 1.524 1.524) (drill 0.762) (layers *.Cu *.Mask) (tstamp 47860baf-9a5c-42a2-81ad-df2189873bc0))
+  (pad "A2" thru_hole circle (at -9.0805 -0.127) (size 1.524 1.524) (drill 0.762) (layers *.Cu *.Mask) (tstamp 20ea81d2-9254-4066-ad57-edfb67cf9eeb))
+  (group "" (id 6e2644ad-0adf-47fd-bed2-1ef1ca687a58)
+    (members
+      1f4a8065-f1ac-44cf-b931-58cec30ea65a
+      c77dbc87-003e-4709-9586-b6d1399e0641
+    )
+  )
+  (group "" (id 719f6e83-38a3-4fdf-a2ea-ff048da95169)
+    (members
+      6e2644ad-0adf-47fd-bed2-1ef1ca687a58
+      f63c2656-4f9f-4a11-99e2-0990989f356d
+    )
+  )
+  (group "" (id f63c2656-4f9f-4a11-99e2-0990989f356d)
+    (members
+      20ea81d2-9254-4066-ad57-edfb67cf9eeb
+      47860baf-9a5c-42a2-81ad-df2189873bc0
+    )
+  )
+)
