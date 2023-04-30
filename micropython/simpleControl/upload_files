@@ -1,0 +1,50 @@
+#!/usr/bin/bash
+
+anounce_file_upload(){
+    echo "Uploading file $1 to esp32..."
+}
+
+
+#-----------------------------------------------------#
+#              Uploads utils and dependencies         #
+#-----------------------------------------------------#
+anounce_file_upload "./internet_connection.py"
+ampy --port /dev/ttyUSB0 put ./utils/internet_connection.py
+
+anounce_file_upload "./time_management_module.py"
+ampy --port /dev/ttyUSB0 put ./utils/time_management_module.py
+
+#-----------------------------------------------------#
+#              Uploads integration class              #
+#-----------------------------------------------------#
+anounce_file_upload "./scheduler.py"
+ampy --port /dev/ttyUSB0 put ./scheduler.py
+
+anounce_file_upload "./module.py"
+ampy --port /dev/ttyUSB0 put ./module.py
+
+anounce_file_upload "./initialize_actuators.py"
+ampy --port /dev/ttyUSB0 put ./initialize_actuators.py
+
+#-----------------------------------------------------#
+#              Uploads boot and main                  #
+#-----------------------------------------------------#
+
+##########################################
+# Uploads mqtt boot to esp32
+##########################################
+anounce_file_upload "./boot.py"
+ampy --port /dev/ttyUSB0 put ./boot.py
+
+##########################################
+# Uploads main to esp32
+##########################################
+anounce_file_upload "./main.py"
+ampy --port /dev/ttyUSB0 put ./main.py
+
+##########################################
+# Uploads main to esp32
+##########################################
+anounce_file_upload "./config.json"
+ampy --port /dev/ttyUSB0 put ./config.json
+

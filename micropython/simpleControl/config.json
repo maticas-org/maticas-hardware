@@ -1,0 +1,38 @@
+{
+    "wifi_ssid": "LinuxEsAmor",
+    "wifi_password": "nuncaheusadoarch",
+    "actuators": {
+                    "fan": {
+                        "type": "on/off",
+                        "starttime": [6, 0, 0],
+                        "endtime": [20, 0, 0]
+                    },
+                    "lights": {
+                        "type": "on/off",
+                        "starttime": [6, 0, 0],
+                        "endtime": [20, 0, 0]
+                    },
+                    "water pump": {
+                        "type": "timed",
+                        "starttime": [6, 0, 0],
+                        "endtime": [20, 0, 0],
+                        "minutesoff": 30,
+                        "minuteson": 15
+                    },
+                    "water oxygen": {
+                        "type": "timed",
+                        "starttime": [6, 0, 0],
+                        "endtime": [20, 0, 0],
+                        "minutesoff": 15,
+                        "minuteson": 5
+                    },
+                    "recirculation": {
+                        "type": "timed",
+                        "starttime": [6, 0, 0],
+                        "endtime": [20, 0, 0],
+                        "minutesoff": 10,
+                        "minuteson": 1
+                    }
+    }
+}
+
