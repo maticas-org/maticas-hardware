@@ -32,10 +32,20 @@ class Module():
             self.actuators[actuatorName]["exec"]   = None
             self.actuators[actuatorName]["status"] = False
 
-            self.actuators[actuatorName]["lastchecked"] = Time(*self.actuators[actuatorName]["starttime"])
+            self.actuators[actuatorName]["lastmodified"] = Time(*self.actuators[actuatorName]["starttime"])
             self.actuators[actuatorName]["starttime"]   = Time(*self.actuators[actuatorName]["starttime"])
             self.actuators[actuatorName]["endtime"]     = Time(*self.actuators[actuatorName]["endtime"])
 
+
+    def startup_off(self) -> None:
+
+        print("Starting up actuators...")
+        #turn off all the actuators at boot
+        for actuatorName in self.actuators.keys():
+            self.actuators[actuatorName]["exec"].value(0)
+
+        print("Done! they are all OFF.\n")
+        
 
     def check_actuators(self) -> None:
 

@@ -1,6 +1,8 @@
 import network
 import utime
 
+from json    import load
+
 def connect(config_file: str)-> None:
 
     # reads the configuration file and stores it in a dictionary
