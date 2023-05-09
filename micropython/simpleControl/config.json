@@ -1,6 +1,6 @@
 {
-    "wifi_ssid": "LinuxEsAmor",
-    "wifi_password": "nuncaheusadoarch",
+    "wifi_ssid": "Aulas EICT",
+    "wifi_password": "eict1234",
     "actuators": {
                     "fan": {
                         "type": "on/off",

@@ -1,5 +1,4 @@
 from internet_connection import *
 
-
 #connects to internet
-connect(config_file = "config.json")
+connect2(config_file = "config.json", doreconnect = True)

@@ -1,5 +1,7 @@
 import time
 from time_management_module import *
+from internet_connection    import *
+
 
 class Scheduler():
 
@@ -103,6 +105,10 @@ class Scheduler():
         check_every_n_minutes = 3
         check_every_n_seconds = check_every_n_minutes * 60 * 1000
 
+
+        #helps keeping track of when to reconnect to wifi periodically
+        counter = 0
+
         # Main loop that runs indefinitely
         while True:
 
@@ -126,8 +132,16 @@ class Scheduler():
                 # Update the last execution time
                 last = now
                 self.boot = False
+                counter += 1
                 print("Done!")
                 print("\n")
+
+            if counter >= 15:
+                #reconnects to internet
+                connect2(config_file = "config.json", doreconnect = True)
+
+                #reset the counter 
+                counter = 0
 
             # Wait for a short amount of time before checking the time again
             sleep(2)

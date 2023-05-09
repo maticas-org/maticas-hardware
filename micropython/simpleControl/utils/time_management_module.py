@@ -1,4 +1,4 @@
-import urequests
+import urequests as requests
 import re
 
 
@@ -8,14 +8,13 @@ from math    import fabs
 
 def get_current_time():
 
-    response = urequests.get('http://worldtimeapi.org/api/timezone/America/Bogota')
+    response = requests.request("GET", url = "https://timeapi.io/api/Time/current/zone?timeZone=America/Bogota", timeout=10)
 
     if (response.status_code == 200):
         parsed  = response.json()
-        h, m, s = parse_datetime_time(parsed["datetime"])
-
+        h, m, s = parse_datetime_time(parsed["dateTime"])
         return (h, m, s)
-
+    
 
 def parse_datetime_time(datetime_str):
     
