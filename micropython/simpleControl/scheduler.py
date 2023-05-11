@@ -1,4 +1,6 @@
 import time
+import machine
+
 from time_management_module import *
 from internet_connection    import *
 
@@ -115,6 +117,13 @@ class Scheduler():
             # Current time in milliseconds
             now = time.ticks_ms()
 
+            if counter >= 15:
+                
+                #reset the counter 
+                counter = 0
+                #reboots in order to reestablish wifi connection
+                machine.reset()
+
             # Check if 3 minutes have elapsed since the last task execution
             if (time.ticks_diff(now, last) >= check_every_n_seconds) or (self.boot):
 
@@ -136,13 +145,6 @@ class Scheduler():
                 print("Done!")
                 print("\n")
 
-            if counter >= 15:
-                #reconnects to internet
-                connect2(config_file = "config.json", doreconnect = True)
-
-                #reset the counter 
-                counter = 0
 
             # Wait for a short amount of time before checking the time again
             sleep(2)
-
