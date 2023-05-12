@@ -104,11 +104,12 @@ class Scheduler():
     def loop(self):
 
         last = time.ticks_ms()
-        check_every_n_minutes = 3
+        check_every_n_minutes = 2
         check_every_n_seconds = check_every_n_minutes * 60 * 1000
 
 
-        #helps keeping track of when to reconnect to wifi periodically
+        #helps keeping track of when to reboot 
+        #to reconnect to wifi periodically
         counter = 0
 
         # Main loop that runs indefinitely
@@ -117,10 +118,15 @@ class Scheduler():
             # Current time in milliseconds
             now = time.ticks_ms()
 
-            if counter >= 15:
+            if counter >= 50:
                 
                 #reset the counter 
                 counter = 0
+
+                #turn off all the actuators
+                self.module.startup_off()
+                sleep(0.1)
+
                 #reboots in order to reestablish wifi connection
                 machine.reset()
 
@@ -130,6 +136,7 @@ class Scheduler():
                 #update time 
                 self.current_time = Time(*get_current_time())
                 print("curent time {}".format(self.current_time))
+                sleep(0.1)
 
                 print("handling on/off actuators...")
                 self.control_on_off_actuators()
@@ -144,7 +151,6 @@ class Scheduler():
                 counter += 1
                 print("Done!")
                 print("\n")
-
 
             # Wait for a short amount of time before checking the time again
             sleep(2)

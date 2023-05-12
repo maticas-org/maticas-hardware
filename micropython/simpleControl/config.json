@@ -17,7 +17,7 @@
                         "starttime": [6, 0, 0],
                         "endtime": [20, 0, 0],
                         "minutesoff": 30,
-                        "minuteson": 15
+                        "minuteson": 10
                     },
                     "water oxygen": {
                         "type": "timed",
