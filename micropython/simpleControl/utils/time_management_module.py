@@ -45,6 +45,37 @@ class Time:
         self.hour = hour
         self.min = min
         self.sec = sec
+
+    def to_total_minutes(self):
+        """
+        Converts the time to the total number of minutes.
+
+        Returns:
+            float: The total number of minutes.
+        """
+        total_minutes = (self.hour * 60) + (self.min) + (self.sec / 60)
+        return total_minutes
+
+    def to_total_seconds(self):
+        """
+        Converts the time to the total number of seconds.
+
+        Returns:
+            float: The total number of seconds.
+        """
+        total_seconds = (self.hour * 3600) + (self.min * 60) + self.sec
+        return total_seconds
+
+    def to_total_hours(self):
+        """
+        Converts the time to the total number of hours.
+
+        Returns:
+            float: The total number of hours.
+        """
+        total_hours = self.hour + (self.min / 60) + (self.sec / 3600)
+        return total_hours
+
         
     def __gt__(self, other):
         """

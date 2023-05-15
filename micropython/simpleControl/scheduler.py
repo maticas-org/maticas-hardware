@@ -48,7 +48,8 @@ class Scheduler():
                 lastmodified = self.actuators[act]["lastmodified"]
 
                 delta = self.current_time - lastmodified
-                delta_min = delta.min + (delta.hour*60) 
+                delta_min = delta.to_total_minutes() 
+
                 value = self.actuators[act]["status"]
 
                 #if actuator is off
