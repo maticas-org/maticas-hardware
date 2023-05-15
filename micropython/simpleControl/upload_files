@@ -14,6 +14,9 @@ ampy --port /dev/ttyUSB0 put ./utils/internet_connection.py
 anounce_file_upload "./time_management_module.py"
 ampy --port /dev/ttyUSB0 put ./utils/time_management_module.py
 
+anounce_file_upload "./urequests.py"
+ampy --port /dev/ttyUSB0 put ./utils/urequests.py
+
 #-----------------------------------------------------#
 #              Uploads integration class              #
 #-----------------------------------------------------#

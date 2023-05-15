@@ -2,15 +2,17 @@
     "wifi_ssid": "Aulas EICT",
     "wifi_password": "eict1234",
     "actuators": {
-                    "fan": {
-                        "type": "on/off",
-                        "starttime": [6, 0, 0],
-                        "endtime": [20, 0, 0]
-                    },
                     "lights": {
                         "type": "on/off",
                         "starttime": [6, 0, 0],
                         "endtime": [20, 0, 0]
+                    },
+                    "fan": {
+                        "type": "timed",
+                        "starttime": [1, 0, 0],
+                        "endtime": [23, 0, 0],
+                        "minutesoff": 15,
+                        "minuteson": 5
                     },
                     "water pump": {
                         "type": "timed",

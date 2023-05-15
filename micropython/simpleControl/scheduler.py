@@ -47,33 +47,34 @@ class Scheduler():
 
                 lastmodified = self.actuators[act]["lastmodified"]
 
-                delta = (self.current_time - lastmodified).min
+                delta = self.current_time - lastmodified
+                delta_min = delta.min + (delta.hour*60) 
                 value = self.actuators[act]["status"]
 
                 #if actuator is off
                 if value == 0:
 
-                    if delta > self.actuators[act]["minutesoff"]:
+                    if delta_min > self.actuators[act]["minutesoff"]:
                         self.actuators[act]["exec"].value(1)
                         self.actuators[act]["status"] = 1
                         self.actuators[act]["lastmodified"] = self.current_time 
 
-                        print("Actuator {} should be ON. Time elapsed since OFF is {} min.".format(act, delta))
+                        print("Actuator {} should be ON. Time elapsed since OFF is {}.".format(act, delta))
 
                     else:
-                        print("Actuator {} OK it is OFF. Time elapsed since lastcheck is {} min.".format(act, delta))
+                        print("Actuator {} OK it is OFF. Time elapsed since lastcheck is {}.".format(act, delta))
 
                 #if actuator is on
                 elif value == 1:
-                    if delta > self.actuators[act]["minuteson"]:
+                    if delta_min > self.actuators[act]["minuteson"]:
                         self.actuators[act]["exec"].value(0)
                         self.actuators[act]["status"] = 0
                         self.actuators[act]["lastmodified"] = self.current_time 
 
-                        print("Actuator {} should be OFF. Time elapsed since ON is {} min.".format(act, delta))
+                        print("Actuator {} should be OFF. Time elapsed since ON is {}.".format(act, delta))
 
                     else:
-                        print("Actuator {} OK it is ON. Time elapsed since lastcheck is {} min.".format(act, delta))
+                        print("Actuator {} OK it is ON. Time elapsed since lastcheck is {}.".format(act, delta))
 
                 sleep(0.1)
                 

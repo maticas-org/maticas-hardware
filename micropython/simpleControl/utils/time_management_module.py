@@ -32,8 +32,6 @@ def parse_datetime_time(datetime_str):
     return hour, minute, second
 
 
-
-
 class Time:
     def __init__(self, hour=0, min=0, sec=0):
         """
@@ -114,7 +112,7 @@ class Time:
         seconds1 = self.hour*3600 + self.min*60 + self.sec
         seconds2 = other.hour*3600 + other.min*60 + other.sec
         diff = seconds1 - seconds2
-        return Time(diff // 3600, (diff % 3600) // 60, diff % 60)
+        return Time(int(diff // 3600), int(diff % 3600) // 60, int(diff % 60))
         
     def __add__(self, other):
         """
@@ -126,8 +124,17 @@ class Time:
         Returns:
             Time: A new Time object representing the sum of this Time object and the specified Time object.
         """
-        seconds1 = self.hour*3600 + self.min*60 + self.sec
-        seconds2 = other.hour*3600 + other.min*60 + other.sec
+        seconds1 = self.hour * 3600 + self.min * 60 + self.sec
+        seconds2 = other.hour * 3600 + other.min * 60 + other.sec
+        total_seconds = seconds1 + seconds2
+
+        # Calculate the new time components
+        new_hour = total_seconds // 3600
+        remaining_seconds = total_seconds % 3600
+        new_min = remaining_seconds // 60
+        new_sec = remaining_seconds % 60
+
+        return Time(int(new_hour), int(new_min), int(new_sec))
 
         
     def __str__(self):

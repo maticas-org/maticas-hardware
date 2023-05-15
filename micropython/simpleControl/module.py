@@ -32,7 +32,9 @@ class Module():
             self.actuators[actuatorName]["exec"]   = None
             self.actuators[actuatorName]["status"] = False
 
-            self.actuators[actuatorName]["lastmodified"] = Time(*self.actuators[actuatorName]["starttime"])
+            #makes it look like it's been a while since actuators where checked for the last time
+            #so that the scheduler runs each actuator on boot
+            self.actuators[actuatorName]["lastmodified"] = Time(*self.actuators[actuatorName]["starttime"]) - Time(100, 0, 0)
             self.actuators[actuatorName]["starttime"]   = Time(*self.actuators[actuatorName]["starttime"])
             self.actuators[actuatorName]["endtime"]     = Time(*self.actuators[actuatorName]["endtime"])
 
