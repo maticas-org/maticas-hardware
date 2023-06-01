@@ -5,7 +5,7 @@
                     "lights": {
                         "type": "on/off",
                         "starttime": [6, 0, 0],
-                        "endtime": [20, 0, 0]
+                        "endtime": [21, 30, 0]
                     },
                     "fan": {
                         "type": "timed",
@@ -17,14 +17,14 @@
                     "water pump": {
                         "type": "timed",
                         "starttime": [6, 0, 0],
-                        "endtime": [20, 0, 0],
+                        "endtime": [21, 30, 0],
                         "minutesoff": 30,
                         "minuteson": 10
                     },
                     "water oxygen": {
                         "type": "timed",
-                        "starttime": [6, 0, 0],
-                        "endtime": [20, 0, 0],
+                        "starttime": [1, 0, 0],
+                        "endtime": [23, 0, 0],
                         "minutesoff": 15,
                         "minuteson": 5
                     },

@@ -77,7 +77,7 @@ class Scheduler():
                     else:
                         print("Actuator {} OK it is ON. Time elapsed since lastcheck is {}.".format(act, delta))
 
-                sleep(0.1)
+                sleep(0.5)
                 
     def control_on_off_actuators(self):
 
@@ -101,9 +101,23 @@ class Scheduler():
                 self.actuators[act]["exec"].value(1)
                 print("Right on time! {} Actuator {} should be ON".format(self.current_time, act))
                 
-            sleep(0.1)
+            sleep(0.5)
  
     def loop(self):
+
+        try:
+            self._loop()
+
+        except:
+            #turn off all the actuators
+            self.module.startup_off()
+            sleep(0.1)
+
+            #reboots in order to reestablish wifi connection
+            machine.reset()
+
+
+    def _loop(self):
 
         last = time.ticks_ms()
         check_every_n_minutes = 2
@@ -120,7 +134,7 @@ class Scheduler():
             # Current time in milliseconds
             now = time.ticks_ms()
 
-            if counter >= 50:
+            if counter >= 720:
                 
                 #reset the counter 
                 counter = 0

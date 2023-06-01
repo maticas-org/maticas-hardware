@@ -8,12 +8,28 @@ from math    import fabs
 
 def get_current_time():
 
-    response = requests.request("GET", url = "https://timeapi.io/api/Time/current/zone?timeZone=America/Bogota", timeout=10)
+    #list of date time providers
+    providers = ['https://timeapi.io/api/Time/current/zone?timeZone=America/Bogota',
+                 'http://worldtimeapi.org/api/timezone/America/Bogota']
 
-    if (response.status_code == 200):
-        parsed  = response.json()
-        h, m, s = parse_datetime_time(parsed["dateTime"])
-        return (h, m, s)
+    fieldNames = ["dateTime", "datetime"]
+
+    for provider, fieldname in zip(providers, fieldNames):
+
+        #try to ask to this particular time provider
+        try:
+            response = requests.request("GET", url = provider, timeout=10)
+        #if any problem go to the next time provider
+        except:
+            continue
+
+        if (response.status_code == 200):
+            parsed  = response.json()
+            h, m, s = parse_datetime_time(parsed[fieldname])
+
+            return (h, m, s)
+
+    raise Exception("Sorry, seems like the time providers aren't working...")
     
 
 def parse_datetime_time(datetime_str):

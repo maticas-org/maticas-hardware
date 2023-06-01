@@ -44,7 +44,9 @@ class Module():
         print("Starting up actuators...")
         #turn off all the actuators at boot
         for actuatorName in self.actuators.keys():
-            self.actuators[actuatorName]["exec"].value(0)
+
+            if self.actuators[actuatorName]["exec"] != None:
+                self.actuators[actuatorName]["exec"].value(0)
 
         print("Done! they are all OFF.\n")
         
@@ -58,7 +60,7 @@ class Module():
 
         for actuatorName in self.actuators.keys():
 
-            if "" == self.actuators[actuatorName]["exec"]:
+            if None == self.actuators[actuatorName]["exec"]:
                 print("actuator \"{}\" has no candidate for answering a call".format(actuatorName))
             
 
