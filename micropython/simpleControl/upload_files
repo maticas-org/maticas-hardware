@@ -1,9 +1,11 @@
 #!/usr/bin/bash
 
+
 anounce_file_upload(){
     echo "Uploading file $1 to esp32..."
 }
 
+sudo chmod a+rw /dev/ttyUSB0
 
 #-----------------------------------------------------#
 #              Uploads utils and dependencies         #

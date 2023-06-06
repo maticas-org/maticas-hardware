@@ -66,8 +66,8 @@ def connect2(config_file: str, doreconnect = False) -> None:
         sta_if.active(True)
         sta_if.connect(config["wifi_ssid"], config["wifi_password"])
 
-        # Wait up to 5 seconds for connection to succeed
-        for count in range(5):
+        # Wait up to 600 seconds (10 minutes) for connection to succeed
+        for count in range(600):
             if sta_if.isconnected():
                 print('Network config:', sta_if.ifconfig())
                 return sta_if
@@ -78,8 +78,8 @@ def connect2(config_file: str, doreconnect = False) -> None:
         sta_if.disconnect()
         sta_if.active(False)
         print('Connection failed')
+
     else:
-        
         # Print interface configuration data if already connected
         print('Already connected')
         print('Network config:', sta_if.ifconfig())
