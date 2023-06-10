@@ -111,7 +111,7 @@ class Scheduler():
         except:
             #turn off all the actuators
             self.module.startup_off()
-            sleep(0.1)
+            sleep(1)
 
             #reboots in order to reestablish wifi connection
             machine.reset()
@@ -124,27 +124,11 @@ class Scheduler():
         check_every_n_seconds = check_every_n_minutes * 60 * 1000
 
 
-        #helps keeping track of when to reboot 
-        #to reconnect to wifi periodically
-        counter = 0
-
         # Main loop that runs indefinitely
         while True:
 
             # Current time in milliseconds
             now = time.ticks_ms()
-
-            if counter >= 720:
-                
-                #reset the counter 
-                counter = 0
-
-                #turn off all the actuators
-                self.module.startup_off()
-                sleep(0.1)
-
-                #reboots in order to reestablish wifi connection
-                machine.reset()
 
             # Check if 3 minutes have elapsed since the last task execution
             if (time.ticks_diff(now, last) >= check_every_n_seconds) or (self.boot):
@@ -164,7 +148,7 @@ class Scheduler():
                 # Update the last execution time
                 last = now
                 self.boot = False
-                counter += 1
+
                 print("Done!")
                 print("\n")
 
