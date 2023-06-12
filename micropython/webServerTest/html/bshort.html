@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maticas control</title>
+</head>
+<body>
+    <h1>Maticas control</h1>
+    <table>
+        <tr>
+            <th>Actuator</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Actuator Type</th>
+            <th>Minutes Off</th>
+            <th>Minutes On</th>
+        </tr>
+        <tr>
+            <td>Lights</td>
+            <td><input type="time" id="lights-starttime"></td>
+            <td><input type="time" id="lights-endtime"></td>
+            <td>
+                <select id="lights-type" onchange="toggleTimedFields('lights')">
+                    <option value="on/off">On/Off</option>
+                    <option value="timed">Timed</option>
+                </select>
+            </td>
+            <td><input type="number" id="lights-minutes-off" disabled></td>
+            <td><input type="number" id="lights-minutes-on" disabled></td>
+        </tr>
+        <tr>
+            <td>Fan</td>
+            <td><input type="time" id="fan-starttime"></td>
+            <td><input type="time" id="fan-endtime"></td>
+            <td>
+                <select id="fan-type" onchange="toggleTimedFields('fan')">
+                    <option value="on/off">On/Off</option>
+                    <option value="timed">Timed</option>
+                </select>
+            </td>
+            <td><input type="number" id="fan-minutes-off" disabled></td>
+            <td><input type="number" id="fan-minutes-on" disabled></td>
+        </tr>
+        <tr>
+            <td>Water Pump</td>
+            <td><input type="time" id="waterpump-starttime"></td>
+            <td><input type="time" id="waterpump-endtime"></td>
+            <td>
+                <select id="waterpump-type" onchange="toggleTimedFields('waterpump')">
+                    <option value="on/off">On/Off</option>
+                    <option value="timed">Timed</option>
+                </select>
+            </td>
+            <td><input type="number" id="waterpump-minutes-off" disabled></td>
+            <td><input type="number" id="waterpump-minutes-on" disabled></td>
+        </tr>
+        <tr>
+            <td>Oxygen</td>
+            <td><input type="time" id="oxygen-starttime"></td>
+            <td><input type="time" id="oxygen-endtime"></td>
+            <td>
+                <select id="oxygen-type" onchange="toggleTimedFields('oxygen')">
+                    <option value="on/off">On/Off</option>
+                    <option value="timed">Timed</option>
+                </select>
+            </td>
+            <td><input type="number" id="oxygen-minutes-off" disabled></td>
+            <td><input type="number" id="oxygen-minutes-on" disabled></td>
+        </tr>
+        <tr>
+            <td>Recirculation</td>
+            <td><input type="time" id="recirculation-starttime"></td>
+            <td><input type="time" id="recirculation-endtime"></td>
+            <td>
+                <select id="recirculation-type" onchange="toggleTimedFields('recirculation')">
+                    <option value="on/off">On/Off</option>
+                    <option value="timed">Timed</option>
+                </select>
+            </td>
+            <td><input type="number" id="recirculation-minutes-off" disabled></td>
+            <td><input type="number" id="recirculation-minutes-on" disabled></td>
+        </tr>
+    </table>
+
+    <button onclick="saveData()">Save</button>
+
+    <script>
+
+        // Function to save the form data
+        function saveData() {
+            var data = {
+                wifi_ssid: "Aulas EICT",
+                wifi_password: "eict1234",
+
+                actuators: {
+                    "lights": {
+                        type: document.getElementById("lights-type").value,
+                        starttime: parseTime(document.getElementById("lights-starttime").value),
+                        endtime: parseTime(document.getElementById("lights-endtime").value),
+                        minutes_off: parseNumber(document.getElementById("lights-minutes-off").value),
+                        minutes_on: parseNumber(document.getElementById("lights-minutes-on").value)
+                    },
+                    "fan": {
+                        type: document.getElementById("fan-type").value,
+                        starttime: parseTime(document.getElementById("fan-starttime").value),
+                        endtime: parseTime(document.getElementById("fan-endtime").value),
+                        minutes_off: parseNumber(document.getElementById("fan-minutes-off").value),
+                        minutes_on: parseNumber(document.getElementById("fan-minutes-on").value)
+                    },
+                    "water pump": {
+                        type: document.getElementById("waterpump-type").value,
+                        starttime: parseTime(document.getElementById("waterpump-starttime").value),
+                        endtime: parseTime(document.getElementById("waterpump-endtime").value),
+                        minutes_off: parseNumber(document.getElementById("waterpump-minutes-off").value),
+                        minutes_on: parseNumber(document.getElementById("waterpump-minutes-on").value)
+                    },
+                    "water oxygen": {
+                        type: document.getElementById("oxygen-type").value,
+                        starttime: parseTime(document.getElementById("oxygen-starttime").value),
+                        endtime: parseTime(document.getElementById("oxygen-endtime").value),
+                        minutes_off: parseNumber(document.getElementById("oxygen-minutes-off").value),
+                        minutes_on: parseNumber(document.getElementById("oxygen-minutes-on").value)
+                    },
+                    "recirculation": {
+                        type: document.getElementById("recirculation-type").value,
+                        starttime: parseTime(document.getElementById("recirculation-starttime").value),
+                        endtime: parseTime(document.getElementById("recirculation-endtime").value),
+                        minutes_off: parseNumber(document.getElementById("recirculation-minutes-off").value),
+                        minutes_on: parseNumber(document.getElementById("recirculation-minutes-on").value)
+                    }
+                }
+            };
+
+            // Function to parse time inputs
+            function parseTime(input) {
+                var timeParts = input.split(":");
+                return [parseInt(timeParts[0]), parseInt(timeParts[1]), parseInt(timeParts[2])];
+            }
+
+            // Function to parse number inputs
+            function parseNumber(input) {
+                return input ? parseInt(input) : 0;
+            }
+
+            // Display the JSON data
+            alert(JSON.stringify(data, null, 2));
+        }
+
+        // Function to toggle visibility of timed fields
+        function toggleTimedFields(actuator) {
+            var typeSelect = document.getElementById(actuator + "-type");
+            var minutesOffInput = document.getElementById(actuator + "-minutes-off");
+            var minutesOnInput = document.getElementById(actuator + "-minutes-on");
+
+            if (typeSelect.value === "timed") {
+                minutesOffInput.disabled = false;
+                minutesOnInput.disabled = false;
+            } else {
+                minutesOffInput.disabled = true;
+                minutesOnInput.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
