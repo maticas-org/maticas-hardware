@@ -1,5 +1,4 @@
-import time
-import machine
+measureimport machine
 
 from time_management_module import *
 from internet_connection    import *
@@ -7,26 +6,41 @@ from internet_connection    import *
 
 class Scheduler():
 
-    def __init__(self, module: Module):
+    def __init__(self,
+                 act_module: ActuatorsModule,
+                 sen_module: SensorsModule):
 
-        self.module    = module
-        self.actuators = module.actuators
-        self.boot      = True
+        self.act_module = act_module
+        self.sen_module = sen_module
+
+        self.actuators  = act_module.actuators
+        self.sensors    = sen_module.sensors
+        self.boot       = True
+
+        #gets the timed and on/off actuators names
+        self.timed_actuators = act_module.timed_actuators
+        self.onoff_actuators = act_module.onoff_actuators
 
         self.current_time = Time(*get_current_time())
+        self.check()
 
-        #adds all the timed actuators
-        self.timed_actuators = []
-        self.onoff_actuators = []
-        
-        #separates the actuatornames into the ones which are
-        #timed and the ones that are not timed
-        for actuatorName in self.actuators.keys():
-            if self.actuators[actuatorName]["type"] == 'timed':
-                self.timed_actuators.append(actuatorName)
+    def check(self):
+        self.act_module.check()
+        self.sen_module.check()
 
-            if self.actuators[actuatorName]["type"] == 'on/off':
-                self.onoff_actuators.append(actuatorName)
+
+    def measure(self):
+
+        for sensorName, values in self.sensors.items():
+            delta = self.current_time - values["lastmeasured"]
+            
+            if delta > values["measure_every_x_time"]:
+                measurement = values["exec"]()
+                print("{} value is: {}".format(sensorName, measurement)
+
+            else:
+                print("We don't need the {} measurement yet, delta: {}".format(sensorName, delta)
+
 
     def control_timed_actuators(self):
 
@@ -110,7 +124,7 @@ class Scheduler():
 
         except:
             #turn off all the actuators
-            self.module.startup_off()
+            self.act_module.startup_off()
             sleep(1)
 
             #reboots in order to reestablish wifi connection
@@ -120,7 +134,7 @@ class Scheduler():
     def _loop(self):
 
         last = time.ticks_ms()
-        check_every_n_minutes = 2
+        check_every_n_minutes = 0.5
         check_every_n_seconds = check_every_n_minutes * 60 * 1000
 
 
@@ -130,7 +144,7 @@ class Scheduler():
             # Current time in milliseconds
             now = time.ticks_ms()
 
-            # Check if 3 minutes have elapsed since the last task execution
+            # Check if n minutes have elapsed since the last task execution
             if (time.ticks_diff(now, last) >= check_every_n_seconds) or (self.boot):
 
                 #update time 
@@ -145,6 +159,9 @@ class Scheduler():
                 print("handling timed actuators...")
                 self.control_timed_actuators()
 
+                print("handling sensors...")
+                self.measure()
+
                 # Update the last execution time
                 last = now
                 self.boot = False
@@ -154,3 +171,5 @@ class Scheduler():
 
             # Wait for a short amount of time before checking the time again
             sleep(2)
+
+

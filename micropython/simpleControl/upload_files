@@ -25,11 +25,14 @@ ampy --port /dev/ttyUSB0 put ./utils/urequests.py
 anounce_file_upload "./scheduler.py"
 ampy --port /dev/ttyUSB0 put ./scheduler.py
 
-anounce_file_upload "./module.py"
-ampy --port /dev/ttyUSB0 put ./module.py
+anounce_file_upload "./actuators_module.py"
+ampy --port /dev/ttyUSB0 put ./actuators_module.py
 
-anounce_file_upload "./initialize_actuators.py"
-ampy --port /dev/ttyUSB0 put ./initialize_actuators.py
+anounce_file_upload "./sensors_module.py"
+ampy --port /dev/ttyUSB0 put ./sensors_module.py
+
+anounce_file_upload "./initialize_modules.py"
+ampy --port /dev/ttyUSB0 put ./initialize_modules.py
 
 #-----------------------------------------------------#
 #              Uploads boot and main                  #
