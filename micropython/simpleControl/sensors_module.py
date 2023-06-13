@@ -50,12 +50,24 @@ class SensorsModule():
             have a canditate for requesting action.
         """
 
+        print("Checking sensors...")
         for sensorName in self.sensors.keys():
 
             if None == self.sensors[sensorName]["exec"]:
-                print("sensor \"{}\" has no candidate for answering a call".format(sensorName))
+                print("Sensor \"{}\" has no candidate for answering a call.".format(sensorName))
+            
             else:
-                self.sensors[sensorName]["status"] = True
+                result = self.sensors[sensorName]["exec"]()
+
+                #if the result is does not give an error  
+                if result != -1:
+                    self.sensors[sensorName]["status"] = True
+
+                else:
+                    print("Sensor \"{}\" isn't OK.".format(sensorName))
+        print("Done!\n")
+            
+
 
 
     def add(self,

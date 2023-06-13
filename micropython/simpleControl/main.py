@@ -1,9 +1,13 @@
 import scheduler
-import initialize_actuators as acts
+import initialize_modules as mods
 
-module = acts.mod
-module.startup_off()
+act_module = mods.act_mod
+act_module.startup_off()
 
-sch    = scheduler.Scheduler(module = module)
+sen_module = mods.sen_mod
+
+sch    = scheduler.Scheduler(act_module = act_module, sen_module = sen_module)
 sch.loop()
+
+
 

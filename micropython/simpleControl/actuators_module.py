@@ -71,11 +71,14 @@ class ActuatorsModule():
             have a canditate for requesting action.
         """
 
+        print("Checking actuators...")
         for actuatorName in self.actuators.keys():
 
             if None == self.actuators[actuatorName]["exec"]:
                 print("actuator \"{}\" has no candidate for answering a call".format(actuatorName))
             
+        print("Done!\n")
+
 
     def add(self,
             actuator: str,

@@ -1,4 +1,5 @@
-measureimport machine
+import time
+import machine
 
 from time_management_module import *
 from internet_connection    import *
@@ -36,10 +37,12 @@ class Scheduler():
             
             if delta > values["measure_every_x_time"]:
                 measurement = values["exec"]()
-                print("{} value is: {}".format(sensorName, measurement)
+                print("{} value is: {}".format(sensorName, measurement))
+
+                self.sensors[sensorName]["lastmeasured"] = self.current_time
 
             else:
-                print("We don't need the {} measurement yet, delta: {}".format(sensorName, delta)
+                print("We don't need the {} measurement yet, delta: {}".format(sensorName, delta))
 
 
     def control_timed_actuators(self):
@@ -121,8 +124,9 @@ class Scheduler():
 
         try:
             self._loop()
+        except Exception as e:
+            print("An error occurred: {}".format(e))
 
-        except:
             #turn off all the actuators
             self.act_module.startup_off()
             sleep(1)
@@ -158,9 +162,11 @@ class Scheduler():
 
                 print("handling timed actuators...")
                 self.control_timed_actuators()
+                print("\n")
 
                 print("handling sensors...")
                 self.measure()
+                print("\n")
 
                 # Update the last execution time
                 last = now
