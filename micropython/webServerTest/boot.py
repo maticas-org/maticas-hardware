@@ -3,28 +3,16 @@ try:
 except:
   import socket
 
-from machine import Pin
-import network
-
-import esp
-esp.osdebug(None)
+from time                   import sleep
+from machine                import Pin
+from internet_connection    import *
 
 import gc
+import esp
+import network
+
+esp.osdebug(None)
 gc.collect()
+sleep(3)
 
-ssid = 'ArchLinux'
-password = 'nuncaheusadoarch'
-
-station = network.WLAN(network.STA_IF)
-
-station.active(True)
-#station.connect(ssid, password)
-
-#while station.isconnected() == False:
-#  pass
-
-print('Connection successful')
-print(station.ifconfig())
-
-led = Pin(2, Pin.OUT)
-
+connect2(config_file = "config.json", doreconnect = True)

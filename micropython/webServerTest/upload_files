@@ -1,0 +1,43 @@
+#!/usr/bin/bash
+
+
+anounce_file_upload(){
+    echo "Uploading file $1 to esp32..."
+}
+
+sudo chmod a+rw /dev/ttyUSB0
+
+#-----------------------------------------------------#
+#              Uploads utils and dependencies         #
+#-----------------------------------------------------#
+anounce_file_upload "./internet_connection.py"
+ampy --port /dev/ttyUSB0 put ./internet_connection.py
+
+anounce_file_upload "./time_management_module.py"
+ampy --port /dev/ttyUSB0 put ./time_management_module.py
+
+anounce_file_upload "./urequests.py"
+ampy --port /dev/ttyUSB0 put ./urequests.py
+
+#-----------------------------------------------------#
+#              Uploads boot and main                  #
+#-----------------------------------------------------#
+
+##########################################
+# Uploads mqtt boot to esp32
+##########################################
+anounce_file_upload "./boot.py"
+ampy --port /dev/ttyUSB0 put ./boot.py
+
+##########################################
+# Uploads main to esp32
+##########################################
+anounce_file_upload "./main.py"
+ampy --port /dev/ttyUSB0 put ./main.py
+
+##########################################
+# Uploads main to esp32
+##########################################
+anounce_file_upload "./config.json"
+ampy --port /dev/ttyUSB0 put ./config.json
+

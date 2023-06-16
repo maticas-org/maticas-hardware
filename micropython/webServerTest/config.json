@@ -16,14 +16,14 @@
                         "minutesoff": 15,
                         "minuteson": 5
                     },
-                    "water pump": {
+                    "waterpump": {
                         "type": "timed",
                         "starttime": [6, 0, 0],
                         "endtime": [21, 30, 0],
                         "minutesoff": 30,
                         "minuteson": 10
                     },
-                    "water oxygen": {
+                    "oxygen": {
                         "type": "timed",
                         "starttime": [1, 0, 0],
                         "endtime": [23, 0, 0],
