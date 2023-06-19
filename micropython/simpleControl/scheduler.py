@@ -34,15 +34,20 @@ class Scheduler():
 
         for sensorName, values in self.sensors.items():
             delta = self.current_time - values["lastmeasured"]
-            
-            if delta > values["measure_every_x_time"]:
-                measurement = values["exec"]()
-                print("{} value is: {}".format(sensorName, measurement))
 
-                self.sensors[sensorName]["lastmeasured"] = self.current_time
+            if values["status"]:
+            
+                if delta > values["measure_every_x_time"]:
+                    measurement = values["exec"]()
+                    print("{} value is: {}".format(sensorName, measurement))
+
+                    self.sensors[sensorName]["lastmeasured"] = self.current_time
+
+                else:
+                    print("We don't need the {} measurement yet, delta: {}".format(sensorName, delta))
 
             else:
-                print("We don't need the {} measurement yet, delta: {}".format(sensorName, delta))
+                print("Sensor {} is not working...".format(sensorName))
 
 
     def control_timed_actuators(self):
@@ -98,7 +103,6 @@ class Scheduler():
                 
     def control_on_off_actuators(self):
 
-
         for act in self.onoff_actuators:
             
             #went beyond the end time
@@ -124,12 +128,13 @@ class Scheduler():
 
         try:
             self._loop()
+
         except Exception as e:
             print("An error occurred: {}".format(e))
 
             #turn off all the actuators
             self.act_module.startup_off()
-            sleep(1)
+            sleep(2)
 
             #reboots in order to reestablish wifi connection
             machine.reset()
@@ -138,9 +143,12 @@ class Scheduler():
     def _loop(self):
 
         last = time.ticks_ms()
-        check_every_n_minutes = 0.5
-        check_every_n_seconds = check_every_n_minutes * 60 * 1000
 
+        sync_time_every_x_time      = Time(3, 0, 0)
+        time_counter                = Time(0, 0, 0)
+
+        handle_modules_every_x_time  = Time(0, 1, 0)
+        handle_modules_every_x_msecs = handle_modules_every_x_time.to_total_seconds()*1000
 
         # Main loop that runs indefinitely
         while True:
@@ -149,11 +157,24 @@ class Scheduler():
             now = time.ticks_ms()
 
             # Check if n minutes have elapsed since the last task execution
-            if (time.ticks_diff(now, last) >= check_every_n_seconds) or (self.boot):
+            if (time.ticks_diff(now, last) >= (handle_modules_every_x_msecs)) or (self.boot):
 
-                #update time 
-                self.current_time = Time(*get_current_time())
-                print("curent time {}".format(self.current_time))
+                #update time, in order to avoid making too many requests to the 
+                #server we only do them periodically
+                if (self.boot) or (time_counter >= sync_time_every_x_time):
+                    self.current_time   = Time(*get_current_time())
+                    time_counter        = Time(0, 0, 0)
+                    self.boot           = False
+                    print("server side time update")
+
+                #the rest of the time we use the local elapsed millies 
+                else:
+                    self.current_time   += handle_modules_every_x_time
+                    time_counter        += handle_modules_every_x_time
+                    print("local side time update")
+
+
+                print("curent time {}\n".format(self.current_time))
                 sleep(0.1)
 
                 print("handling on/off actuators...")
@@ -170,7 +191,6 @@ class Scheduler():
 
                 # Update the last execution time
                 last = now
-                self.boot = False
 
                 print("Done!")
                 print("\n")

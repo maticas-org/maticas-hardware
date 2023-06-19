@@ -13,21 +13,29 @@ def get_current_time():
                  'http://worldtimeapi.org/api/timezone/America/Bogota']
 
     fieldNames = ["dateTime", "datetime"]
+    response = None
 
     for provider, fieldname in zip(providers, fieldNames):
 
-        #try to ask to this particular time provider
-        try:
-            response = requests.request("GET", url = provider, timeout=10)
-        #if any problem go to the next time provider
-        except:
-            continue
+        #retries quering the time
+        for iretry in range(3):
 
-        if (response.status_code == 200):
-            parsed  = response.json()
-            h, m, s = parse_datetime_time(parsed[fieldname])
+            #try to ask to this particular time provider
+            try:
+                response = requests.request("GET", url = provider, timeout=10)
+            #if any problem go to the next time provider
+            except:
+                sleep(1)
+                continue
 
-            return (h, m, s)
+            if response == None:
+                continue 
+
+            elif (response.status_code == 200):
+                parsed  = response.json()
+                h, m, s = parse_datetime_time(parsed[fieldname])
+
+                return (h, m, s)
 
     raise Exception("Sorry, seems like the time providers aren't working...")
     
@@ -111,7 +119,27 @@ class Time:
             return True
         else:
             return False
+
+    def __ge__(self, other):
+        """
+        Overload the '>=' operator to allow comparison between two Time objects.
+
+        Args:
+            other (Time): The Time object to compare with.
+
+        Returns:
+            bool: True if this Time object is greater or equal than the specified Time object, False otherwise.
+        """
+        if self.hour > other.hour:
+            return True
+        elif self.hour == other.hour and self.min > other.min:
+            return True
+        elif self.hour == other.hour and self.min == other.min and self.sec >= other.sec:
+            return True
+        else:
+            return False
         
+
     def __lt__(self, other):
         """
         Overload the '<' operator to allow comparison between two Time objects.
