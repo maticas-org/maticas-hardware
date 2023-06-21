@@ -19,20 +19,32 @@ ampy --port /dev/ttyUSB0 put ./utils/time_management_module.py
 anounce_file_upload "./urequests.py"
 ampy --port /dev/ttyUSB0 put ./utils/urequests.py
 
+anounce_file_upload "./umqttsimple.py"
+ampy --port /dev/ttyUSB0 put ./utils/umqttsimple.py
+
+anounce_file_upload "./mqtt_wrapper.py"
+ampy --port /dev/ttyUSB0 put ./utils/mqtt_wrapper.py
+
+
+#-----------------------------------------------------#
+#              Uploads other base classes             #
+#-----------------------------------------------------#
+anounce_file_upload "./actuators_module.py"
+ampy --port /dev/ttyUSB0 put ./modules/actuators_module.py
+
+anounce_file_upload "./sensors_module.py"
+ampy --port /dev/ttyUSB0 put ./modules/sensors_module.py
+
+anounce_file_upload "./initialize_modules.py"
+ampy --port /dev/ttyUSB0 put ./modules/initialize_modules.py
+
+
 #-----------------------------------------------------#
 #              Uploads integration class              #
 #-----------------------------------------------------#
 anounce_file_upload "./scheduler.py"
 ampy --port /dev/ttyUSB0 put ./scheduler.py
 
-anounce_file_upload "./actuators_module.py"
-ampy --port /dev/ttyUSB0 put ./actuators_module.py
-
-anounce_file_upload "./sensors_module.py"
-ampy --port /dev/ttyUSB0 put ./sensors_module.py
-
-anounce_file_upload "./initialize_modules.py"
-ampy --port /dev/ttyUSB0 put ./initialize_modules.py
 
 #-----------------------------------------------------#
 #              Uploads boot and main                  #
@@ -51,7 +63,7 @@ anounce_file_upload "./main.py"
 ampy --port /dev/ttyUSB0 put ./main.py
 
 ##########################################
-# Uploads main to esp32
+# Uploads the config file to esp32
 ##########################################
 anounce_file_upload "./config.json"
 ampy --port /dev/ttyUSB0 put ./config.json
