@@ -2,14 +2,16 @@ from time               import sleep
 from ds18x20            import DS18X20
 from onewire            import OneWire
 from machine            import Pin, I2C, ADC
-from actuators_module   import ActuatorsModule
-from sensors_module     import SensorsModule
+from modules.actuators_module   import ActuatorsModule
+from modules.sensors_module     import SensorsModule
 
 #--------------------------------------------------------------#
 #                       ACTUATORS MODULE
 #--------------------------------------------------------------#
 
-act_mod = ActuatorsModule(config_file = "./config.json")
+config_file = "./utils/config.json"
+
+act_mod = ActuatorsModule(config_file = config_file)
 
 act_mod.add(actuator = "fan",           pin = Pin(16, Pin.OUT))
 act_mod.add(actuator = "lights",        pin = Pin(17, Pin.OUT))
@@ -22,7 +24,7 @@ print()
 #                       SENSORS MODULE
 #--------------------------------------------------------------#
 
-sen_mod = SensorsModule(config_file = "./config.json")
+sen_mod = SensorsModule(config_file = config_file)
 
 # Initiate ec sensor which comes from an analog reading and build
 # its measure function
@@ -67,6 +69,7 @@ def measure_wtemp(nsamples = 5)->int:
 sen_mod.add(sensorName = "water temperature",   fn = measure_wtemp)
 sen_mod.add(sensorName = "electroconductivity", fn = measure_ec)
 print()
+
 
 
 

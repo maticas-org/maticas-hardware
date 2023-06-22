@@ -48,7 +48,9 @@
     "publish_topics":{
 	    		"log": "/esp32/log/",
 			"error": "/esp32/error/"
-    }
-    
+    },
+
+	"subscribe_topics":{}
+
 }
 

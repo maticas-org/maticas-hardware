@@ -5,51 +5,34 @@ anounce_file_upload(){
     echo "Uploading file $1 to esp32..."
 }
 
-sudo chmod a+rw /dev/ttyUSB0
+sudo chmod a+rw /dev/ttyACM0
 
 #-----------------------------------------------------#
 #              Uploads utils and dependencies         #
 #-----------------------------------------------------#
 anounce_file_upload "./internet_connection.py"
-ampy --port /dev/ttyUSB0 put ./utils/internet_connection.py
-
 anounce_file_upload "./time_management_module.py"
-ampy --port /dev/ttyUSB0 put ./utils/time_management_module.py
-
 anounce_file_upload "./urequests.py"
-ampy --port /dev/ttyUSB0 put ./utils/urequests.py
-
 anounce_file_upload "./umqttsimple.py"
-ampy --port /dev/ttyUSB0 put ./utils/umqttsimple.py
-
 anounce_file_upload "./mqtt_wrapper.py"
-ampy --port /dev/ttyUSB0 put ./utils/mqtt_wrapper.py
-
-#-----------------------------------------------------#
-#              Uploads the config file                #
-#-----------------------------------------------------#
 anounce_file_upload "./config.json"
-ampy --port /dev/ttyUSB0 put ./utils/config.json
+ampy --port /dev/ttyACM0 put utils
 
 
 #-----------------------------------------------------#
 #              Uploads other base classes             #
 #-----------------------------------------------------#
 anounce_file_upload "./actuators_module.py"
-ampy --port /dev/ttyUSB0 put ./modules/actuators_module.py
-
 anounce_file_upload "./sensors_module.py"
-ampy --port /dev/ttyUSB0 put ./modules/sensors_module.py
-
 anounce_file_upload "./initialize_modules.py"
-ampy --port /dev/ttyUSB0 put ./modules/initialize_modules.py
+ampy --port /dev/ttyACM0 put modules
 
 
 #-----------------------------------------------------#
 #              Uploads integration class              #
 #-----------------------------------------------------#
 anounce_file_upload "./scheduler.py"
-ampy --port /dev/ttyUSB0 put ./scheduler.py
+ampy --port /dev/ttyACM0 put ./scheduler.py
 
 
 #-----------------------------------------------------#
@@ -57,9 +40,9 @@ ampy --port /dev/ttyUSB0 put ./scheduler.py
 #-----------------------------------------------------#
 
 anounce_file_upload "./boot.py"
-ampy --port /dev/ttyUSB0 put ./boot.py
+ampy --port /dev/ttyACM0 put ./boot.py
 
 anounce_file_upload "./main.py"
-ampy --port /dev/ttyUSB0 put ./main.py
+ampy --port /dev/ttyACM0 put ./main.py
 
 
