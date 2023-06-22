@@ -1,5 +1,6 @@
-import time
-import machine
+from time import sleep, ticks_ms, ticks_diff
+from utime import sleep_ms
+from machine import reset
 
 from utils.internet_connection import *
 from utils.time_management_module import *
@@ -126,24 +127,27 @@ class Scheduler():
 
             sleep(0.5)
 
-    def loop(self):
+    def loop(self, log = True):
 
         try:
-            self._loop()
+            self._loop(log = log)
 
         except Exception as e:
             print("An error occurred: {}".format(e))
 
             # turn off all the actuators
             self.act_module.startup_off()
-            sleep(2)
+            sleep(1)
+
+            self.mqtt_module.error(msg = "An error occurred: {}".format(e))
+            sleep(1)
 
             # reboots in order to reestablish wifi connection
-            machine.reset()
+            reset()
 
-    def _loop(self):
+    def _loop(self, log = True):
 
-        last = time.ticks_ms()
+        last = ticks_ms()
 
         sync_time_every_x_time = Time(3, 0, 0)
         time_counter = Time(0, 0, 0)
@@ -155,10 +159,10 @@ class Scheduler():
         while True:
 
             # Current time in milliseconds
-            now = time.ticks_ms()
+            now = ticks_ms()
 
             # Check if n minutes have elapsed since the last task execution
-            if (time.ticks_diff(now, last) >= (handle_modules_every_x_msecs)) or (self.boot):
+            if (ticks_diff(now, last) >= (handle_modules_every_x_msecs)) or (self.boot):
 
                 # update time, in order to avoid making too many requests to the
                 # server we only do them periodically
@@ -166,37 +170,42 @@ class Scheduler():
                     self.current_time = Time(*get_current_time())
                     time_counter = Time(0, 0, 0)
                     self.boot = False
+
                     print("server side time update")
+                    self.mqtt_module.log(msg = "server side time update")
 
                 # the rest of the time we use the local elapsed millies
                 else:
                     self.current_time += handle_modules_every_x_time
                     time_counter += handle_modules_every_x_time
+
                     print("local side time update")
+                    self.mqtt_module.log(msg = "local side time update")
 
                 print("curent time {}\n".format(self.current_time))
+                self.mqtt_module.log(msg = "curent time {}\n".format(self.current_time))
                 sleep(0.1)
 
                 print("handling on/off actuators...")
+                self.mqtt_module.log(msg = "handling on/off actuators...")
                 self.control_on_off_actuators()
                 print("\n")
 
                 print("handling timed actuators...")
+                self.mqtt_module.log(msg = "handling timed actuators...")
                 self.control_timed_actuators()
                 print("\n")
 
                 print("handling sensors...")
+                self.mqtt_module.log(msg = "handling sensors...")
                 self.measure()
                 print("\n")
 
                 # Update the last execution time
                 last = now
 
-                print("Done!")
-                print("\n")
-
-            # Wait for a short amount of time before checking the time again
-            sleep(2)
+                print("Done!\n")
+                self.mqtt_module.log(msg = "Done!\n")
 
 
-
+            self.mqtt_module.take_care_of_business()
