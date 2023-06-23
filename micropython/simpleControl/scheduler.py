@@ -59,6 +59,10 @@ class Scheduler():
         # for each timed actuator it ensures if it should be on or off
         for act in self.timed_actuators:
 
+            if self.actuators[act]["exec"] == None:
+                print("actuator {} has no exec object to call".format(act))
+                continue
+
             # went beyond the end time
             if self.current_time > self.actuators[act]["endtime"]:
                 self.actuators[act]["exec"].value(0)
@@ -107,6 +111,11 @@ class Scheduler():
     def control_on_off_actuators(self):
 
         for act in self.onoff_actuators:
+
+            if self.actuators[act]["exec"] == None:
+                print("actuator {} has no exec object to call".format(act))
+                continue
+
 
             # went beyond the end time
             if self.current_time > self.actuators[act]["endtime"]:
