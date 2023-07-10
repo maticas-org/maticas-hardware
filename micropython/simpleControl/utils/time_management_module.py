@@ -22,7 +22,7 @@ def get_current_time():
 
             #try to ask to this particular time provider
             try:
-                response = requests.request("GET", url = provider, timeout=10)
+                response = requests.request("GET", url = provider)#, timeout=10)
             #if any problem go to the next time provider
             except:
                 sleep(1)

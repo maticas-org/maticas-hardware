@@ -2,6 +2,7 @@
 	"wifi_ssid": "Aulas EICT",
 	"wifi_password": "eict1234",
 	"client_id": "SOME_CLIENT_ID",
+	"client_password": "SOME_CLIENT_PASSWORD",
 	"mqtt_server": "MQTT_SERVER_IP",
 	"mqtt_port": 1883,
 	"actuators": {

@@ -5,7 +5,8 @@ anounce_file_upload(){
     echo "Uploading file $1 to esp32..."
 }
 
-device=/dev/ttyUSB0
+#device=/dev/ttyUSB0
+device=/dev/ttyACM0 
 
 sudo chmod a+rw $device
 

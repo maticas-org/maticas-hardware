@@ -158,7 +158,7 @@ class Scheduler():
 
         last = ticks_ms()
 
-        sync_time_every_x_time = Time(3, 0, 0)
+        sync_time_every_x_time = Time(48, 0, 0)
         time_counter = Time(0, 0, 0)
 
         handle_modules_every_x_time = Time(0, 1, 0)
@@ -181,7 +181,7 @@ class Scheduler():
                     self.boot = False
 
                     print("server side time update")
-                    self.mqtt_module.log(msg = "server side time update")
+                    #self.mqtt_module.log(msg = "server side time update")
 
                 # the rest of the time we use the local elapsed millies
                 else:
@@ -189,24 +189,24 @@ class Scheduler():
                     time_counter += handle_modules_every_x_time
 
                     print("local side time update")
-                    self.mqtt_module.log(msg = "local side time update")
+                    #self.mqtt_module.log(msg = "local side time update")
 
                 print("curent time {}\n".format(self.current_time))
-                self.mqtt_module.log(msg = "curent time {}\n".format(self.current_time))
+                #self.mqtt_module.log(msg = "curent time {}\n".format(self.current_time))
                 sleep(0.1)
 
                 print("handling on/off actuators...")
-                self.mqtt_module.log(msg = "handling on/off actuators...")
+                #self.mqtt_module.log(msg = "handling on/off actuators...")
                 self.control_on_off_actuators()
                 print("\n")
 
                 print("handling timed actuators...")
-                self.mqtt_module.log(msg = "handling timed actuators...")
+                #self.mqtt_module.log(msg = "handling timed actuators...")
                 self.control_timed_actuators()
                 print("\n")
 
                 print("handling sensors...")
-                self.mqtt_module.log(msg = "handling sensors...")
+                #self.mqtt_module.log(msg = "handling sensors...")
                 self.measure()
                 print("\n")
 
@@ -214,7 +214,7 @@ class Scheduler():
                 last = now
 
                 print("Done!\n")
-                self.mqtt_module.log(msg = "Done!\n")
+                #self.mqtt_module.log(msg = "Done!\n")
 
 
-            self.mqtt_module.take_care_of_business()
+            #self.mqtt_module.take_care_of_business()

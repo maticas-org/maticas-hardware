@@ -21,7 +21,6 @@ from utils.robust2 import MQTTClient
 class MqttConnectionWrapper():
     def __init__(self,
                  config_file: str,
-                 client_password=None,
                  user=None,
                  keepalive=0,
                  clean_session=True,
@@ -34,17 +33,17 @@ class MqttConnectionWrapper():
         # stores parameters inside class
 
         with open(config_file, "r") as f:
-            self.config 		= load(f)
-            self.wifi_ssid 		= self.config["wifi_ssid"]
-            self.wifi_password 	= self.config["wifi_password"]
-            self.client_id 		= self.config["client_id"]
-            self.mqtt_server 	= self.config["mqtt_server"]
-            self.port 			= self.config["mqtt_port"]
-            self.pub_topics 	= self.config["publish_topics"]
-            self.sub_topics 	= self.config["subscribe_topics"]
+            self.config 		    = load(f)
+            self.wifi_ssid 		    = self.config["wifi_ssid"]
+            self.wifi_password 	    = self.config["wifi_password"]
+            self.client_id 		    = self.config["client_id"]
+            self.client_password    = self.config["client_password"]
+            self.mqtt_server 	    = self.config["mqtt_server"]
+            self.port 			    = self.config["mqtt_port"]
+            self.pub_topics 	    = self.config["publish_topics"]
+            self.sub_topics 	    = self.config["subscribe_topics"]
 
         self.user = user
-        self.client_password = client_password
         self.keepalive = keepalive
         self.ssl = ssl
         self.ssl_params = ssl_params
