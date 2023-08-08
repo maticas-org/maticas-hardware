@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "smart_sensor")(type "KiCad")(uri "/home/dave/Documents/newmaticas/maticas-hardware/libs/smart_sensor.kicad_sym")(options "")(descr ""))
+)
