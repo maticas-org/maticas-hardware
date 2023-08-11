@@ -42,8 +42,12 @@ class ScreenModule():
     #      BOOT SCREEN RELATED
     #=================================    
     def display_boot_screen(self) -> None:
-        self.screen.text("Welcome to Maticas!!!", 0, 0)
-        sleep(2)
+        self.screen.fill(1)
+        self.screen.text("Bienvenido a", self.screenwidth//8, 0, 0)
+        sleep(1)
+        self.screen.text("Maticas :D", self.screenwidth//4, self.screenheight//2, 0)
+        self.screen.show()
+        sleep(3.5)
 
     #=================================
     #       IP DISPLAY RELATED
@@ -64,11 +68,13 @@ class ScreenModule():
         """
         self.qr.add_data("http://{}".format(self.ip))
         matrix = self.qr.get_matrix()
+        paddingx = int(self.screenwidth/4)
+        paddingy = 5
 
         for y in range(len(matrix)*2):                   # Scaling the bitmap by 2
             for x in range(len(matrix[0])*2):            # because my screen is tiny.
                 value = not matrix[int(y/2)][int(x/2)]   # Inverting the values because
-                self.screen.pixel(x, y, value)                # black is `True` in the matrix.
+                self.screen.pixel(x + paddingx, y + paddingy, value)                # black is `True` in the matrix.
         self.screen.show()         
 
 
