@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://templatemo.com/tm-style-20210719c.css" rel="stylesheet">
+    <title>Maticas linea decoración - Modulo 0</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Maticas linea decoración</h1>
+        <h3>Modulo 0</h3>
+        <hr>
+        <form action="/update" method="post">
+            <table>
+                <tr><td><label for="nombre-actuador">Nombre de actuador</label><input type="text" id="nombre-actuador" name="nombre-actuador"></td></tr>
+                <tr><td><label for="hora-inicio">Hora de inicio</label><input type="time" id="hora-inicio" name="hora-inicio"></td></tr>
+                <tr><td><label for="hora-fin">Hora de fin</label><input type="time" id="hora-fin" name="hora-fin"></td></tr>
+                <tr><td><label for="temporizado">¿Es temporizado?</label><input type="checkbox" id="temporizado" name="temporizado" onclick="toggleTiempoFields()"></td></tr>
+                <tr id="tiempo-encendido-help-row"><td><br><i>El número de minutos de encendido y apagado debe ser mayor a cero. Se permiten números decimales. Si no se marca el campo de temporizado, entonces la configuración de encendido y apagado será ignorada.</i></td></tr>
+                <tr id="tiempo-encendido-row"><td><label for="tiempo-encendido">¿Cuántos minutos encendido?</label><input type="number" id="tiempo-encendido" name="tiempo-encendido" min="1.0" step="any"></td></tr>
+                <tr id="tiempo-apagado-row"><td><label for="tiempo-apagado">¿Cuántos minutos apagado?</label><input type="number" id="tiempo-apagado" name="tiempo-apagado" min="1.0" step="any"></td></tr>
+            </table>
+            <br><input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
+
