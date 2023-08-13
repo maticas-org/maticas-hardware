@@ -7,27 +7,27 @@ class SensorsModule():
 		self.sensors=self.config["sensors"]
 		self.default_init()
 	def default_init(self)->None:
-		for sensorName in self.sensors.keys():
-			self.sensors[sensorName]["exec"]=None
-			self.sensors[sensorName]["status"]=False
-			self.sensors[sensorName]["lastmeasured"]=Time(-100,0,0)
-			self.sensors[sensorName]["measure_every_x_time"]=Time(*self.sensors[sensorName]["measure_every_x_time"])
+		for sensorId in self.sensors.keys():
+			self.sensors[sensorId]["exec"]=None
+			self.sensors[sensorId]["status"]=False
+			self.sensors[sensorId]["lastmeasured"]=Time(-100,0,0)
+			self.sensors[sensorId]["measure_every_x_time"]=Time(*self.sensors[sensorId]["measure_every_x_time"])
 	def check(self)->None:
 		print("Checking sensors...")
-		for sensorName in self.sensors.keys():
-			if None==self.sensors[sensorName]["exec"]:
-				print("Sensor \"{}\" has no candidate for answering a call.".format(sensorName))
+		for sensorId in self.sensors.keys():
+			if None==self.sensors[sensorId]["exec"]:
+				print("Sensor \"{}\" has no candidate for answering a call.".format(self.sensors[sensorId]["name"]))
 			else:
-				result=self.sensors[sensorName]["exec"]()
+				result=self.sensors[sensorId]["exec"]()
 				if result!=-1:
-					self.sensors[sensorName]["status"]=True
+					self.sensors[sensorId]["status"]=True
 				else:
-					print("Sensor \"{}\" isn't OK.".format(sensorName))
+					print("Sensor \"{}\" isn't OK.".format(self.sensors[sensorId]["name"]))
 		print("Done!\n")
-	def add(self,sensorName:str,fn:callable)->int:
-		if sensorName not in self.sensors.keys():
+	def add(self,sensorId:str,fn:callable)->int:
+		if sensorId not in self.sensors.keys():
 			print("this sensor does not exist in the ACTUATORS field. Consider adding it in the file './config.json'.")
 			return -1
-		self.sensors[sensorName]["exec"]=fn
-		print("{} added.".format(sensorName))
+		self.sensors[sensorId]["exec"]=fn
+		print("{} added.".format(self.sensors[sensorId]["name"]))
 		return 0

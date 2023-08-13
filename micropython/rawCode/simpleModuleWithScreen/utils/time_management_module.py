@@ -33,6 +33,14 @@ class Time:
 		self.hour=hour
 		self.min=min
 		self.sec=sec
+	@staticmethod
+	def from_string(time_str):
+		hour,min,sec=time_str.split(":")
+		return Time(int(hour),int(min),int(sec))
+	@staticmethod
+	def from_string_to_list(time_str):
+		hour,min,sec=time_str.split(":")
+		return [int(hour),int(min),int(sec)]
 	def to_total_minutes(self):
 		total_minutes=(self.hour*60)+(self.min)+(self.sec/60)
 		return total_minutes
@@ -89,4 +97,4 @@ class Time:
 		new_sec=remaining_seconds%60
 		return Time(int(new_hour),int(new_min),int(new_sec))
 	def __str__(self):
-		return "{}:{}:{}".format(self.hour,self.min,self.sec)
+		return "{:02d}:{:02d}:{:02d}".format(int(self.hour),int(self.min),int(self.sec))

@@ -65,6 +65,34 @@ class Time:
         self.min = min
         self.sec = sec
 
+    @staticmethod
+    def from_string(time_str):
+        """
+        Creates a new Time object from the specified string. With the format "HH:MM:SS".
+
+        Args:
+            time_str (str): The string to parse.
+
+        Returns:
+            Time: A new Time object.
+        """
+        hour, min, sec = time_str.split(":")
+        return Time(int(hour), int(min), int(sec))
+    
+    @staticmethod
+    def from_string_to_list(time_str):
+        """
+        Creates a new Time object from the specified string. With the format "HH:MM:SS".
+
+        Args:
+            time_str (str): The string to parse.
+
+        Returns:
+            Time: A new Time object.
+        """
+        hour, min, sec = time_str.split(":")
+        return [int(hour), int(min), int(sec)]
+
     def to_total_minutes(self):
         """
         Converts the time to the total number of minutes.
@@ -214,5 +242,6 @@ class Time:
         Returns:
             str: A string representing the time in hh:mm:ss format.
         """
-        return "{}:{}:{}".format(self.hour, self.min, self.sec)
+
+        return "{:02d}:{:02d}:{:02d}".format(int(self.hour), int(self.min), int(self.sec))
 

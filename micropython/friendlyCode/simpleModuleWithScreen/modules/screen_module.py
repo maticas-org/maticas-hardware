@@ -2,7 +2,7 @@ import machine
 from time import sleep
 
 
-from dependencies.uQR import uQR
+from dependencies.uQR import QRCode
 from dependencies.ssd1306 import SSD1306_I2C
 from utils.json_related import *
 from utils.internet_connection import *
@@ -13,8 +13,8 @@ class ScreenModule():
                  config_file: str, 
                  screenwidth: int = 128,
                  screenheight: int = 64,
-                 scl_pin: int = 5,
-                 sda_pin: int = 4):
+                 scl_pin: int = 22,
+                 sda_pin: int = 21):
 
         with open(config_file) as f:
             config = load(f)
@@ -27,7 +27,8 @@ class ScreenModule():
         self.sda_pin = sda_pin
 
         self.boot_screen()
-        self.qr = uQR()
+        self.qr = QRCode(border=1, box_size=2)
+        self.display_boot_screen()
 
     def boot_screen(self) -> None:
         i2c = machine.I2C(scl=machine.Pin(self.scl_pin), sda=machine.Pin(self.sda_pin))
@@ -43,11 +44,24 @@ class ScreenModule():
     #=================================    
     def display_boot_screen(self) -> None:
         self.screen.fill(1)
-        self.screen.text("Bienvenido a", self.screenwidth//8, 0, 0)
+        self.screen.text("Bienvenido a", self.screenwidth//8, self.screenheight//8, 0)
         sleep(1)
         self.screen.text("Maticas :D", self.screenwidth//4, self.screenheight//2, 0)
         self.screen.show()
         sleep(3.5)
+    
+    #=================================
+    #      RESTART SCREEN RELATED
+    #=================================
+    def display_restart_screen(self) -> None:
+        self.screen.fill(1)
+        self.screen.text("Guardando", self.screenwidth//8, self.screenheight//8, 0)
+        self.screen.text("Cambios...", self.screenwidth//8, self.screenheight//4, 0)
+        self.screen.show()
+        sleep(0.85)
+        self.screen.text("Reiniciando...", self.screenwidth//8, 3*self.screenheight//4, 0)
+        self.screen.show()
+        sleep(0.85)
 
     #=================================
     #       IP DISPLAY RELATED
@@ -60,7 +74,7 @@ class ScreenModule():
         if self.ip == None:
             self.ip = "No internet connection"
 
-        update_json_file(self.config_file, "ip", self.ip)
+        update_json_field(self.config_file, "ip", self.ip)
     
     def display_ip(self) -> None:
         """

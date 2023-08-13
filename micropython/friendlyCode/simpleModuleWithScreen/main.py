@@ -1,11 +1,14 @@
+import gc
+gc.collect()
 import scheduler
 import modules.initialize_modules as mods
 
-act_module = mods.act_mod
-act_module.startup_off()
-sen_module = mods.sen_mod
+#turns off the actuators at the beginning
+mods.act_mod.startup_off()
 
-sch = scheduler.Scheduler(act_module = act_module,
-                          sen_module = sen_module)
-
+sch = scheduler.Scheduler(act_module = mods.act_mod,
+                          sen_module = mods.sen_mod, 
+                          screen_module = mods.screen_mod,
+                          web_module=mods.web_mod,)
+gc.collect()
 sch.loop()

@@ -1,3 +1,4 @@
+import gc
 from time import sleep, ticks_ms, ticks_diff
 from machine import reset
 
@@ -6,17 +7,20 @@ from utils.time_management_module import *
 from modules.actuators_module import ActuatorsModule
 from modules.sensors_module import SensorsModule
 from modules.screen_module import ScreenModule
+from modules.web_module import WebModule
 
 class Scheduler():
 
     def __init__(self,
                  act_module: ActuatorsModule,
                  sen_module: SensorsModule,
-                 screen_module: ScreenModule):
+                 screen_module: ScreenModule, 
+                 web_module: WebModule):
 
         self.act_module = act_module
         self.sen_module = sen_module
         self.screen_module = screen_module
+        self.web_module = web_module
 
         self.actuators = act_module.actuators
         self.sensors = sen_module.sensors
@@ -139,19 +143,7 @@ class Scheduler():
         self.screen_module.display_ip()
 
     def loop(self, log = True):
-
-        try:
-            self._loop(log = log)
-
-        except Exception as e:
-            print("An error occurred: {}".format(e))
-
-            # turn off all the actuators
-            self.act_module.startup_off()
-            sleep(1)
-
-            # reboots in order to reestablish wifi connection
-            reset()
+        self._loop(log = log)
 
     def _loop(self, log = True):
 
@@ -172,6 +164,9 @@ class Scheduler():
 
         # Main loop that runs indefinitely
         while True:
+
+            if gc.mem_free() < 102000:
+                gc.collect()
 
             # Current time in milliseconds
             now = ticks_ms()
@@ -219,5 +214,11 @@ class Scheduler():
 
                 # Update the last execution time
                 last = now
-
                 print("Done!\n")
+
+            self.web_module.serve()
+            sleep(0.1)
+
+            if self.web_module.need_to_update:
+                self.screen_module.display_restart_screen()
+                reset()

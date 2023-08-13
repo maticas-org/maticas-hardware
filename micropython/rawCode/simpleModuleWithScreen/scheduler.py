@@ -1,3 +1,4 @@
+import gc
 from time import sleep,ticks_ms,ticks_diff
 from machine import reset
 from utils.internet_connection import*
@@ -5,11 +6,13 @@ from utils.time_management_module import*
 from modules.actuators_module import ActuatorsModule
 from modules.sensors_module import SensorsModule
 from modules.screen_module import ScreenModule
+from modules.web_module import WebModule
 class Scheduler():
-	def __init__(self,act_module:ActuatorsModule,sen_module:SensorsModule,screen_module:ScreenModule):
+	def __init__(self,act_module:ActuatorsModule,sen_module:SensorsModule,screen_module:ScreenModule,web_module:WebModule):
 		self.act_module=act_module
 		self.sen_module=sen_module
 		self.screen_module=screen_module
+		self.web_module=web_module
 		self.actuators=act_module.actuators
 		self.sensors=sen_module.sensors
 		self.boot=True
@@ -83,13 +86,7 @@ class Scheduler():
 		self.screen_module.clear_screen()
 		self.screen_module.display_ip()
 	def loop(self,log=True):
-		try:
-			self._loop(log=log)
-		except Exception as e:
-			print("An error occurred: {}".format(e))
-			self.act_module.startup_off()
-			sleep(1)
-			reset()
+		self._loop(log=log)
 	def _loop(self,log=True):
 		last=ticks_ms()
 		sync_time_every_x_time=Time(0,0,60)
@@ -99,6 +96,8 @@ class Scheduler():
 		handle_modules_every_x_time=Time(0,0,30)
 		handle_modules_every_x_msecs=handle_modules_every_x_time.to_total_seconds()*1000
 		while True:
+			if gc.mem_free()<102000:
+				gc.collect()
 			now=ticks_ms()
 			if(ticks_diff(now,last)>=(handle_modules_every_x_msecs)) or (self.boot):
 				if(self.boot) or (sync_time_count>=sync_time_every_x_time):
@@ -127,3 +126,8 @@ class Scheduler():
 				print("\n")
 				last=now
 				print("Done!\n")
+			self.web_module.serve()
+			sleep(0.1)
+			if self.web_module.need_to_update:
+				self.screen_module.display_restart_screen()
+				reset()

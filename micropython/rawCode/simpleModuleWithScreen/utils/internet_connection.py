@@ -1,32 +1,6 @@
 import network
 import utime
 from json import load
-def connect(config_file:str)->None:
-	with open(config_file)as f:
-		config=load(f)
-	count=0
-	sta_if=network.WLAN(network.STA_IF)
-	ap_if=network.WLAN(network.AP_IF)
-	ap_if.active(False)
-	utime.sleep(1)
-	if not sta_if.isconnected():
-		print('connecting to hotspot...')
-		sta_if.active(True)
-		sta_if.connect(config["wifi_ssid"],config["wifi_password"])
-		while (count<5):
-			count+=1
-			if(sta_if.isconnected()):
-				count=0
-				print(' network config:',sta_if.ifconfig())
-				break
-			print('.',end='')
-			utime.sleep(1)
-	if(count==5):
-		if(sta_if.isconnected()):
-			sta_if.disconnect()
-		sta_if.active(False)
-	count=0
-	utime.sleep(1)
 def connect2(config_file:str,doreconnect=False)->str:
 	with open(config_file)as f:
 		config=load(f)

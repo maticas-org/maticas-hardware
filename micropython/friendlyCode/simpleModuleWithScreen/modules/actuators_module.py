@@ -27,34 +27,33 @@ class ActuatorsModule():
         # The lastchecked field stores the Time object when the actuator was checked.
 
         # Time obj is a wrapper class of this: tuple(hour, minute, second)
-        for actuatorName in self.actuators.keys():
-            self.actuators[actuatorName]["exec"] = None
-            self.actuators[actuatorName]["status"] = False
+        for actuatorId in self.actuators.keys():
+            self.actuators[actuatorId]["exec"] = None
+            self.actuators[actuatorId]["status"] = False
 
             # makes it look like it's been a while since actuators where checked for the last time
             # so that the scheduler runs each actuator on boot
-            self.actuators[actuatorName]["lastmodified"] = Time(*self.actuators[actuatorName]["starttime"]) - Time(100,
-                                                                                                                   0, 0)
-            self.actuators[actuatorName]["starttime"] = Time(*self.actuators[actuatorName]["starttime"])
-            self.actuators[actuatorName]["endtime"] = Time(*self.actuators[actuatorName]["endtime"])
+            self.actuators[actuatorId]["lastmodified"] = Time(*self.actuators[actuatorId]["starttime"]) - Time(100, 0, 0)
+            self.actuators[actuatorId]["starttime"] = Time(*self.actuators[actuatorId]["starttime"])
+            self.actuators[actuatorId]["endtime"] = Time(*self.actuators[actuatorId]["endtime"])
 
         # Separates the actuatornames into the ones which are
         # timed and the ones that are not timed
-        for actuatorName in self.actuators.keys():
-            if self.actuators[actuatorName]["type"] == 'timed':
-                self.timed_actuators.append(actuatorName)
+        for actuatorId in self.actuators.keys():
+            if self.actuators[actuatorId]["type"] == 'timed':
+                self.timed_actuators.append(actuatorId)
 
-            elif self.actuators[actuatorName]["type"] == 'on/off':
-                self.onoff_actuators.append(actuatorName)
+            elif self.actuators[actuatorId]["type"] == 'on/off':
+                self.onoff_actuators.append(actuatorId)
 
     def startup_off(self) -> None:
 
         print("Starting up actuators...")
         # turn off all the actuators at boot
-        for actuatorName in self.actuators.keys():
+        for actuatorId in self.actuators.keys():
 
-            if self.actuators[actuatorName]["exec"] != None:
-                self.actuators[actuatorName]["exec"].value(0)
+            if self.actuators[actuatorId]["exec"] != None:
+                self.actuators[actuatorId]["exec"].value(0)
 
         print("Done! they are all OFF.\n")
 
@@ -66,10 +65,10 @@ class ActuatorsModule():
         """
 
         print("Checking actuators...")
-        for actuatorName in self.actuators.keys():
+        for actuatorId in self.actuators.keys():
 
-            if None == self.actuators[actuatorName]["exec"]:
-                print("actuator \"{}\" has no candidate for answering a call".format(actuatorName))
+            if None == self.actuators[actuatorId]["exec"]:
+                print("actuator \"{}\" has no candidate for answering a call".format(actuatorId["name"]))
 
         print("Done!\n")
 
@@ -88,7 +87,7 @@ class ActuatorsModule():
             return -1
 
         self.actuators[actuator]["exec"] = pin
-        print("{} added.".format(actuator))
+        print("{} added.".format(self.actuators[actuator]["name"]))
 
         return 0
 

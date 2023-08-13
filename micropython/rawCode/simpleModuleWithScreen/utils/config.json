@@ -1,45 +1,19 @@
 {
-	"wifi_ssid": "Aulas EICT",
-	"wifi_password": "eict1234",
+	"wifi_ssid": "ArchLinux",
+	"wifi_password": "nuncaheusadoarch",
 	"actuators": {
-		"lights": {
-			"type": "on/off",
-			"starttime": [6, 0, 0],
-			"endtime": [21, 30, 0]
-		},
-		"fan": {
+		"0": {
+			"name": "Actuador por defecto",
 			"type": "timed",
-			"starttime": [1, 0, 0],
+			"starttime": [0, 0, 0],
 			"endtime": [23, 0, 0],
 			"minutesoff": 15,
 			"minuteson": 5
-		},
-		"water pump": {
-			"type": "timed",
-			"starttime": [6, 0, 0],
-			"endtime": [21, 30, 0],
-			"minutesoff": 30,
-			"minuteson": 10
-		},
-		"water oxygen": {
-			"type": "timed",
-			"starttime": [1, 0, 0],
-			"endtime": [23, 0, 0],
-			"minutesoff": 15,
-			"minuteson": 5
-		},
-		"recirculation": {
-			"type": "timed",
-			"starttime": [6, 0, 0],
-			"endtime": [20, 0, 0],
-			"minutesoff": 10,
-			"minuteson": 1
 		}
 	},
 
     "sensors":{
-		"water temperature": {"measure_every_x_time": [0, 2, 30]},
-		"electroconductivity": {"measure_every_x_time": [0, 2, 30]}
+		"0": {"name": "Humedad y temperatura", "measure_every_x_time": [0, 2, 30]}
     }
 }
 

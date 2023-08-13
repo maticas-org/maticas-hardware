@@ -26,16 +26,16 @@ class SensorsModule():
         # The 'lastmeasured' field stores the Time object of the last time the sensor was checked.
 
         # Time obj is a wrapper class of this: tuple(hour, minute, second)
-        for sensorName in self.sensors.keys():
-            self.sensors[sensorName]["exec"] = None
-            self.sensors[sensorName]["status"] = False
+        for sensorId in self.sensors.keys():
+            self.sensors[sensorId]["exec"] = None
+            self.sensors[sensorId]["status"] = False
 
             # Makes it look like it's been a while since sensors where checked for the last time
             # so that the scheduler runs each sensor on boot
-            self.sensors[sensorName]["lastmeasured"] = Time(-100, 0, 0)
+            self.sensors[sensorId]["lastmeasured"] = Time(-100, 0, 0)
 
             # Converts the 'measure_every_x_time' field to a time object which we can work with
-            self.sensors[sensorName]["measure_every_x_time"] = Time(*self.sensors[sensorName]["measure_every_x_time"])
+            self.sensors[sensorId]["measure_every_x_time"] = Time(*self.sensors[sensorId]["measure_every_x_time"])
 
     def check(self) -> None:
 
@@ -45,24 +45,24 @@ class SensorsModule():
         """
 
         print("Checking sensors...")
-        for sensorName in self.sensors.keys():
+        for sensorId in self.sensors.keys():
 
-            if None == self.sensors[sensorName]["exec"]:
-                print("Sensor \"{}\" has no candidate for answering a call.".format(sensorName))
+            if None == self.sensors[sensorId]["exec"]:
+                print("Sensor \"{}\" has no candidate for answering a call.".format(self.sensors[sensorId]["name"]))
 
             else:
-                result = self.sensors[sensorName]["exec"]()
+                result = self.sensors[sensorId]["exec"]()
 
                 # if the result is does not give an error
                 if result != -1:
-                    self.sensors[sensorName]["status"] = True
+                    self.sensors[sensorId]["status"] = True
 
                 else:
-                    print("Sensor \"{}\" isn't OK.".format(sensorName))
+                    print("Sensor \"{}\" isn't OK.".format(self.sensors[sensorId]["name"]))
         print("Done!\n")
 
     def add(self,
-            sensorName: str,
+            sensorId: str,
             fn: callable) -> int:
 
         """
@@ -70,18 +70,11 @@ class SensorsModule():
             he/she wants.
         """
 
-        if sensorName not in self.sensors.keys():
+        if sensorId not in self.sensors.keys():
             print("this sensor does not exist in the ACTUATORS field. Consider adding it in the file './config.json'.")
             return -1
 
-        self.sensors[sensorName]["exec"] = fn
-        print("{} added.".format(sensorName))
+        self.sensors[sensorId]["exec"] = fn
+        print("{} added.".format(self.sensors[sensorId]["name"]))
 
         return 0
-
-
-
-
-
-
-

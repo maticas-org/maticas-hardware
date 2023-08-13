@@ -5,6 +5,7 @@ from machine            import Pin, I2C, ADC
 from modules.actuators_module   import ActuatorsModule
 from modules.sensors_module     import SensorsModule
 from modules.screen_module      import ScreenModule
+from modules.web_module         import WebModule
 
 #--------------------------------------------------------------#
 #                       ACTUATORS MODULE
@@ -14,11 +15,11 @@ config_file = "./utils/config.json"
 
 act_mod = ActuatorsModule(config_file = config_file)
 
-act_mod.add(actuator = "fan",           pin = Pin(16, Pin.OUT))
-act_mod.add(actuator = "lights",        pin = Pin(17, Pin.OUT))
-act_mod.add(actuator = "water pump",    pin = Pin(18, Pin.OUT))
-act_mod.add(actuator = "water oxygen",  pin = Pin(19, Pin.OUT))
-act_mod.add(actuator = "recirculation", pin = Pin(21, Pin.OUT))
+act_mod.add(actuator = "0",           pin = Pin(16, Pin.OUT))
+#act_mod.add(actuator = "lights",        pin = Pin(17, Pin.OUT))
+#act_mod.add(actuator = "water pump",    pin = Pin(18, Pin.OUT))
+#act_mod.add(actuator = "water oxygen",  pin = Pin(19, Pin.OUT))
+#act_mod.add(actuator = "recirculation", pin = Pin(21, Pin.OUT))
 print()
 
 #--------------------------------------------------------------#
@@ -75,6 +76,11 @@ print()
 #--------------------------------------------------------------#
 #                       SCREEN MODULE
 #--------------------------------------------------------------#
-
 screen_mod = ScreenModule(config_file = config_file)
+
+
+#--------------------------------------------------------------#
+#                       WEB MODULE
+#--------------------------------------------------------------#
+web_mod = WebModule(config_file = config_file)
 
