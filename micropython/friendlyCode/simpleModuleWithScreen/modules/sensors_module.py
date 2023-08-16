@@ -1,6 +1,6 @@
 from json import load
 from utils.time_management_module import *
-
+from utils.statistics import Statistics
 
 class SensorsModule():
 
@@ -36,6 +36,7 @@ class SensorsModule():
 
             # Converts the 'measure_every_x_time' field to a time object which we can work with
             self.sensors[sensorId]["measure_every_x_time"] = Time(*self.sensors[sensorId]["measure_every_x_time"])
+            self.sensors[sensorId]["statistics"] = Statistics()
 
     def check(self) -> None:
 

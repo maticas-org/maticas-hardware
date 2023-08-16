@@ -46,9 +46,9 @@ class Scheduler():
 
                 if delta > values["measure_every_x_time"]:
                     measurement = values["exec"]()
-                    print("{} value is: {}".format(sensorName, measurement))
-
+                    values["statistics"].add_measurement(measurement)
                     self.sensors[sensorName]["lastmeasured"] = self.current_time
+                    print("{} value is: {}".format(sensorName, measurement))
 
                 else:
                     print("We don't need the {} measurement yet, delta: {}".format(sensorName, delta))
@@ -164,6 +164,11 @@ class Scheduler():
 
         # Main loop that runs indefinitely
         while True:
+            current_use_of_memory = gc.mem_alloc()
+            available_memory = gc.mem_free()
+            percentage = (current_use_of_memory / (current_use_of_memory + available_memory)) * 100
+
+            print("Memory usage: {}%".format(percentage))
 
             if gc.mem_free() < 102000:
                 gc.collect()
@@ -222,3 +227,5 @@ class Scheduler():
             if self.web_module.need_to_update:
                 self.screen_module.display_restart_screen()
                 reset()
+            
+            gc.collect()

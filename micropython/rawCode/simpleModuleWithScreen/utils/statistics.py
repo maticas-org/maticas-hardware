@@ -1,5 +1,5 @@
 class Statistics:
-    def __init__(self, max_measurements=120, minutes_between_measurements=1):
+    def __init__(self, max_measurements=100, minutes_between_measurements=1):
         self.measurements = []
         self.max_measurements = max_measurements
         self.minutes_between_measurements = minutes_between_measurements
