@@ -63,7 +63,7 @@ class WebModule:
             return show_config(config_file=self.config_file)
           
         elif response.find("GET /measurements ") != -1:
-            from html.parsers import show_measurements
+            from html.pages import show_measurements
             return show_measurements()
         
         elif response.find("POST /update ") != -1:

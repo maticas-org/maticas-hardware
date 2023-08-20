@@ -1,9 +1,8 @@
 import gc
 from json import load
 from utils.time_management_module import *
-from friendlyCode.simpleModuleWithScreen.utils.metrics import Statistics
 
-import initialize_database as db
+import modules.initialize_database as db
 #----------------------------------------------------------------------------------
 #
 #----------------------------------------------------------------------------------

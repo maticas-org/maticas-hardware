@@ -123,8 +123,8 @@ class ActuatorsModule():
                                        Pin(self.actuators_config[actuatorId]["pin"], Pin.OUT),
                                        Time(*self.actuators_config[actuatorId]["starttime"]), 
                                        Time(*self.actuators_config[actuatorId]["endtime"]),
-                                       self.actuators_config[actuatorId]["minutes_on"],
-                                       self.actuators_config[actuatorId]["minutes_off"]) 
+                                       self.actuators_config[actuatorId]["minuteson"],
+                                       self.actuators_config[actuatorId]["minutesoff"]) 
 
             self.actuators[actuatorId] = actuator
 

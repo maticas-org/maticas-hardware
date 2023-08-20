@@ -1,3 +1,4 @@
+import gc
 from utils.metrics import Metrics
 from modules.initialize_database import db_mod
 
@@ -20,11 +21,11 @@ def show_config(config_file: str) -> str:
     config = get_config(config_file)
     
     if config["type"] == "timed":
-        display = """<div class="container"><p>El actuador <strong>'{name}'</strong> opera desde las <strong>{starttime}</strong> horas del día hasta las <strong>{endtime}</strong> horas del día. Es temporizado, se enciende durante <strong>{minutes_on} Minutos</strong> y descansa durante <strong>{minutes_off} Minutos</strong>.</p></div>""".format(**config)
+        display = """<div class="container"><p>El actuador <strong>'{name}'</strong> opera desde las <strong>{starttime}</strong> horas del día hasta las <strong>{endtime}</strong> horas del día. Es temporizado, se enciende durante <strong>{minuteson} Minutos</strong> y descansa durante <strong>{minutesoff} Minutos</strong>.</p></div>""".format(**config)
     else:
         display = """<div class="container"><p>El actuador <strong>'{name}'</strong> opera desde las <strong>{starttime}</strong> horas del día hasta las <strong>{endtime}</strong> horas del día. No es temporizado.</p></div>""".format(**config)
 
-    return """<!DOCTYPE html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://templatemo.com/tm-style-20210719c.css" rel="stylesheet"><style>body {font-family: Arial, sans-serif; margin: 0; padding: 20px;} .container {max-width: 600px; margin: 0 auto;border: 1px solid #ccc;padding: 20px;border-radius: 5px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);}.button-container {margin-top: 20px;}.update-button {background-color: #007bff;color: #fff;border: none;padding: 10px 20px;border-radius: 5px;cursor: pointer;}</style><title>Información del módulo</title></head><body>""" + """{}""".format(display) + """<br><br><div style="text-align:center"><button class="update-button" onclick="redirectToUpdateConfig()">Modificar configuración</button><button class="update-button" onclick="redirectToMeasurements()">Ver mediciones</button></div><script>function redirectToUpdateConfig() {window.location.href = '/updateConfig';}function redirectToMeasurements() {window.location.href = '/measurements';}</script></body></html>"""
+    return """<!DOCTYPE html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://templatemo.com/tm-style-20210719c.css" rel="stylesheet"><style>body {font-family: Arial, sans-serif; margin: 0; padding: 20px;} .container {max-width: 600px; margin: 0 auto;border: 1px solid #ccc;padding: 20px;border-radius: 5px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);}.button-container {margin-top: 20px;}.update-button {background-color: #007bff;color: #fff;border: none;padding: 10px 20px;border-radius: 5px;cursor: pointer;}</style><title>Información del módulo</title></head><body>""" + """{}""".format(display) + """<br><br><div style="text-align:center"><button class="update-button" onclick="redirectToUpdateConfig()">Modificar configuración</button><br><br><button class="update-button" onclick="redirectToMeasurements()">Ver mediciones</button></div><script>function redirectToUpdateConfig() {window.location.href = '/updateConfig';}function redirectToMeasurements() {window.location.href = '/measurements';}</script></body></html>"""
 
 
 
@@ -38,30 +39,49 @@ def show_measurements():
 
     #build the averageTemperatureData to be displayed
     averageTemperatureData = """<script> const averageTemperatureData = ["""
-
     for i in range(1, 4):
         avg = Metrics.get_average(temp_register.nth_hour_generator(i))
-        averageTemperatureData += '\{value: {}, label: "Temperatura promedio hace {}h", valueId: "average-last-{}-hour"\},'.format(avg, i, i)
-    
+        averageTemperatureData += '{'
+        averageTemperatureData += 'value: {}, label: " Temperatura promedio hace {}h: ", valueId: "average-last-{}-hour"'.format(avg, i, i)
+        averageTemperatureData += '},'
     averageTemperatureData += """];"""
 
-    print("--------------------")
-    print(averageTemperatureData)
+    averageHumidiyData="""const averageHumidityData = ["""
+    for i in range(1,4):
+      avg=Metrics.get_average(hum_register.nth_hour_generator(i))
+      averageHumidiyData+='{'
+      averageHumidiyData+='value: {}, label: " Humedad promedio hace {}h: ", valueId: "average-last-{}-hour"'.format(avg,i,i)
+      averageHumidiyData+='},'
+    averageHumidiyData+="""];"""
+
     
     response = """<!DOCTYPE HTML><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"><style>html {font-family: Arial;display: inline-block;margin: 0px auto;text-align: center;}h2 {font-size: 3.0rem;}p{font-size: 3.0rem;} .units{font-size: 1.2rem;} .ds-labels {font-size: 1.5rem;vertical-align: middle;padding-bottom: 15px;} </style> </head>"""+"""
-<body><h1>Mediciones de variables ambientales</h2><p><i class="fas fa-thermometer-half" style="color:#9c2020;"></i><span class="ds-labels">Última medición de temperatura</span><span id="temperature">{}</span><sup class="units">&deg;C</sup></p><p><i class="fas fa-water" style="color:#1eb8ab;"></i><span class="ds-labels">Última medición de humedad</span><span id="humidity">{}</span><sup class="units">%</sup></p><br>""".format(last_temp, last_hum)+ averageTemperatureData + """
+<body><h1>Mediciones de variables ambientales</h2><p><i class="fas fa-thermometer-half" style="color:#9c2020;"></i><span class="ds-labels"> Ultima medicion de temperatura: </span><span id="temperature">{}</span><sup class="units">&deg;C</sup></p><p><i class="fas fa-water" style="color:#1eb8ab;"></i><span class="ds-labels"> Ultima muestra de humedad: </span><span id="humidity">{}</span><sup class="units">%</sup></p><br>""".format(last_temp, last_hum)+ averageTemperatureData + averageHumidiyData + """
     averageTemperatureData.forEach(data => {
       document.write(`
         <p>
           <i class="fas fa-thermometer-half" style="color:#9c2020a4;"></i>
           <i class="fas fa-clock" style="color:#9c2020a4;"></i>
           <span class="ds-labels">${data.label}</span>
-          <span id="${data.valueId}">AVERAGE_${data.value}_HOUR_C</span>
+          <span id="${data.valueId}">${data.value}</span>
           <sup class="units">&deg;C</sup>
+        </p>
+      `);
+    });
+    averageHumidityData.forEach(data => {
+      document.write(`
+        <p>
+          <i class="fas fa-water" style="color:#1eb8ab;"></i>
+          <i class="fas fa-clock" style="color:#1eb8ab;"></i>
+          <span class="ds-labels">${data.label}</span>
+          <span id="${data.valueId}">${data.value}</span>
+          <sup class="units">%</sup>
         </p>
       `);
     });
   </script>
 </body>
 </html>
-"""
+    """
+    gc.collect()
+    return response

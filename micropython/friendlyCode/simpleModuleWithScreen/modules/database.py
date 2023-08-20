@@ -97,7 +97,7 @@ class Database:
     def __init__(self, config_file: str) -> None:
         self.registers = dict() #Dict[str, MeasurementList]
 
-        with open(self.config_file, "r") as f:
+        with open(config_file, "r") as f:
             self.config = ujson.load(f)["sensors"]
     
     def get_register(self, register_id: str) -> MeasurementList:
@@ -126,7 +126,7 @@ class Database:
         """
             Adds a measurement to the register with id register_id.
         """
-        if (register_id in self.registers.keys()):
+        if (register_id in self.registers.keys()) and (measurement is not None) and (measurement > 0):
             self.registers[register_id].append(measurement)
         else:
             raise ValueError("Register {} does not exist".format(register_id))

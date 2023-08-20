@@ -86,11 +86,6 @@ class Scheduler():
                 self.clean_memory()
                 sleep(0.1)
 
-                print("handling screen...")
-                self.screen_module.display_ip(self.current_time)
-                self.clean_memory()
-                print("\n")
-
                 print("handling on/off actuators...")
                 print("handling timed actuators...")
                 self.act_module.timed_control(self.current_time)
@@ -99,6 +94,11 @@ class Scheduler():
 
                 print("handling sensors...")
                 self.sen_module.timed_measurement(self.current_time)
+                self.clean_memory()
+                print("\n")
+
+                print("handling screen...")
+                self.screen_module.display_ip(self.current_time)
                 self.clean_memory()
                 print("\n")
 

@@ -1,4 +1,4 @@
-from friendlyCode.simpleModuleWithScreen.modules.database    import Database
+from modules.database    import Database
 
 #--------------------------------------------------------------#
 #                       DB MODULE
