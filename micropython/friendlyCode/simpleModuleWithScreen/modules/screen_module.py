@@ -1,3 +1,4 @@
+import gc
 import machine
 from time import sleep
 
@@ -6,6 +7,7 @@ from dependencies.uQR import QRCode
 from dependencies.ssd1306 import SSD1306_I2C
 from utils.json_related import *
 from utils.internet_connection import *
+from utils.time_management_module import *
 
 class ScreenModule():
 
@@ -19,6 +21,8 @@ class ScreenModule():
         with open(config_file) as f:
             config = load(f)
             self.ip = config["ip"]
+            self.update_screen_every_some_time = Time(*config["screen"]["update_every_some_time"])
+            self.last_screen_update = Time(-100, 0, 0)
 
         self.config_file = config_file
         self.screenwidth = screenwidth
@@ -53,13 +57,20 @@ class ScreenModule():
     #=================================
     #      RESTART SCREEN RELATED
     #=================================
-    def display_restart_screen(self) -> None:
+    def display_need_to_update_screen(self) -> None:
         self.screen.fill(1)
         self.screen.text("Guardando", self.screenwidth//8, self.screenheight//8, 0)
         self.screen.text("Cambios...", self.screenwidth//8, self.screenheight//4, 0)
         self.screen.show()
         sleep(0.85)
         self.screen.text("Reiniciando...", self.screenwidth//8, 3*self.screenheight//4, 0)
+        self.screen.show()
+        sleep(0.85)
+    
+    def display_overflow_screen(self) -> None:
+        self.screen.fill(1)
+        self.screen.text("RAM llena", self.screenwidth//8, self.screenheight//8, 0)
+        self.screen.text("Reiniciando...", self.screenwidth//8, self.screenheight//4, 0)
         self.screen.show()
         sleep(0.85)
 
@@ -76,20 +87,27 @@ class ScreenModule():
 
         update_json_field(self.config_file, "ip", self.ip)
     
-    def display_ip(self) -> None:
+    def display_ip(self, now: Time) -> None:
         """
             Displays the ip address on the screen.
         """
-        self.qr.add_data("http://{}".format(self.ip))
-        matrix = self.qr.get_matrix()
-        paddingx = int(self.screenwidth/4)
-        paddingy = 5
 
-        for y in range(len(matrix)*2):                   # Scaling the bitmap by 2
-            for x in range(len(matrix[0])*2):            # because my screen is tiny.
-                value = not matrix[int(y/2)][int(x/2)]   # Inverting the values because
-                self.screen.pixel(x + paddingx, y + paddingy, value)                # black is `True` in the matrix.
-        self.screen.show()         
+        if (now - self.last_screen_update) > self.update_screen_every_some_time:
+            self.update_ip() 
+            self.clear_screen()
+            self.last_screen_update = now
 
+            self.qr.clear()
+            self.qr.add_data("http://{}".format(self.ip))
+            matrix = self.qr.get_matrix()
+            paddingx = int(self.screenwidth/4)
+            paddingy = 5
 
+            for y in range(len(matrix)*2):                   # Scaling the bitmap by 2
+                for x in range(len(matrix[0])*2):            # because my screen is tiny.
+                    value = not matrix[int(y/2)][int(x/2)]   # Inverting the values because
+                    self.screen.pixel(x + paddingx, y + paddingy, value)                # black is `True` in the matrix.
+                gc.collect()
+            self.screen.show()         
 
+            print("screen update.")

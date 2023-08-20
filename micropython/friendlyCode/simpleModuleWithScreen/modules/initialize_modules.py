@@ -1,77 +1,63 @@
+from dht                import DHT11
 from time               import sleep
-from ds18x20            import DS18X20
-from onewire            import OneWire
 from machine            import Pin, I2C, ADC
+
 from modules.actuators_module   import ActuatorsModule
 from modules.sensors_module     import SensorsModule
 from modules.screen_module      import ScreenModule
 from modules.web_module         import WebModule
 
+
 #--------------------------------------------------------------#
 #                       ACTUATORS MODULE
 #--------------------------------------------------------------#
-
 config_file = "./utils/config.json"
-
 act_mod = ActuatorsModule(config_file = config_file)
-
-act_mod.add(actuator = "0",           pin = Pin(16, Pin.OUT))
-#act_mod.add(actuator = "lights",        pin = Pin(17, Pin.OUT))
-#act_mod.add(actuator = "water pump",    pin = Pin(18, Pin.OUT))
-#act_mod.add(actuator = "water oxygen",  pin = Pin(19, Pin.OUT))
-#act_mod.add(actuator = "recirculation", pin = Pin(21, Pin.OUT))
-print()
 
 #--------------------------------------------------------------#
 #                       SENSORS MODULE
 #--------------------------------------------------------------#
 
 sen_mod = SensorsModule(config_file = config_file)
-
-# Initiate ec sensor which comes from an analog reading and build
-# its measure function
-"""ec_sensor = ADC(Pin(34))
-ec_sensor.atten(ADC.ATTN_11DB)
-
-def measure_ec(nsamples = 5)->int:
-    measurements = []
-
-    try:
-        for sample in range(nsamples):
-            measurements.append(ec_sensor.read())
-            sleep(5)
-    except:
-        print("This sensor seems to have a problem. FIX IT")
-        return -1
-
-    return sum(measurements)/len(measurements)
+dht_sensor = DHT11(Pin(19))
 
 
-# Initiate DS18B20 sensor and build its measure function
-wtemp_sensor = DS18X20(OneWire(Pin(25)))
-roms = wtemp_sensor.scan()
-print('Found DS devices: ', roms)
+def measure_temp(ntries = 5)->int:
+    measurements = 0
+    n_effective_measurements = 0
 
-def measure_wtemp(nsamples = 5)->int:
-    measurements = []
-
-    for sample in range(nsamples):
+    for sample in range(ntries):
         try:
-            for rom in roms:
-                wtemp_sensor.convert_temp()
-                sleep(1)
-                measurements.append(wtemp_sensor.read_temp(rom))
+            dht_sensor.measure()
+            measurements += dht_sensor.temperature()
+            n_effective_measurements += 1
+            sleep(1.1)
         except:
             print("This sensor seems to have a problem. FIX IT")
             return -1
 
-    return sum(measurements)/len(measurements)
+    return measurements/n_effective_measurements
+
+def measure_hum(ntries = 5)->int:
+    measurements = 0
+    n_effective_measurements = 0
+
+    for sample in range(ntries):
+        try:
+            dht_sensor.measure()
+            measurements += dht_sensor.humidity()
+            n_effective_measurements += 1
+            sleep(1.1)
+        except:
+            print("This sensor seems to have a problem. FIX IT")
+            return -1
+
+    return measurements/n_effective_measurements
 
 
-sen_mod.add(sensorName = "water temperature",   fn = measure_wtemp)
-sen_mod.add(sensorName = "electroconductivity", fn = measure_ec)
-"""
-print()
+#go and find the id in the config.json
+sen_mod.set_measurement_function(sensor_id = "0", fn = measure_temp)
+sen_mod.set_measurement_function(sensor_id = "1", fn = measure_hum)
 
 #--------------------------------------------------------------#
 #                       SCREEN MODULE
@@ -83,4 +69,3 @@ screen_mod = ScreenModule(config_file = config_file)
 #                       WEB MODULE
 #--------------------------------------------------------------#
 web_mod = WebModule(config_file = config_file)
-

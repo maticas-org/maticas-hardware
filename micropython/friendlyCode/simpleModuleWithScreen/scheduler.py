@@ -25,122 +25,41 @@ class Scheduler():
         self.actuators = act_module.actuators
         self.sensors = sen_module.sensors
         self.boot = True
-
-        # gets the timed and on/off actuators names
-        self.timed_actuators = act_module.timed_actuators
-        self.onoff_actuators = act_module.onoff_actuators
-
         self.current_time = Time(*get_current_time())
-        self.check()
+        
+        self.sync_time_every_some_time = Time(1, 30, 0) #sync time with server timing
+        self.time_away_count = Time(0, 0, 0) #counter of how much time, the module has been without updating
+        self.handle_modules_every_some_time = Time(0, 0, 30) #used for avoiding doing too many unnesary checks on most modules
 
-    def check(self):
-        self.act_module.check()
-        self.sen_module.check()
+    def clean_memory(self) -> None:
+        if self.get_memory_use_percentage() >= 60:
+            gc.collect()
 
-    def measure(self):
+    def get_memory_use_percentage(self) -> float:
+        current_use_of_memory = gc.mem_alloc()
+        available_memory = gc.mem_free()
+        percentage = (current_use_of_memory / (current_use_of_memory + available_memory)) * 100
 
-        for sensorName, values in self.sensors.items():
-            delta = self.current_time - values["lastmeasured"]
+        print("Memory usage: {}%".format(percentage))
+        return percentage
 
-            if values["status"]:
+    def update_time(self) -> None:
+        # update time, in order to avoid making too many requests to the
+        # server we only do them periodically
+        if (self.boot) or (self.time_away_count >= self.sync_time_every_some_time):
+            self.current_time = Time(*get_current_time())
+            self.time_away_count = Time(0, 0, 0)
+            self.boot = False
 
-                if delta > values["measure_every_x_time"]:
-                    measurement = values["exec"]()
-                    values["statistics"].add_measurement(measurement)
-                    self.sensors[sensorName]["lastmeasured"] = self.current_time
-                    print("{} value is: {}".format(sensorName, measurement))
+            print("server side time update.")
 
-                else:
-                    print("We don't need the {} measurement yet, delta: {}".format(sensorName, delta))
+        # the rest of the time we use the local elapsed millies
+        else:
+            self.current_time += self.handle_modules_every_some_time
+            self.time_away_count += self.handle_modules_every_some_time
 
-            else:
-                print("Sensor {} is not working...".format(sensorName))
+            print("local side time update.")
 
-    def control_timed_actuators(self):
-
-        # for each timed actuator it ensures if it should be on or off
-        for act in self.timed_actuators:
-
-            if self.actuators[act]["exec"] == None:
-                print("actuator {} has no exec object to call".format(act))
-                continue
-
-            # went beyond the end time
-            if self.current_time > self.actuators[act]["endtime"]:
-                self.actuators[act]["exec"].value(0)
-
-            # is too early and is not time to start
-            elif self.current_time < self.actuators[act]["starttime"]:
-                self.actuators[act]["exec"].value(0)
-
-            # is on time
-            else:
-
-                lastmodified = self.actuators[act]["lastmodified"]
-
-                delta = self.current_time - lastmodified
-                delta_min = delta.to_total_minutes()
-
-                value = self.actuators[act]["status"]
-
-                # if actuator is off
-                if value == 0:
-
-                    if delta_min > self.actuators[act]["minutesoff"]:
-                        self.actuators[act]["exec"].value(1)
-                        self.actuators[act]["status"] = 1
-                        self.actuators[act]["lastmodified"] = self.current_time
-
-                        print("Actuator {} should be ON. Time elapsed since OFF is {}.".format(act, delta))
-
-                    else:
-                        print("Actuator {} OK it is OFF. Time elapsed since lastcheck is {}.".format(act, delta))
-
-                # if actuator is on
-                elif value == 1:
-                    if delta_min > self.actuators[act]["minuteson"]:
-                        self.actuators[act]["exec"].value(0)
-                        self.actuators[act]["status"] = 0
-                        self.actuators[act]["lastmodified"] = self.current_time
-
-                        print("Actuator {} should be OFF. Time elapsed since ON is {}.".format(act, delta))
-
-                    else:
-                        print("Actuator {} OK it is ON. Time elapsed since lastcheck is {}.".format(act, delta))
-
-                sleep(0.5)
-
-    def control_on_off_actuators(self):
-
-        for act in self.onoff_actuators:
-
-            if self.actuators[act]["exec"] == None:
-                print("actuator {} has no exec object to call".format(act))
-                continue
-
-            # went beyond the end time
-            if self.current_time > self.actuators[act]["endtime"]:
-                self.actuators[act]["exec"].value(0)
-                print("It is too late {} Actuator {} should be OFF".format(self.current_time, act))
-
-
-            # is too early and is not time to start
-            elif self.current_time < self.actuators[act]["starttime"]:
-                self.actuators[act]["exec"].value(0)
-                print("It is too early {} Actuator {} should be OFF".format(self.current_time, act))
-
-
-            # if it's on time to start then turn ir on
-            else:
-                self.actuators[act]["exec"].value(1)
-                print("Right on time! {} Actuator {} should be ON".format(self.current_time, act))
-
-            sleep(0.5)
-
-    def display_ip(self):
-        self.screen_module.update_ip() 
-        self.screen_module.clear_screen()
-        self.screen_module.display_ip()
 
     def loop(self, log = True):
         self._loop(log = log)
@@ -149,72 +68,38 @@ class Scheduler():
 
         last = ticks_ms()
 
-        # Time to sync with the server
-        sync_time_every_x_time = Time(0, 0, 60)
-        sync_time_count = Time(0, 0, 0)
-
-        # Time to update the screen
-        update_screen_every_x_time = Time(1, 0, 0)
-        update_screen_count = update_screen_every_x_time # to force update on first loop
-
         # Time to handle modules
-        handle_modules_every_x_time = Time(0, 0, 30)
-        handle_modules_every_x_msecs = handle_modules_every_x_time.to_total_seconds() * 1000
-
+        handle_modules_every_some_msecs = self.handle_modules_every_some_time.to_total_seconds() * 1000
 
         # Main loop that runs indefinitely
         while True:
-            current_use_of_memory = gc.mem_alloc()
-            available_memory = gc.mem_free()
-            percentage = (current_use_of_memory / (current_use_of_memory + available_memory)) * 100
 
-            print("Memory usage: {}%".format(percentage))
-
-            if gc.mem_free() < 102000:
-                gc.collect()
-
-            # Current time in milliseconds
+            # Current time in milliseconds and current memory use
             now = ticks_ms()
 
             # Check if n minutes have elapsed since the last task execution
-            if (ticks_diff(now, last) >= (handle_modules_every_x_msecs)) or (self.boot):
+            if (ticks_diff(now, last) >= (handle_modules_every_some_msecs)) or (self.boot):
 
-                # update time, in order to avoid making too many requests to the
-                # server we only do them periodically
-                if (self.boot) or (sync_time_count >= sync_time_every_x_time):
-                    self.current_time = Time(*get_current_time())
-                    sync_time_count = Time(0, 0, 0)
-                    self.boot = False
-
-                    print("server side time update")
-
-                # the rest of the time we use the local elapsed millies
-                else:
-                    self.current_time += handle_modules_every_x_time
-                    sync_time_count += handle_modules_every_x_time
-
-                    print("local side time update")
-
-                # update screen
-                if update_screen_count >= update_screen_every_x_time:
-                    self.display_ip()
-                    update_screen_count = Time(0, 0, 0)
-
-                    print("screen update")
-
+                print("handling time...")
+                self.update_time()
                 print("curent time {}\n".format(self.current_time))
+                self.clean_memory()
                 sleep(0.1)
 
-                print("handling on/off actuators...")
-                self.control_on_off_actuators()
+                print("handling screen...")
+                self.screen_module.display_ip(self.current_time)
+                self.clean_memory()
                 print("\n")
 
+                print("handling on/off actuators...")
                 print("handling timed actuators...")
-                self.control_timed_actuators()
+                self.act_module.timed_control(self.current_time)
+                self.clean_memory()
                 print("\n")
 
                 print("handling sensors...")
-                self.measure()
+                self.sen_module.timed_measurement(self.current_time)
+                self.clean_memory()
                 print("\n")
 
                 # Update the last execution time
@@ -222,10 +107,14 @@ class Scheduler():
                 print("Done!\n")
 
             self.web_module.serve()
+            self.clean_memory()
             sleep(0.1)
 
             if self.web_module.need_to_update:
-                self.screen_module.display_restart_screen()
+                self.screen_module.display_need_to_update_screen()
                 reset()
             
-            gc.collect()
+            if self.get_memory_use_percentage() >= 95:
+                self.clean_memory()
+                self.screen_module.display_overflow_screen()
+                reset()

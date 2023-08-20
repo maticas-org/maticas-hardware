@@ -17,7 +17,9 @@ def update_json_actuator(filepath: str, actuatorId: str, settings: dict) -> None
     """
     with open(filepath, "r") as f:
         data = ujson.load(f)
-        data["actuators"][actuatorId] = settings
+        
+        for field in settings.keys():
+            data["actuators"][actuatorId][field] = settings[field]
 
     with open(filepath, "w") as f:
         ujson.dump(data, f)

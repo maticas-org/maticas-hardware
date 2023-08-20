@@ -1,6 +1,81 @@
+import gc
 from json import load
 from utils.time_management_module import *
-from utils.statistics import Statistics
+from friendlyCode.simpleModuleWithScreen.utils.metrics import Statistics
+
+import initialize_database as db
+#----------------------------------------------------------------------------------
+#
+#----------------------------------------------------------------------------------
+
+class SensorWrapper:
+
+    #use the instance of Database as a class attribute
+    _database = db.db_mod
+
+    def __init__(self, 
+                 sensor_id: str,
+                 sensor_name: str,
+                 measure_every_some_time: Time):
+        
+        self.id = sensor_id
+        self.name = sensor_name
+        self.last_measured = Time(-100, 0, 0)
+        self.measure_every_some_time = measure_every_some_time
+        self.measurement_function = None
+
+    @property
+    def is_working(self) -> bool:
+        """
+            Tells wheter or not a measurement_function has been provided
+            and therefore if the sensorwrapper works
+        """
+        return self.measurement_function != None
+
+    def add_to_database(self, measurement: float):
+        SensorWrapper._database.add_measurement(self.id, measurement)
+
+    def set_measurement_function(self, fn: callable) -> None:
+        self.measurement_function = fn
+
+    def measure(self, now: Time) -> float:
+        
+        if (self.is_working):
+            return self.measurement_function()
+        elif (not self.is_working):
+            raise ValueError("No measure function has been set")
+            
+    
+    def timed_measurement(self, now: Time) -> float:
+        """ 
+            This function is used for checking if it's time to measure again.
+        """
+
+        if not self.is_working:
+            print("Sensor {} is not working...".format(self.name))
+            return None
+
+        elif now - self.last_measured >= self.measure_every_some_time:
+            self.last_measured = now
+            measurement = self.measure(self.last_measured)
+            print("{} value is: {}".format(self.name, measurement))
+
+            self.add_to_database(measurement)
+            return measurement
+
+        else:
+            print("We don't need the {} measurement yet, delta: {}".format(self.name, now - self.last_measured))
+            return None
+
+    def __str__(self) -> str:
+        return "SensorWrapper: {} ({})".format(self.name, self.id)
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+
+#----------------------------------------------------------------------------------
+#
+#----------------------------------------------------------------------------------
 
 class SensorsModule():
 
@@ -12,70 +87,34 @@ class SensorsModule():
         with open(config_file) as f:
             self.config = load(f)
 
-        self.sensors = self.config["sensors"]
+        self.sensors_config = self.config["sensors"]
+        self.sensors = dict() #type Dict[str, SensorWrapper]
         self.default_init()
+
+    def timed_measurement(self, now: Time):
+        for sensor_id in self.sensors.keys():
+            self.sensors[sensor_id].timed_measurement(now)
 
     def default_init(self) -> None:
 
-        # Fills the sensors dict with a default value for the exec field
+        for sensor_id in self.sensors_config.keys():
+            self.sensors[sensor_id] = SensorWrapper(sensor_id,
+                                                    self.sensors_config[sensor_id]["name"], 
+                                                    Time(*self.sensors_config[sensor_id]["measure_every_some_time"]),)
 
-        # The 'exec' field will be mapped later to a function which specifies how to take measurements.
-        # this function must return the value measured
-
-        # The 'status' field says if the sensor is Working (True) or not working (False).
-        # The 'lastmeasured' field stores the Time object of the last time the sensor was checked.
-
-        # Time obj is a wrapper class of this: tuple(hour, minute, second)
-        for sensorId in self.sensors.keys():
-            self.sensors[sensorId]["exec"] = None
-            self.sensors[sensorId]["status"] = False
-
-            # Makes it look like it's been a while since sensors where checked for the last time
-            # so that the scheduler runs each sensor on boot
-            self.sensors[sensorId]["lastmeasured"] = Time(-100, 0, 0)
-
-            # Converts the 'measure_every_x_time' field to a time object which we can work with
-            self.sensors[sensorId]["measure_every_x_time"] = Time(*self.sensors[sensorId]["measure_every_x_time"])
-            self.sensors[sensorId]["statistics"] = Statistics()
-
-    def check(self) -> None:
+    def set_measurement_function(self,
+                                 sensor_id: str,
+                                 fn: callable) -> int:
 
         """
-            This function checks if all the sensors
-            have a canditate for requesting action.
+            Sets a measurement function 
         """
 
-        print("Checking sensors...")
-        for sensorId in self.sensors.keys():
-
-            if None == self.sensors[sensorId]["exec"]:
-                print("Sensor \"{}\" has no candidate for answering a call.".format(self.sensors[sensorId]["name"]))
-
-            else:
-                result = self.sensors[sensorId]["exec"]()
-
-                # if the result is does not give an error
-                if result != -1:
-                    self.sensors[sensorId]["status"] = True
-
-                else:
-                    print("Sensor \"{}\" isn't OK.".format(self.sensors[sensorId]["name"]))
-        print("Done!\n")
-
-    def add(self,
-            sensorId: str,
-            fn: callable) -> int:
-
-        """
-            This is the function the user should modify by adding the sensor
-            he/she wants.
-        """
-
-        if sensorId not in self.sensors.keys():
+        if sensor_id not in self.sensors.keys():
             print("this sensor does not exist in the ACTUATORS field. Consider adding it in the file './config.json'.")
             return -1
 
-        self.sensors[sensorId]["exec"] = fn
-        print("{} added.".format(self.sensors[sensorId]["name"]))
+        self.sensors[sensor_id].set_measurement_function(fn)
+        print("Sensor {} added.".format(self.sensors[sensor_id].name))
 
         return 0
