@@ -7,8 +7,8 @@
 			"type": "timed",
 			"starttime": [0, 0, 0],
 			"endtime": [23, 0, 0],
-			"minutes_off": 15,
-			"minutes_on": 5,
+			"minutesoff": 15,
+			"minuteson": 5,
 			"pin": 16
 		}
 	},
@@ -19,7 +19,8 @@
     },
 
 	"screen":{
-		"update_every_some_time": [2, 0, 0]
+		"update_every_some_time": [0, 1, 0],
+		"refresh_screen_every_some_time": [0, 1, 0]
 	}
 }
 

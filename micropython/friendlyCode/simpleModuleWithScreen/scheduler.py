@@ -2,8 +2,8 @@ import gc
 from time import sleep, ticks_ms, ticks_diff
 from machine import reset
 
-from utils.internet_connection import *
-from utils.time_management_module import *
+from utils.json_related import log_error
+from utils.time_management_module import Time, get_current_time
 from modules.actuators_module import ActuatorsModule
 from modules.sensors_module import SensorsModule
 from modules.screen_module import ScreenModule
@@ -35,15 +35,16 @@ class Scheduler():
         if self.get_memory_use_percentage() >= 60:
             gc.collect()
 
-    def get_memory_use_percentage(self) -> float:
+    def get_memory_use_percentage(self, verbose: bool=False) -> float:
         current_use_of_memory = gc.mem_alloc()
         available_memory = gc.mem_free()
         percentage = (current_use_of_memory / (current_use_of_memory + available_memory)) * 100
 
-        print("Memory usage: {}%".format(percentage))
+        if verbose:
+            print("Memory usage: {}%".format(percentage))
         return percentage
 
-    def update_time(self) -> None:
+    def update_time(self, now, last) -> None:
         # update time, in order to avoid making too many requests to the
         # server we only do them periodically
         if (self.boot) or (self.time_away_count >= self.sync_time_every_some_time):
@@ -55,14 +56,37 @@ class Scheduler():
 
         # the rest of the time we use the local elapsed millies
         else:
-            self.current_time += self.handle_modules_every_some_time
-            self.time_away_count += self.handle_modules_every_some_time
+            self.current_time += Time(0, 0, ticks_diff(now, last) / 1000)
+            self.time_away_count += Time(0, 0, ticks_diff(now, last) / 1000)
 
             print("local side time update.")
 
 
     def loop(self, log = True):
-        self._loop(log = log)
+        
+        try:
+            self._loop(log = log)
+        
+        except MemoryError as e:
+            print("MemoryError: {}".format(e))
+            self.clean_memory()
+            self.screen_module.display_overflow_screen()
+            log_error("utils/config.json", "MemoryError: {}. at {}".format(e, self.current_time))
+            reset()
+        
+        except OSError as e:
+            print("OSError: {}".format(e))
+            self.clean_memory()
+            self.screen_module.display_no_connection_screen()
+            log_error("utils/config.json", "OSError: {}. at {}".format(e, self.current_time))
+            reset()
+        
+        except Exception as e:
+            print("Exception: {}".format(e))
+            self.clean_memory()
+            self.screen_module.display_exception_screen("{}".format(e))
+            log_error("utils/config.json", "Exception: {}. at {}".format(e, self.current_time))
+            reset()
 
     def _loop(self, log = True):
 
@@ -81,7 +105,7 @@ class Scheduler():
             if (ticks_diff(now, last) >= (handle_modules_every_some_msecs)) or (self.boot):
 
                 print("handling time...")
-                self.update_time()
+                self.update_time(now, last)
                 print("curent time {}\n".format(self.current_time))
                 self.clean_memory()
                 sleep(0.1)
@@ -98,6 +122,7 @@ class Scheduler():
                 print("\n")
 
                 print("handling screen...")
+                self.screen_module.refresh_screen(self.current_time)
                 self.screen_module.display_ip(self.current_time)
                 self.clean_memory()
                 print("\n")
@@ -106,15 +131,21 @@ class Scheduler():
                 last = now
                 print("Done!\n")
 
-            self.web_module.serve()
             self.clean_memory()
+            
+            # Check if there is available memory to serve the web module
+            if self.get_memory_use_percentage() < 80:
+                self.web_module.serve(self.current_time)
+                self.clean_memory()
             sleep(0.1)
 
             if self.web_module.need_to_update:
                 self.screen_module.display_need_to_update_screen()
                 reset()
             
-            if self.get_memory_use_percentage() >= 95:
+            if self.get_memory_use_percentage() >= 90:
                 self.clean_memory()
                 self.screen_module.display_overflow_screen()
-                reset()
+                raise MemoryError("memory overflow")
+            
+            self.get_memory_use_percentage(verbose=True)

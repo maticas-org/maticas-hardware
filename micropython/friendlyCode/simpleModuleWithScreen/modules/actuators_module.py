@@ -1,12 +1,13 @@
-from machine import Pin
-from json import load
-from utils.time_management_module import *
+#from machine import Pin
+from utils.time_management_module import Time
 
 
 #-----------------------------------------------------------------------------------------
 #            ActuatorWrapper - extends and standarizes actuator pin capabilities 
 #-----------------------------------------------------------------------------------------
 class ActuatorWrapper:
+    TIMED_TYPE = 'timed'
+    ON_OFF_TYPE = 'on/off'
 
     def __init__(self, 
                  actuator_id: str,
@@ -42,10 +43,10 @@ class ActuatorWrapper:
     def timed_on_off(self,
                      now: Time) -> None:
         
-        if self.type == 'timed':
+        if self.type == ActuatorWrapper.TIMED_TYPE:
             self.handle_timed(now)
             print("actuator {} of type {} is {}".format(self.name, self.type, self.status))
-        elif self.type == 'on/off':
+        elif self.type == ActuatorWrapper.ON_OFF_TYPE:
             self.handle_on_off(now)
             print("actuator {} of type {} is {}".format(self.name, self.type, self.status))
         else:
@@ -56,10 +57,8 @@ class ActuatorWrapper:
         
         if (self.start_time > now) or (now > self.end_time):
             self.off()
-            return
         else:
             self.on()
-            return
     
     def handle_timed(self,
                      now: Time) -> None:
@@ -93,6 +92,8 @@ class ActuatorsModule():
     def __init__(self,
                  config_file: str):
 
+        from ujson import load
+
         # reads the configuration file and stores it in a dictionary
         # for later instantiation of the connection
         with open(config_file) as f:
@@ -103,18 +104,14 @@ class ActuatorsModule():
         self.default_init()
 
     def startup_off(self) -> None:
-
-        # turn off all the actuators at boot
         print("Starting up actuators...")
-
-        for actuatorId in self.actuators.keys():
-            self.actuators[actuatorId].off()
-            print("Actuator {} is OFF".format(self.actuators[actuatorId].name))
-
+        for actuator in self.actuators.values():
+            actuator.off()
+            print("Actuator {} is OFF".format(actuator.name))
         print("Done! they are all OFF.\n")
 
     def default_init(self) -> None:
-
+        from machine import Pin
         for actuatorId in self.actuators_config.keys():
 
             actuator = ActuatorWrapper(actuatorId,

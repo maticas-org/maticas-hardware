@@ -5,6 +5,7 @@ except:
 
 import network
 from html.parsers import parse_update_response
+from utils.time_management_module import Time
 
 
 class WebModule:
@@ -13,6 +14,7 @@ class WebModule:
         self.config_file = config_file
         self.need_to_update = False
         self.start_web_server()
+        self.last_response_time = Time(0, 0, 0)
 
     def start_web_server(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,10 +22,10 @@ class WebModule:
         self.s.settimeout(5)
         self.s.bind(('', 80))
       
-    def serve(self):
+    def serve(self, current_time: Time):
 
         try:
-          self.s.listen(5)
+          self.s.listen(1)
           conn, addr = self.s.accept()
         except OSError as e:
           if e.args[0] == 110:
@@ -32,24 +34,29 @@ class WebModule:
           else:
             raise e
 
-        print('Got a connection from %s' % str(addr))
-        request = str(conn.recv(1024))
-        print('Content = %s' % request)
+        #this is a hack to make sure that the webserver is not flooded with requests
+        #or that the webserver is not stuck in a loop waiting for a response from the client
+        #that it already sent a response to, because the connection request was sent more than once
+        if (current_time - self.last_response_time).to_total_seconds() > 2:
+          print('Got a connection from %s' % str(addr))
+          request = str(conn.recv(1024))
+          print('Content = %s' % request)
 
-        response = self.answer_request(request)
+          response = self.answer_request(request)
+          self.last_response_time = current_time
 
-        if response == None:
-            conn.send('HTTP/1.1 404 Not Found\n')
-            conn.send('Content-Type: text/html\n')
-            conn.send('Connection: close\n\n')
-            conn.close()
-            return
-        
-        conn.send('HTTP/1.1 200 OK\n')
-        conn.send('Content-Type: text/html\n')
-        conn.send('Connection: close\n\n')
-        conn.sendall(response)
-        conn.close()
+          if response == None:
+              conn.send('HTTP/1.1 404 Not Found\n')
+              conn.send('Content-Type: text/html\n')
+              conn.send('Connection: close\n\n')
+              conn.close()
+              return
+          
+          conn.send('HTTP/1.1 200 OK\n')
+          conn.send('Content-Type: text/html\n')
+          conn.send('Connection: close\n\n')
+          conn.sendall(response)
+          conn.close()
 
         
     def answer_request(self, response)->str:

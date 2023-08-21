@@ -8,17 +8,13 @@ class Metrics:
             Returns the average of the iterator
         """
         n = 0
+        summation = 0
         for x in iterator:
+            if (x is None):
+                continue
+            if (x <= 0):
+                continue
             n += 1
-        return sum(iterator) / n
+            summation += x
 
-    @staticmethod
-    def get_variance(iterator: iter) -> float:
-        """
-            Returns the variance of the iterator
-        """
-        n = 0
-        for x in iterator:
-            n += 1
-        average = Metrics.get_average(iterator)
-        return sum((x - average)**2 for x in iterator) / n
+        return 0 if n == 0 else round(summation / n, 2)

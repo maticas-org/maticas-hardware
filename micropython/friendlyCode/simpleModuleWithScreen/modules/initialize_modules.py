@@ -4,8 +4,6 @@ from machine            import Pin, I2C, ADC
 
 from modules.actuators_module   import ActuatorsModule
 from modules.sensors_module     import SensorsModule
-from modules.screen_module      import ScreenModule
-from modules.web_module         import WebModule
 
 
 #--------------------------------------------------------------#
@@ -59,13 +57,21 @@ def measure_hum(ntries = 5)->int:
 sen_mod.set_measurement_function(sensor_id = "0", fn = measure_temp)
 sen_mod.set_measurement_function(sensor_id = "1", fn = measure_hum)
 
+# try to free some memory for the more memory demanding modules
+from gc import collect
+collect()
+
 #--------------------------------------------------------------#
 #                       SCREEN MODULE
 #--------------------------------------------------------------#
+from modules.screen_module      import ScreenModule
 screen_mod = ScreenModule(config_file = config_file)
+collect()
 
 
 #--------------------------------------------------------------#
 #                       WEB MODULE
 #--------------------------------------------------------------#
+from modules.web_module import WebModule
 web_mod = WebModule(config_file = config_file)
+collect()
