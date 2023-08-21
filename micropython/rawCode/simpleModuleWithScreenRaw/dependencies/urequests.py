@@ -101,7 +101,7 @@ def request(method,url,data=None,json=None,headers={},stream=None,auth=None,time
 			if not l or l==b"\r\n":
 				break
 			if l.startswith(b"Transfer-Encoding:"):
-				ifb"chunked"in l:
+				if b"chunked"in l:
 					raise ValueError("Unsupported "+str(l,"utf-8"))
 			elif l.startswith(b"Location:") and not 200<=status<=299:
 				if status in [301,302,303,307,308]:

@@ -1,8 +1,8 @@
 import gc
 from time import sleep,ticks_ms,ticks_diff
 from machine import reset
-from utils.internet_connection import*
-from utils.time_management_module import*
+from utils.json_related import log_error
+from utils.time_management_module import Time,get_current_time
 from modules.actuators_module import ActuatorsModule
 from modules.sensors_module import SensorsModule
 from modules.screen_module import ScreenModule
@@ -16,123 +16,88 @@ class Scheduler():
 		self.actuators=act_module.actuators
 		self.sensors=sen_module.sensors
 		self.boot=True
-		self.timed_actuators=act_module.timed_actuators
-		self.onoff_actuators=act_module.onoff_actuators
 		self.current_time=Time(*get_current_time())
-		self.check()
-	def check(self):
-		self.act_module.check()
-		self.sen_module.check()
-	def measure(self):
-		for sensorName,values in self.sensors.items():
-			delta=self.current_time-values["lastmeasured"]
-			if values["status"]:
-				if delta>values["measure_every_x_time"]:
-					measurement=values["exec"]()
-					print("{} value is: {}".format(sensorName,measurement))
-					self.sensors[sensorName]["lastmeasured"]=self.current_time
-				else:
-					print("We don't need the {} measurement yet, delta: {}".format(sensorName,delta))
-			else:
-				print("Sensor {} is not working...".format(sensorName))
-	def control_timed_actuators(self):
-		for act in self.timed_actuators:
-			if self.actuators[act]["exec"]==None:
-				print("actuator {} has no exec object to call".format(act))
-				continue
-			if self.current_time>self.actuators[act]["endtime"]:
-				self.actuators[act]["exec"].value(0)
-			elif self.current_time<self.actuators[act]["starttime"]:
-				self.actuators[act]["exec"].value(0)
-			else:
-				lastmodified=self.actuators[act]["lastmodified"]
-				delta=self.current_time-lastmodified
-				delta_min=delta.to_total_minutes()
-				value=self.actuators[act]["status"]
-				if value==0:
-					if delta_min>self.actuators[act]["minutesoff"]:
-						self.actuators[act]["exec"].value(1)
-						self.actuators[act]["status"]=1
-						self.actuators[act]["lastmodified"]=self.current_time
-						print("Actuator {} should be ON. Time elapsed since OFF is {}.".format(act,delta))
-					else:
-						print("Actuator {} OK it is OFF. Time elapsed since lastcheck is {}.".format(act,delta))
-				elif value==1:
-					if delta_min>self.actuators[act]["minuteson"]:
-						self.actuators[act]["exec"].value(0)
-						self.actuators[act]["status"]=0
-						self.actuators[act]["lastmodified"]=self.current_time
-						print("Actuator {} should be OFF. Time elapsed since ON is {}.".format(act,delta))
-					else:
-						print("Actuator {} OK it is ON. Time elapsed since lastcheck is {}.".format(act,delta))
-				sleep(0.5)
-	def control_on_off_actuators(self):
-		for act in self.onoff_actuators:
-			if self.actuators[act]["exec"]==None:
-				print("actuator {} has no exec object to call".format(act))
-				continue
-			if self.current_time>self.actuators[act]["endtime"]:
-				self.actuators[act]["exec"].value(0)
-				print("It is too late {} Actuator {} should be OFF".format(self.current_time,act))
-			elif self.current_time<self.actuators[act]["starttime"]:
-				self.actuators[act]["exec"].value(0)
-				print("It is too early {} Actuator {} should be OFF".format(self.current_time,act))
-			else:
-				self.actuators[act]["exec"].value(1)
-				print("Right on time! {} Actuator {} should be ON".format(self.current_time,act))
-			sleep(0.5)
-	def display_ip(self):
-		self.screen_module.update_ip()
-		self.screen_module.clear_screen()
-		self.screen_module.display_ip()
+		self.sync_time_every_some_time=Time(1,30,0)
+		self.time_away_count=Time(0,0,0)
+		self.handle_modules_every_some_time=Time(0,0,30)
+	def clean_memory(self)->None:
+		if self.get_memory_use_percentage()>=60:
+			gc.collect()
+	def get_memory_use_percentage(self,verbose:bool=False)->float:
+		current_use_of_memory=gc.mem_alloc()
+		available_memory=gc.mem_free()
+		percentage=(current_use_of_memory/(current_use_of_memory+available_memory))*100
+		if verbose:
+			print("Memory usage: {}%".format(percentage))
+		return percentage
+	def update_time(self,now,last)->None:
+		if(self.boot) or (self.time_away_count>=self.sync_time_every_some_time):
+			self.current_time=Time(*get_current_time())
+			self.time_away_count=Time(0,0,0)
+			self.boot=False
+			print("server side time update.")
+		else:
+			self.current_time+=Time(0,0,ticks_diff(now,last)/1000)
+			self.time_away_count+=Time(0,0,ticks_diff(now,last)/1000)
+			print("local side time update.")
 	def loop(self,log=True):
-		self._loop(log=log)
+		try:
+			self._loop(log=log)
+		except MemoryError as e:
+			print("MemoryError: {}".format(e))
+			self.clean_memory()
+			self.screen_module.display_overflow_screen()
+			log_error("utils/config.json","MemoryError: {}. at {}".format(e,self.current_time))
+			reset()
+		except OSError as e:
+			print("OSError: {}".format(e))
+			self.clean_memory()
+			self.screen_module.display_no_connection_screen()
+			log_error("utils/config.json","OSError: {}. at {}".format(e,self.current_time))
+			reset()
+		except Exception as e:
+			print("Exception: {}".format(e))
+			self.clean_memory()
+			self.screen_module.display_exception_screen("{}".format(e))
+			log_error("utils/config.json","Exception: {}. at {}".format(e,self.current_time))
+			reset()
 	def _loop(self,log=True):
 		last=ticks_ms()
-		sync_time_every_x_time=Time(0,0,60)
-		sync_time_count=Time(0,0,0)
-		update_screen_every_x_time=Time(1,0,0)
-		update_screen_count=update_screen_every_x_time
-		handle_modules_every_x_time=Time(0,0,30)
-		handle_modules_every_x_msecs=handle_modules_every_x_time.to_total_seconds()*1000
+		handle_modules_every_some_msecs=self.handle_modules_every_some_time.to_total_seconds()*1000
 		while True:
-			current_use_of_memory=gc.mem_alloc()
-			available_memory=gc.mem_free()
-			percentage=(current_use_of_memory/(current_use_of_memory+available_memory))*100
-			print("Memory usage: {}%".format(percentage))
-			if gc.mem_free()<102000:
-				gc.collect()
 			now=ticks_ms()
-			if(ticks_diff(now,last)>=(handle_modules_every_x_msecs)) or (self.boot):
-				if(self.boot) or (sync_time_count>=sync_time_every_x_time):
-					self.current_time=Time(*get_current_time())
-					sync_time_count=Time(0,0,0)
-					self.boot=False
-					print("server side time update")
-				else:
-					self.current_time+=handle_modules_every_x_time
-					sync_time_count+=handle_modules_every_x_time
-					print("local side time update")
-				if update_screen_count>=update_screen_every_x_time:
-					self.display_ip()
-					update_screen_count=Time(0,0,0)
-					print("screen update")
+			if(ticks_diff(now,last)>=(handle_modules_every_some_msecs)) or (self.boot):
+				print("handling time...")
+				self.update_time(now,last)
 				print("curent time {}\n".format(self.current_time))
+				self.clean_memory()
 				sleep(0.1)
 				print("handling on/off actuators...")
-				self.control_on_off_actuators()
-				print("\n")
 				print("handling timed actuators...")
-				self.control_timed_actuators()
+				self.act_module.timed_control(self.current_time)
+				self.clean_memory()
 				print("\n")
 				print("handling sensors...")
-				self.measure()
+				self.sen_module.timed_measurement(self.current_time)
+				self.clean_memory()
+				print("\n")
+				print("handling screen...")
+				self.screen_module.refresh_screen(self.current_time)
+				self.screen_module.display_ip(self.current_time)
+				self.clean_memory()
 				print("\n")
 				last=now
 				print("Done!\n")
-			self.web_module.serve()
+			self.clean_memory()
+			if self.get_memory_use_percentage()<80:
+				self.web_module.serve(self.current_time)
+				self.clean_memory()
 			sleep(0.1)
 			if self.web_module.need_to_update:
-				self.screen_module.display_restart_screen()
+				self.screen_module.display_need_to_update_screen()
 				reset()
-			gc.collect()
+			if self.get_memory_use_percentage()>=90:
+				self.clean_memory()
+				self.screen_module.display_overflow_screen()
+				raise MemoryError("memory overflow")
+			self.get_memory_use_percentage(verbose=True)
