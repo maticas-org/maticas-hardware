@@ -29,7 +29,7 @@ class Scheduler():
         
         self.sync_time_every_some_time = Time(1, 30, 0) #sync time with server timing
         self.time_away_count = Time(0, 0, 0) #counter of how much time, the module has been without updating
-        self.handle_modules_every_some_time = Time(0, 0, 30) #used for avoiding doing too many unnesary checks on most modules
+        self.handle_modules_every_some_time = Time(0, 0, 2) #used for avoiding doing too many unnesary checks on most modules
 
     def clean_memory(self) -> None:
         if self.get_memory_use_percentage() >= 60:
@@ -44,7 +44,9 @@ class Scheduler():
             print("Memory usage: {}%".format(percentage))
         return percentage
 
-    def update_time(self, now, last) -> None:
+    def update_time(self) -> None:
+        
+
         # update time, in order to avoid making too many requests to the
         # server we only do them periodically
         if (self.boot) or (self.time_away_count >= self.sync_time_every_some_time):
@@ -56,8 +58,8 @@ class Scheduler():
 
         # the rest of the time we use the local elapsed millies
         else:
-            self.current_time += Time(0, 0, ticks_diff(now, last) / 1000)
-            self.time_away_count += Time(0, 0, ticks_diff(now, last) / 1000)
+            self.current_time += Time(0, 0, ticks_diff(self.end, self.start) / 1000)
+            self.time_away_count += Time(0, 0, ticks_diff(self.end, self.start) / 1000)
 
             print("local side time update.")
 
@@ -88,9 +90,56 @@ class Scheduler():
             log_error("utils/config.json", "Exception: {}. at {}".format(e, self.current_time))
             reset()
 
+    def serve_wrapper(self):
+        if self.get_memory_use_percentage() < 80:
+
+            self.start = ticks_ms()
+            self.web_module.serve(self.current_time)
+            self.clean_memory()
+            self.end = ticks_ms()
+
+            self.update_time()
+    
+    def act_wrapper(self):
+
+        self.start = ticks_ms()
+        print("handling on/off actuators...")
+        print("handling timed actuators...")
+        self.act_module.timed_control(self.current_time)
+        self.clean_memory()
+        print("\n")
+        self.end = ticks_ms()
+
+        self.update_time()
+    
+    def sen_wrapper(self):
+
+        self.start = ticks_ms()
+        print("handling sensors...")
+        self.sen_module.timed_measurement(self.current_time)
+        self.clean_memory()
+        print("\n")
+        self.end = ticks_ms()
+
+        self.update_time()
+    
+    def screen_wrapper(self):
+
+        self.start = ticks_ms()
+        print("handling screen...")
+        self.screen_module.refresh_screen(self.current_time)
+        self.screen_module.display_ip(self.current_time)
+        self.clean_memory()
+        print("\n")
+        self.end = ticks_ms()
+
+        self.update_time()
+
     def _loop(self, log = True):
 
-        last = ticks_ms()
+        # Current time in milliseconds and current memory use
+        self.start = ticks_ms()
+        self.end = ticks_ms()
 
         # Time to handle modules
         handle_modules_every_some_msecs = self.handle_modules_every_some_time.to_total_seconds() * 1000
@@ -98,45 +147,30 @@ class Scheduler():
         # Main loop that runs indefinitely
         while True:
 
-            # Current time in milliseconds and current memory use
-            now = ticks_ms()
+            self.end = ticks_ms()
 
             # Check if n minutes have elapsed since the last task execution
-            if (ticks_diff(now, last) >= (handle_modules_every_some_msecs)) or (self.boot):
+            if (ticks_diff(self.end, self.start) >= (handle_modules_every_some_msecs)) or (self.boot):
 
                 print("handling time...")
-                self.update_time(now, last)
+                self.update_time()
+                self.clean_memory()
                 print("curent time {}\n".format(self.current_time))
-                self.clean_memory()
-                sleep(0.1)
 
-                print("handling on/off actuators...")
-                print("handling timed actuators...")
-                self.act_module.timed_control(self.current_time)
-                self.clean_memory()
-                print("\n")
+                self.serve_wrapper()
+                self.act_wrapper()
 
-                print("handling sensors...")
-                self.sen_module.timed_measurement(self.current_time)
-                self.clean_memory()
-                print("\n")
+                self.serve_wrapper()
+                self.sen_wrapper()
 
-                print("handling screen...")
-                self.screen_module.refresh_screen(self.current_time)
-                self.screen_module.display_ip(self.current_time)
-                self.clean_memory()
-                print("\n")
+                self.serve_wrapper()
+                self.screen_wrapper()
 
-                # Update the last execution time
-                last = now
+                # Reset the start time
+                self.start = ticks_ms()
                 print("Done!\n")
 
             self.clean_memory()
-            
-            # Check if there is available memory to serve the web module
-            if self.get_memory_use_percentage() < 80:
-                self.web_module.serve(self.current_time)
-                self.clean_memory()
             sleep(0.1)
 
             if self.web_module.need_to_update:

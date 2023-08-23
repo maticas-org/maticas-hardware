@@ -27,6 +27,7 @@ class WebModule:
         try:
           self.s.listen(1)
           conn, addr = self.s.accept()
+          conn.settimeout(5)
         except OSError as e:
           if e.args[0] == 110:
             print("OSError: [Errno 110] ETIMEDOUT")
@@ -37,27 +38,42 @@ class WebModule:
         #this is a hack to make sure that the webserver is not flooded with requests
         #or that the webserver is not stuck in a loop waiting for a response from the client
         #that it already sent a response to, because the connection request was sent more than once
-        if (current_time - self.last_response_time).to_total_seconds() > 2:
-          print('Got a connection from %s' % str(addr))
-          request = str(conn.recv(1024))
-          print('Content = %s' % request)
 
-          response = self.answer_request(request)
-          self.last_response_time = current_time
+        try:
 
-          if response == None:
+          if (current_time - self.last_response_time).to_total_seconds() > 0.5:
+            print('Got a connection from %s' % str(addr))
+            request = str(conn.recv(1024))
+            print('Content = %s' % request)
+
+            response = self.answer_request(request)
+            self.last_response_time = current_time
+
+            if response == None:
               conn.send('HTTP/1.1 404 Not Found\n')
               conn.send('Content-Type: text/html\n')
               conn.send('Connection: close\n\n')
               conn.close()
               return
-          
-          conn.send('HTTP/1.1 200 OK\n')
-          conn.send('Content-Type: text/html\n')
-          conn.send('Connection: close\n\n')
-          conn.sendall(response)
-          conn.close()
+            
+            conn.send('HTTP/1.1 200 OK\n')
+            conn.send('Content-Type: text/html\n')
+            conn.send('Connection: close\n\n')
+            conn.sendall(response)
+            
+          else:
+            conn.send('HTTP/1.1 200 OK\n')
+            conn.send('Content-Type: text/html\n')
+            conn.send('Connection: close\n\n')
+            conn.sendall("Por favor, espere un momento antes de enviar otra solicitud.")
+            conn.close()
 
+        except OSError as e:
+          if e.args[0] == 110:
+            print("OSError: [Errno 110] ETIMEDOUT")
+            return
+          else:
+            raise e
         
     def answer_request(self, response)->str:
 
