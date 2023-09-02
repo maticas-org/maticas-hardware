@@ -210,7 +210,14 @@ class Time:
         seconds1 = self.hour*3600 + self.min*60 + self.sec
         seconds2 = other.hour*3600 + other.min*60 + other.sec
         diff = seconds1 - seconds2
-        return Time(int(diff // 3600), int(diff % 3600) // 60, int(diff % 60))
+        
+        # Calculate the new time components, and keep it within 24 hours and 60 minutes and 60 seconds
+        new_hour = (diff // 3600) % 24
+        remaining_seconds = diff % 3600
+        new_min = remaining_seconds // 60
+        new_sec = remaining_seconds % 60
+
+        return Time(int(new_hour), int(new_min), int(new_sec))
         
     def __add__(self, other):
         """
@@ -226,8 +233,8 @@ class Time:
         seconds2 = other.hour * 3600 + other.min * 60 + other.sec
         total_seconds = seconds1 + seconds2
 
-        # Calculate the new time components
-        new_hour = total_seconds // 3600
+        # Calculate the new time components, and keep it within 24 hours
+        new_hour = (total_seconds // 3600) % 24
         remaining_seconds = total_seconds % 3600
         new_min = remaining_seconds // 60
         new_sec = remaining_seconds % 60
