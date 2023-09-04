@@ -2204,7 +2204,7 @@
     )
   )
 
-  (gr_rect (start 151.97824 111.125) (end 226.73044 48.895)
+  (gr_rect (start 151.97824 48.895) (end 226.73044 111.125)
     (stroke (width 0.2) (type default)) (fill none) (layer "F.Cu") (tstamp 0aecf2f7-eb61-4a2b-91df-1c733fe2dbb6))
   (gr_text "5V" (at 185.801 89.789) (layer "F.Cu") (tstamp 1f3c59cf-1eb4-45a1-ab6c-2d98a4a05ea9)
     (effects (font (size 1.5 1.5) (thickness 0.3) bold) (justify left bottom))
