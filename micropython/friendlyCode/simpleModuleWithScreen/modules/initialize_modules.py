@@ -1,5 +1,6 @@
 from dht                import DHT11
 from time               import sleep
+from math               import exp
 from machine            import Pin, I2C, ADC
 
 from modules.actuators_module   import ActuatorsModule
@@ -52,6 +53,31 @@ def measure_hum(ntries = 5)->int:
 
     return measurements/n_effective_measurements
 
+def measure_vpd(ntries = 5) -> float:
+
+    h = 0 
+    t = 0
+    n_effective_measurements = 0
+
+    for sample in range(ntries):
+        try:
+            dht_sensor.measure()
+            h += dht_sensor.humidity()
+            t += dht_sensor.temperature()
+            n_effective_measurements += 1
+            sleep(1.1)
+        except:
+            print("This sensor seems to have a problem. FIX IT")
+            return -1
+
+    h = h/n_effective_measurements
+    t = t/n_effective_measurements
+
+    saturation_vapor_pressure = 610.78 * exp(t/(t+237.3) * 17.2694)
+    vapour_pressure_deficit = saturation_vapor_pressure * (1 - h/100)
+
+    # return in kPa
+    return vapour_pressure_deficit/1000
 
 #go and find the id in the config.json
 sen_mod.set_measurement_function(sensor_id = "0", fn = measure_temp)
