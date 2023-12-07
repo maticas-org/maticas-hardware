@@ -11,10 +11,10 @@ class EventManager():
     def get_first_event(self) -> Event:
         return self.first_event
     
-    def subscribe(self, subscriber) -> None:
+    def subscribe(self, subscriber: "Subscriber") -> None:
         self.subscribers.append(subscriber)
 
-    def unsubscribe(self, subscriber) -> None:
+    def unsubscribe(self, subscriber: "Subscriber") -> None:
         self.subscribers.remove(subscriber)
 
     def notify(self) -> None:

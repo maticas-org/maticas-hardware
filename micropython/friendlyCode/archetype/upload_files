@@ -1,0 +1,36 @@
+#!/usr/bin/bash
+
+
+anounce_file_upload(){
+    echo "Uploading file $1 to esp32..."
+}
+
+#device=/dev/ttyUSB0
+device=/dev/ttyACM0 
+
+sudo chmod a+rw $device
+
+
+#-----------------------------------------------------#
+#              Uploads boot and main                  #
+#-----------------------------------------------------#
+
+anounce_file_upload "./boot.py"
+ampy --port $device put ./boot.py
+
+anounce_file_upload "./main.py"
+ampy --port $device put ./main.py
+
+
+#-----------------------------------------------------#
+#              Uploads other base classes             #
+#-----------------------------------------------------#
+anounce_file_upload "./src/adapter.py"
+anounce_file_upload "./src/concrete_adapters.py"
+anounce_file_upload "./src/concrete_event_manager.py"
+anounce_file_upload "./src/concrete_subscribers.py"
+anounce_file_upload "./src/data_storage.py"
+anounce_file_upload "./src/event_manager.py"
+anounce_file_upload "./src/event.py"
+anounce_file_upload "./src/subscriber.py"
+ampy --port $device put src

@@ -15,10 +15,10 @@ class SensorsMicroService(Subscriber, EventManager):
         self.last_measurement_event: EventList  = None
 
     #----------------- EventManager interface -----------------#
-    def add_subscriber(self, subscriber: Subscriber):
+    def subscribe(self, subscriber: Subscriber):
         self.subscribers.append(subscriber)
 
-    def remove_subscriber(self, subscriber: Subscriber):
+    def unsubscribe(self, subscriber: Subscriber):
         self.subscribers.remove(subscriber)
 
     def notify(self):
@@ -72,3 +72,33 @@ class SensorsMicroService(Subscriber, EventManager):
         self.sensors.remove(sensor)
 
 
+class DataManagementMicroService(Subscriber):
+
+    def __init__(self):
+        self.last_measurement_event: EventList = None
+        self.last_connection_event: Event      = None
+
+    #----------------- Subscriber interface -----------------#
+    def update(self, event: Event):
+        print('\nDataManagementMicroService got event: "{}"'.format(event))
+
+        if event.type == MEASUREMENT_EVENT:
+            self.last_measurement_event = event
+            self.main()
+        elif event.type == CONNECTION_EVENT:
+            self.last_connection_event = event
+            self.main()
+        else:
+            raise TypeError('Cannot handle event of type {}'.format(event.type))
+
+    #----------------- Business logic -----------------#
+    def main(self):
+        print('DataManagementMicroService running business logic...')
+
+        if self.last_measurement_event == None or self.last_connection_event == None:
+            return
+
+        if self.last_connection_event.data['status'] == 'connected':
+            print('DataManagementMicroService sending data to cloud...')
+        else:
+            print('DataManagementMicroService storing data locally...')
