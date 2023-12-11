@@ -1,12 +1,12 @@
 from time import sleep
 
-from .adapter import Adapter
-from .event import *
+from .abstractions.adapter import Adapter
+from .abstractions.event import *
 
 class DummyAdapter(Adapter):
 
     def __init__(self) -> None:
-        print('DummyAdapter initialized.')
+        print('Initialized DummyAdapter.')
         pass
 
     def specific_request(self) -> EventList:

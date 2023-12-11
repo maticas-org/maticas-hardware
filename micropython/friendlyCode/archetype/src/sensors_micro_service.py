@@ -1,6 +1,6 @@
-from .event import *
-from .subscriber import *
-from .event_manager import *
+from .abstractions.event         import *
+from .abstractions.subscriber    import Subscriber
+from .abstractions.event_manager import EventManager
 
 class SensorsMicroService(Subscriber, EventManager):
 
@@ -10,9 +10,10 @@ class SensorsMicroService(Subscriber, EventManager):
 
         self.sensors = []
 
-        self.last_time_event: Event             = None 
+        self.last_time_event: Event             = None
         self.first_measurement_event: EventList = None
         self.last_measurement_event: EventList  = None
+        print("Initialized SensorsMicroService.")
 
     #----------------- EventManager interface -----------------#
     def subscribe(self, subscriber: Subscriber):
@@ -32,8 +33,8 @@ class SensorsMicroService(Subscriber, EventManager):
             subscriber.update(self.last_measurement_event)
 
     def main(self):
+
         print('SensorsMicroService running business logic...')
-            
         measurement_event_list = EventList()
         
         #read sensors
@@ -64,41 +65,10 @@ class SensorsMicroService(Subscriber, EventManager):
 
     #----------------- Business logic -----------------#
     def add_sensor(self, sensor):
-        print('SensorsMicroService adding sensor...')
+        print('\nSensorsMicroService adding sensor...')
         self.sensors.append(sensor)
 
     def remove_sensor(self, sensor):
-        print('SensorsMicroService removing sensor...')
+        print('\nSensorsMicroService removing sensor...')
         self.sensors.remove(sensor)
 
-
-class DataManagementMicroService(Subscriber):
-
-    def __init__(self):
-        self.last_measurement_event: EventList = None
-        self.last_connection_event: Event      = None
-
-    #----------------- Subscriber interface -----------------#
-    def update(self, event: Event):
-        print('\nDataManagementMicroService got event: "{}"'.format(event))
-
-        if event.type == MEASUREMENT_EVENT:
-            self.last_measurement_event = event
-            self.main()
-        elif event.type == CONNECTION_EVENT:
-            self.last_connection_event = event
-            self.main()
-        else:
-            raise TypeError('Cannot handle event of type {}'.format(event.type))
-
-    #----------------- Business logic -----------------#
-    def main(self):
-        print('DataManagementMicroService running business logic...')
-
-        if self.last_measurement_event == None or self.last_connection_event == None:
-            return
-
-        if self.last_connection_event.data['status'] == 'connected':
-            print('DataManagementMicroService sending data to cloud...')
-        else:
-            print('DataManagementMicroService storing data locally...')

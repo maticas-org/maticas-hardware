@@ -5,8 +5,8 @@ anounce_file_upload(){
     echo "Uploading file $1 to esp32..."
 }
 
-#device=/dev/ttyUSB0
-device=/dev/ttyACM0 
+device=/dev/ttyUSB0
+#device=/dev/ttyACM0 
 
 sudo chmod a+rw $device
 
@@ -14,6 +14,9 @@ sudo chmod a+rw $device
 #-----------------------------------------------------#
 #              Uploads boot and main                  #
 #-----------------------------------------------------#
+
+anounce_file_upload "./config_file.json"
+ampy --port $device put ./config_file.json
 
 anounce_file_upload "./boot.py"
 ampy --port $device put ./boot.py
