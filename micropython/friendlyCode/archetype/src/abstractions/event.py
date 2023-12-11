@@ -12,6 +12,9 @@ UNAUTHORIZED_STATUS = 401
 FORBIDDEN_STATUS    = 403
 NOT_FOUND_STATUS    = 404
 
+INTERNAL_SERVER_ERROR = 500
+NOT_IMPLEMENTED_STATUS = 501
+SERVICE_UNAVAILABLE_STATUS = 503
 
 
 class Event():
@@ -31,17 +34,20 @@ class Event():
 
     def __eq__(self, other) -> bool:
         
-        if not isinstance(other, Event):
+        if isinstance(other, Event):
+            return self.type == other.type and self.status_code == other.status_code and self.timestamp == other.timestamp and self.data == other.data
+        elif other == None:
+            return False
+        else:
             raise TypeError('Cannot compare Event with {}'.format(type(other)))
-
-        return self.type == other.type and self.status_code == other.status_code and self.timestamp == other.timestamp and self.data == other.data
 
     def __ne__(self, other) -> bool:
 
-        if not isinstance(other, Event):
+        if isinstance(other, Event):
+            return not self.__eq__(other)
+        else:
             raise TypeError('Cannot compare Event with {}'.format(type(other)))
 
-        return not self.__eq__(other)
 
 class EventList():
 
@@ -71,10 +77,12 @@ class EventList():
 
     def __eq__(self, other) -> bool:
             
-        if not isinstance(other, EventList):
+        if isinstance(other, EventList):
+            return self.queue == other.queue
+        elif other == None:
+            return False
+        else:
             raise TypeError('Cannot compare EventList with {}'.format(type(other)))
-
-        return self.queue == other.queue
 
     def __ne__(self, other) -> bool:
 
