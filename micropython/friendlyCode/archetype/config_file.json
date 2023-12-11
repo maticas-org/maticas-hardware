@@ -1,0 +1,30 @@
+{
+    "wifi": {
+        "ssid": "SSID",
+        "password": "PASSWORD",
+        "keep_alive": 10000,
+        "ping_urls": ["www.google.com", "www.facebook.com", "www.twitter.com"],
+        "api_url": "http://test.com/api"
+    },
+
+    "credentials": {
+        "login_url": "",
+        "username": "USERNAME",
+        "password": "PASSWORD"
+    },
+
+    "sensors":{
+        "1": {
+            "variables": [{
+                "name": "temperature",
+                "endpoint": "127.0.0.1/temperature"
+            },{
+                "name": "humidity",
+                "endpoint": "127.0.0.1/humidty"
+            }],
+            "name": "DHT11",
+            "pin": 8,
+            "ntimes": 5
+        }
+    }
+}
