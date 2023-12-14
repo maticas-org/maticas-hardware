@@ -27,12 +27,12 @@ class DataBase():
     def read_file(self) -> iter:
         file = open(self.filename, 'r')
         for line in file:
-            yield line
+            yield json.loads(line)
         file.close()
 
     def write_file(self, data: dict) -> None:
         file = open(self.filename, 'a')
-        file.write(ujson.dumps(data) + '\n')
+        file.write(json.dumps(data) + '\n')
         file.close()
 
     def rewrite_file(self, 

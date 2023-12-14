@@ -27,7 +27,7 @@ class DataManagementMicroService(Subscriber):
             self.last_connection_event = event
             self.main()
         else:
-            raise TypeError('Cannot handle event of type {}'.format(event.type))
+            raise TypeError('Cannot handle event {} of type {}'.format(event, type(event)))
 
     #----------------- Business logic -----------------#
     def main(self):
@@ -69,6 +69,12 @@ class DataManagementMicroService(Subscriber):
 
         #if it fails, raise exception
         except Exception as e:
+            
+            #if it managed to send some data, before failing to send the rest
+            #delete the succesfully_sent_data from the local storage
+            if count > 0:
+                self.database.rewrite_file(remove_data = succesfully_sent_data)
+
             raise e
         
         #if it succeeds, delete the succesfully_sent_data from the local storage
@@ -84,7 +90,38 @@ class DataManagementMicroService(Subscriber):
 
         #try to send data to cloud
         #if it fails, store data locally
-        #if it succeeds, delete the last_measurement_event, so it doesn't get stored again
+
+        succesfully_sent_data = []
+        count = 0
+
+        try:
+            
+            for measurement_event in self.last_measurement_event:
+                self.api_client.send_data(measurement_event.data)
+                succesfully_sent_data.append(measurement_event.data)
+                count += 1
+
+        #if it did not managed to send all the data, store the
+        #remaining data locally
+        except Exception as e:
+
+            unsent_data = []
+
+            for measurement_event in self.last_measurement_event:
+                if measurement_event.data not in succesfully_sent_data:
+                    unsent_data.append(measurement_event.data)
+
+            #if it fails to store the data locally, raise exception
+            try:
+                for data in unsent_data:
+                    self.database.write_file(data)
+            except Exception as e:
+                raise e
+        
+        #if it succeeds, delete the last_measurement_event, so it doesn't get stored or
+        #sent again
+        else:
+            self.last_measurement_event = None
 
     def store_data(self):
 

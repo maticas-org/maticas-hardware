@@ -1,6 +1,7 @@
 from .abstractions.event         import *
 from .abstractions.subscriber    import Subscriber
 from .abstractions.event_manager import EventManager
+from .abstractions.adapter       import Adapter
 
 class SensorsMicroService(Subscriber, EventManager):
 
@@ -64,11 +65,10 @@ class SensorsMicroService(Subscriber, EventManager):
     
 
     #----------------- Business logic -----------------#
-    def add_sensor(self, sensor):
+    def add_sensor(self, sensor: Adapter):
         print('\nSensorsMicroService adding sensor...')
         self.sensors.append(sensor)
 
-    def remove_sensor(self, sensor):
+    def remove_sensor(self, sensor: Adapter):
         print('\nSensorsMicroService removing sensor...')
         self.sensors.remove(sensor)
-

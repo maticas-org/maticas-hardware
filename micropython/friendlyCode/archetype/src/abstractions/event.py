@@ -16,6 +16,8 @@ INTERNAL_SERVER_ERROR = 500
 NOT_IMPLEMENTED_STATUS = 501
 SERVICE_UNAVAILABLE_STATUS = 503
 
+class UnhandledStatusCode(Exception):
+    pass
 
 class Event():
 

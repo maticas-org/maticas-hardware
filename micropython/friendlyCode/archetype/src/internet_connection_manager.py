@@ -7,6 +7,7 @@ from .abstractions.event import *
 from .abstractions.subscriber import Subscriber
 from .abstractions.event_manager import EventManager
 
+
 class ConnectionEventManager(EventManager):
 
     subscribers = []
@@ -42,12 +43,15 @@ class ConnectionEventManager(EventManager):
         if self.last_connection_event is None:
             self.connect()
 
-        else:
-            if self.last_connection_event.status == SERVICE_UNAVAILABLE_STATUS:
-                self.connect(doreconnect = True)
+        elif self.last_connection_event.status == SERVICE_UNAVAILABLE_STATUS:
+            self.connect(doreconnect = True)
 
-            elif self.last_connection_event.status == OK_STATUS:
-                self.ping()
+        elif self.last_connection_event.status == OK_STATUS:
+            self.ping()
+
+        else:
+            message = "Unhandled connection status code: {}".format(self.last_connection_event.status)
+            raise UnhandledStatusCode(message)
             
 
     def connect(self,

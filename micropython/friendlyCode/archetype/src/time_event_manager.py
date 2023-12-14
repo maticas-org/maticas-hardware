@@ -42,5 +42,3 @@ class TimeEventManager(EventManager):
             self.first_time_event = time_event
 
         self.last_time_event = time_event
-
-    
