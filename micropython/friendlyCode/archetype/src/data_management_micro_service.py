@@ -3,6 +3,21 @@ from .abstractions.subscriber    import Subscriber
 from .data_storage  import DataBase
 from .api_client    import ApiClient
 
+
+"""
+import machine, os
+from src.dependencies import sdcard
+sd = sdcard.SDCard(machine.SPI(2), machine.Pin(5))
+os.mount(sd, '/sd')
+os.listdir('/')
+"""
+
+"""
+import machine, os 
+sd = machine.SDCard(slot = 2, sck = machine.Pin(18), miso = machine.Pin(19), mosi = machine.Pin(23), cs = machine.Pin(5))
+os.mount(sd, '/sd')
+"""
+
 class DataManagementMicroService(Subscriber):
 
     def __init__(self,

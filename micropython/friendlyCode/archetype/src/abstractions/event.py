@@ -6,6 +6,7 @@ RAM_EVENT          = 3
 
 # Event status codes
 OK_STATUS = 200
+BUG_RESILIENCE_STATUS = 299
 
 BAD_REQUEST_STATUS  = 400
 UNAUTHORIZED_STATUS = 401
@@ -53,8 +54,8 @@ class Event():
 
 class EventList():
 
-    def __init__(self) -> None:
-        self.queue = []
+    def __init__(self, events: list = []) -> None:
+        self.queue = events
 
     def append(self, event: Event) -> None:
         self.queue.append(event)

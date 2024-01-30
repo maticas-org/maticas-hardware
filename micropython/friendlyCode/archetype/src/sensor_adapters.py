@@ -23,8 +23,9 @@ class DHT11Adapter(Adapter):
 
     def __init__(self, pin: int, read_n_times: int = 5) -> None:
         from dht import DHT11
+        from machine import Pin
 
-        self.dht = DHT11(pin)
+        self.dht = DHT11(Pin(pin))
         self.read_n_times = read_n_times
 
     def specific_request(self) -> EventList:
