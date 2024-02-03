@@ -5,6 +5,7 @@
 #include "TimeEventManager.h"
 #include "ConnectionEventManager.h"
 #include "SensorAdapters.h"
+#include "SensorsMicroService.h"
 
 
 //void initSDCard();
@@ -27,6 +28,7 @@ void loop() {
   int updateIntervalSecs = 10;
   TimeEventManager timeEventManager = TimeEventManager(updateIntervalSecs);
   ConnectionEventManager connectionEventManager;
+  SensorsMicroService sensorsMicroService = SensorsMicroService();
   DHTAdapter dhtAdapter = DHTAdapter();
   delay(100);
   
