@@ -30,8 +30,8 @@ public:
         Serial.println("ConnectionEventManager notifying subscribers...");
 
         // Notify subscribers
-        for (Subscriber* subscriber : subscribers) {
-            subscriber->update(lastConnectionEvent);
+        for (int i = 0; i < number_of_subs; i++){
+            subscribers_[i]->update(lastEvent);
         }
     }
 

@@ -6,6 +6,8 @@
 #include "Event.h"
 #include "Subscriber.h"
 
+#define MAX_NUMBER_OF_SUBSCRIBERS 3
+
 /*
 * The EventManager class is responsible for managing events and notifying subscribers.
 */
@@ -21,7 +23,8 @@ public:
 protected:
     Event firstEvent;
     Event lastEvent;
-    std::vector<Subscriber*> subscribers;
+    Subscriber* subscribers_[MAX_NUMBER_OF_SUBSCRIBERS];
+    int number_of_subs;
 };
 
 #endif // EVENT_MANAGER_H

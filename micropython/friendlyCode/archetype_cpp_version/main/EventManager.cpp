@@ -13,22 +13,34 @@ Event EventManager::getFirstEvent() {
 }
 
 void EventManager::subscribe(Subscriber* subscriber) {
-    subscribers.push_back(subscriber);
+    Serial.println("Adding subscriber...");
+    // Add the subscriber to the list
+    if (number_of_subs < MAX_NUMBER_OF_SUBSCRIBERS) {
+        subscribers_[number_of_subs] = subscriber;
+        number_of_subs++;
+    }
+    else {
+        Serial.println("Error: Maximum number of subscribers reached");
+    }
 }
 
 void EventManager::unsubscribe(Subscriber* subscriber) {
-    // Find and remove the subscriber
-    for (size_t i = 0; i < subscribers.size(); i++) {
-        if (subscribers[i] == subscriber) {
-            subscribers.erase(subscribers.begin() + i);
+    Serial.println("Removing subscriber...");
+    // Remove the subscriber from the list
+    for (int i = 0; i < number_of_subs; i++) {
+        if (subscribers_[i] == subscriber) {
+            for (int j = i; j < number_of_subs - 1; j++) {
+                subscribers_[j] = subscribers_[j + 1];
+            }
+            number_of_subs--;
             break;
         }
     }
 }
 
 void EventManager::notify() {
-    for (Subscriber* subscriber : subscribers) {
-        subscriber->update(lastEvent);
+    for (int i = 0; i < number_of_subs; i++){
+        subscribers_[i]->update(lastEvent);
     }
 }
 

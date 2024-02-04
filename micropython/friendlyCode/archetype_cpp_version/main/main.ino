@@ -30,6 +30,9 @@ void loop() {
   ConnectionEventManager connectionEventManager;
   SensorsMicroService sensorsMicroService = SensorsMicroService();
   DHTAdapter dhtAdapter = DHTAdapter();
+
+  sensorsMicroService.AddSensor(&dhtAdapter);
+  //timeEventManager.subscribe(&sensorsMicroService);
   delay(100);
   
   connectionEventManager.main();
@@ -39,9 +42,7 @@ void loop() {
     delay(updateIntervalSecs * 1000);
     connectionEventManager.main();
     delay(updateIntervalSecs * 1000);
-    Event ans =  dhtAdapter.request();
-
-    Serial.println(ans.toString());
+    sensorsMicroService.main();
   }
 
 }

@@ -11,6 +11,10 @@ DHT dht = DHT(DHTPIN, DHTTYPE);
 
 //--------------------HELPER FUNCTIONS--------------------
 float average(float values[], int size) {
+    if (size == 0) {
+        return 0;
+    }
+
     float sum = 0;
     for (int i = 0; i < size; i++) {
         sum += values[i];
@@ -30,7 +34,7 @@ private:
     int retryDelay;
 
 public:
-    DHTAdapter(int maxRetries = 5, int retryDelay = 1000) : Adapter() {
+    DHTAdapter(int maxRetries = 5, int retryDelay = 2100) : Adapter() {
         dht.begin();
         this->maxRetries = maxRetries;
         this->retryDelay = retryDelay;
@@ -57,6 +61,7 @@ public:
 
         try {
             dht.begin();
+            int validReadings = 0;
 
             for (int i = 0; i < maxRetries; i++) {
                 float humidity = dht.readHumidity();
@@ -66,16 +71,10 @@ public:
                 if (isvalid(humidity) && isvalid(temperature)) {
                     temperatureArray[i] = temperature;
                     humidityArray[i] = humidity;
+                    validReadings++;
                 }
 
                 delay(retryDelay);
-            }
-
-            int validReadings = 0;
-            for (int i = 0; i < MAX_RETRIES; i++) {
-                if (temperatureArray[i] != 0 && humidityArray[i] != 0) {
-                    validReadings++;
-                }
             }
 
             if (validReadings == 0) {

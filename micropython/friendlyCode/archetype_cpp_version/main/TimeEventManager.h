@@ -23,10 +23,10 @@ public:
         Serial.println("Initialized TimeEventManager.");
     }
 
-    void notify() {
+    void notify() override {
         Serial.println("\nTimeEventManager notifying subscribers...");
-        for (Subscriber* subscriber : subscribers) {
-            subscriber->update(lastEvent);
+        for (int i = 0; i < number_of_subs; i++){
+            subscribers_[i]->update(lastEvent);
         }
     }
 

@@ -16,31 +16,19 @@ class SensorsMicroService : public EventManager, public Subscriber {
         int last_measurement_index_; // Index to keep track of the last stored measurement event
         int sensors_count;
 
+        Subscriber* subscribers_[MAX_NUMBER_OF_SUBSCRIBERS];
+        int number_of_subs;
+
     public:
         SensorsMicroService(){
             sensors_count = 0;
             last_measurement_index_ = 0;
+            number_of_subs = 0;
 
             // Initialize last_measurement_events_ to empty events
             for (int i = 0; i < MAX_STORED_EVENTS; i++) {
                 last_measurement_events_[i] = Event();
             }
-        }
-
-        ~SensorsMicroService() {
-            // Destructor destroy the last_measurement_events_
-            for (int i = 0; i < MAX_STORED_EVENTS; i++) {
-                delete last_measurement_events_[i];
-            }
-
-            // Destructor destroy the last_time_event_
-            delete last_time_event_;
-            
-            // Destructor destroy the first_measurement_event_
-            delete first_measurement_event_;
-
-            // Destructor destroy the last_measurement_event_
-            delete last_measurement_event_;
         }
 
         //-------------------------------------------------------------
@@ -58,12 +46,13 @@ class SensorsMicroService : public EventManager, public Subscriber {
 
                     // Update the timestamp field of the event with the last_time_event_
                     last_measurement_events_[last_measurement_index_].setTimestamp(last_time_event_.getTimestamp());
+                    Serial.println("SensorsMicroService got event: ");
+                    Serial.print(last_measurement_events_[last_measurement_index_].toString());
                 }
             }
 
             // Update the first_measurement_event_ and last_measurement_event_ fields
-            first_measurement_event_ = last_measurement_events_[0]; // Update first_measurement_event_
-            last_measurement_event_ = last_measurement_events_[last_measurement_index_]; // Update last_measurement_event_
+            first_measurement_event_ = last_measurement_events_[(last_measurement_index_ + 1) % MAX_STORED_EVENTS];
         }
 
 
@@ -72,15 +61,15 @@ class SensorsMicroService : public EventManager, public Subscriber {
             Serial.println("\nSensorsMicroService notifying subscribers...");
 
             //iterate over the subscribers and notify them
-            for (Subscriber* subscriber : subscribers_){
-                subscriber->notify(event);
+            for (int i = 0; i < number_of_subs; i++){
+                subscribers_[i]->update(last_measurement_events_, MAX_STORED_EVENTS); 
             }
         }
 
         //----------------------------------------------------------
         //-------------------Subscriber Interface-------------------
         //----------------------------------------------------------
-        void update(Event event){
+        void update(const Event& event) override {
             Serial.println("\nSensorsMicroService got event: ");
             Serial.print(event.toString());
 
@@ -101,8 +90,8 @@ class SensorsMicroService : public EventManager, public Subscriber {
         Event getFirstMeasurementEvent() const{
             return first_measurement_event_;
         }
-        Event getLastMeasurementEvent() const{
-            return last_measurement_event_;
+        const Event* getLastMeasurementEvent() const{
+            return last_measurement_events_;
         }
         void AddSensor(Adapter* sensor) {
             if (sensors_count < MAX_SENSORS) {
