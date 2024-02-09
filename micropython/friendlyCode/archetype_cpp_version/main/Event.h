@@ -33,6 +33,10 @@ public:
     void setTimestamp(const String& timestamp);
     String toString() const;
 
+    // Comparison operators
+    bool operator==(const Event& other) const;
+    bool operator!=(const Event& other) const;
+
 private:
     int type_;
     int statusCode_;

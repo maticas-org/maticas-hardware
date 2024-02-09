@@ -7,7 +7,8 @@ class Subscriber {
 public:
     Subscriber();
     virtual void update(const Event& event);
-    virtual void update(const Event events[], int size);
+    virtual void update(const Event* events, int size);
+    //virtual void update(const Event events[], int size);
 };
 
 #endif // SUBSCRIBER

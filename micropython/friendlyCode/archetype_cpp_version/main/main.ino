@@ -1,6 +1,7 @@
 #include "secrets.h"
 #include "WiFi.h"
 
+#include "SDCard.h"
 #include "EventManager.h"
 #include "TimeEventManager.h"
 #include "ConnectionEventManager.h"
@@ -8,13 +9,10 @@
 #include "SensorsMicroService.h"
 
 
-//void initSDCard();
-
 void setup() {
   // put your setup code here, to run once:
 
   Serial.begin(9600);
-  //void initSDCard();
 
   Serial.println("Hello!");
   Serial.println("Hello!");
@@ -25,52 +23,29 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
+  delay(100);
+
   int updateIntervalSecs = 10;
   TimeEventManager timeEventManager = TimeEventManager(updateIntervalSecs);
   ConnectionEventManager connectionEventManager;
   SensorsMicroService sensorsMicroService = SensorsMicroService();
   DHTAdapter dhtAdapter = DHTAdapter();
+  DataManagementMicroService dataManagementMicroService = DataManagementMicroService();
 
   sensorsMicroService.AddSensor(&dhtAdapter);
-  //timeEventManager.subscribe(&sensorsMicroService);
+  timeEventManager.subscribe(&sensorsMicroService);
+  sensorsMicroService.subscribe(&dataManagementMicroService);
   delay(100);
   
   connectionEventManager.main();
 
   while (true) {
-    timeEventManager.main();
+    timeEventManager.notify();
     delay(updateIntervalSecs * 1000);
-    connectionEventManager.main();
+    connectionEventManager.notify();
     delay(updateIntervalSecs * 1000);
-    sensorsMicroService.main();
+    sensorsMicroService.notify();
   }
 
 }
 
-
-/*
-*
-*
-*
-*
-*
-*
-*/
-
-//void initSDCard() {
-//  Serial.println("Initializing SD card...");
-//
-//  // initialize SPI
-//  SPIClass spi = SPIClass(VSPI);
-//  spi.begin(SCK, MISO, MOSI, CS);
-//  delay(100);
-//  
-//  // initialize SD card
-//  if (!SD.begin(CS, spi)) {
-//    Serial.println("Card Mount Failed");
-//    return;
-//  }
-//  
-//  Serial.println("SUCCESS - SD card initialized.");
-//}
-//

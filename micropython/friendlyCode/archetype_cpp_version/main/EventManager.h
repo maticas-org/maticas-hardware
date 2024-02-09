@@ -2,7 +2,6 @@
 #define EVENT_MANAGER_H
 
 #include <Arduino.h>
-#include <vector>
 #include "Event.h"
 #include "Subscriber.h"
 

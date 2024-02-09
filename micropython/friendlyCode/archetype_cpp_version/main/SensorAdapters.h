@@ -1,4 +1,3 @@
-#include <vector>
 #include "DHT.h"
 #include "Adapter.h"
 #include "Event.h"

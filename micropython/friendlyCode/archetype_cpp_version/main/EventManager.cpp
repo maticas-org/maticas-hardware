@@ -6,6 +6,7 @@
 EventManager::EventManager() {
     firstEvent = Event();
     lastEvent = Event();
+    number_of_subs = 0;
 }
 
 Event EventManager::getFirstEvent() {

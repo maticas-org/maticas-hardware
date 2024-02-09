@@ -1,6 +1,25 @@
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"
+#include "SDCard.h"
+
+
+void initSDCard() {
+  Serial.println("Initializing SD card...");
+
+  // initialize SPI
+  SPIClass spi = SPIClass(VSPI);
+  spi.begin(SCK, MISO, MOSI, CS);
+  delay(100);
+  
+  // initialize SD card
+  if (!SD.begin(CS, spi)) {
+    Serial.println("Card Mount Failed");
+    return;
+  }
+  
+  Serial.println("SUCCESS - SD card initialized.");
+}
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     Serial.printf("Listing directory: %s\n", dirname);
@@ -122,3 +141,47 @@ void deleteFile(fs::FS &fs, const char * path){
         Serial.println("Delete failed");
     }
 }
+
+
+DataManagementMicroService::DataManagementMicroService() {
+    initSDCard();
+    Serial.println("DataManagementMicroService constructor");
+}
+
+void DataManagementMicroService::update(const Event* events, int size){
+    Serial.println("DataManagementMicroService got " + String(size) + " events");
+    const Event empty_event = Event();
+
+    if (!SD.exists(fileName)) {
+        Serial.println("File does not exist. Creating file...");
+        writeFile(SD, fileName.c_str(), "{}");
+    } else {
+        Serial.println("File exists. Appending events...");
+        for (int i = 0; i < size; i++) {
+            if (events[i] == empty_event) {
+                continue;
+            }
+            Serial.println("Appending event " + String(i) + " to file...");
+            appendFile(SD, fileName.c_str(), events[i].toString().c_str());
+        }
+    }
+}
+
+//void DataManagementMicroService::update(const Event events[], int size){
+//    Serial.println("DataManagementMicroService got" + String(size) + "events" );
+//    const Event empty_event = Event();
+//
+//    if (!SD.exists(fileName)) {
+//        Serial.println("File does not exist. Creating file...");
+//        writeFile(SD, fileName.c_str(), "{}");
+//    } else {
+//        for (int i = 0; i < size; i++) {
+//
+//            if (events[i] == empty_event) {
+//                continue;
+//            }
+//            Serial.println("Appending event" + String(i) + " to file...");
+//            appendFile(SD, fileName.c_str(), events[i].toString().c_str());
+//        }
+//    }
+//}

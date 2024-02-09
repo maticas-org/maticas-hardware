@@ -51,3 +51,11 @@ String Event::toString() const {
 
     return eventString;
 }
+
+bool Event::operator==(const Event& other) const {
+    return (type_ == other.type_ && statusCode_ == other.statusCode_ && timestamp_ == other.timestamp_ && data_ == other.data_);
+}
+
+bool Event::operator!=(const Event& other) const {
+    return !(*this == other);
+}

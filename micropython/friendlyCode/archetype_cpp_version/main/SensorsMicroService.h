@@ -66,6 +66,29 @@ class SensorsMicroService : public EventManager, public Subscriber {
             }
         }
 
+        void subscribe(Subscriber* subscriber){
+            Serial.println("\nSensorsMicroService subscribing...");
+            if (number_of_subs < MAX_NUMBER_OF_SUBSCRIBERS){
+                subscribers_[number_of_subs] = subscriber;
+                number_of_subs++;
+            }else{
+                Serial.println("Max number of subscribers reached.");
+            }
+        }
+
+        void unsubscribe(Subscriber* subscriber){
+            Serial.println("\nSensorsMicroService unsubscribing...");   
+            for (int i = 0; i < number_of_subs; i++){
+                if (subscribers_[i] == subscriber){
+                    for (int j = i; j < number_of_subs - 1; j++){
+                        subscribers_[j] = subscribers_[j + 1];
+                    }
+                    number_of_subs--;
+                    break;
+                }
+            }
+        }
+
         //----------------------------------------------------------
         //-------------------Subscriber Interface-------------------
         //----------------------------------------------------------
