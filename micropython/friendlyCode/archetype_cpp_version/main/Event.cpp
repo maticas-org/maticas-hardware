@@ -4,7 +4,7 @@ Event::Event() {
     type_ = -1; // Initialize with an unknown type
     statusCode_ = -1;
     timestamp_ = "";
-    data_ = "";
+    data_ = "{}";
 }
 
 Event::Event(int type, int statusCode, const String& timestamp, const String& data) {
@@ -48,6 +48,7 @@ String Event::toString() const {
     eventString += "\",\"data\":\"";
     eventString += data_;
     eventString += "\"}";
+    eventString += "\n";
 
     return eventString;
 }

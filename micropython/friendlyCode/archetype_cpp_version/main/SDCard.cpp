@@ -4,23 +4,6 @@
 #include "SDCard.h"
 
 
-void initSDCard() {
-  Serial.println("Initializing SD card...");
-
-  // initialize SPI
-  SPIClass spi = SPIClass(VSPI);
-  spi.begin(SCK, MISO, MOSI, CS);
-  delay(100);
-  
-  // initialize SD card
-  if (!SD.begin(CS, spi)) {
-    Serial.println("Card Mount Failed");
-    return;
-  }
-  
-  Serial.println("SUCCESS - SD card initialized.");
-}
-
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     Serial.printf("Listing directory: %s\n", dirname);
 
@@ -95,11 +78,14 @@ void readFile(fs::FS &fs, const char * path){
 void writeFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("Writing file: %s\n", path);
 
-    File file = fs.open(path, FILE_WRITE);
+    File file = fs.open(path, FILE_WRITE, true);
     if(!file){
         Serial.println("Failed to open file for writing");
         return;
+    }else{
+        Serial.println("File opened for writing");
     }
+
     if(file.print(message)){
         Serial.println("File written");
     } else {
@@ -108,20 +94,27 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
     file.close();
 }
 
-void appendFile(fs::FS &fs, const char * path, const char * message){
+bool appendFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("Appending to file: %s\n", path);
 
-    File file = fs.open(path, FILE_APPEND);
+
+    File file = fs.open(path, FILE_APPEND, true);
     if(!file){
         Serial.println("Failed to open file for appending");
-        return;
+        return false;
+    }else{
+        Serial.println("File opened for appending");
     }
+
     if(file.print(message)){
         Serial.println("Message appended");
+        file.close();
+        return true;
     } else {
         Serial.println("Append failed");
+        file.close();
+        return false;
     }
-    file.close();
 }
 
 void renameFile(fs::FS &fs, const char * path1, const char * path2){
@@ -142,46 +135,98 @@ void deleteFile(fs::FS &fs, const char * path){
     }
 }
 
+void DataManagementMicroService::initSDCard() {
+    Serial.println("Initializing sd card...");
+
+    // initialize SPI
+    spi.begin(SCK, MISO, MOSI, CS);
+    delay(100);
+  
+    // initialize sd card
+    if (!sd.begin(CS, spi)) {
+        Serial.println("Card Mount Failed");
+        sdCardInitialized = false;
+        return;
+    }else{
+        Serial.printf("sd card mounted successfully with %lluMB\n", (sd.cardSize()/1024)/1000000);
+        Serial.printf("sd card type: sd%s\n", sd.cardType() == CARD_MMC ? "MMC" : "HC");
+        Serial.printf("Used MBs: %llu\n", (sd.usedBytes()/1024)/1000);
+    }
+
+    sdCardInitialized = true;
+
+    if (sd.exists(fileName)) {
+        Serial.printf("File %s exists\n", fileName.c_str());
+    } else {
+        Serial.printf("File %s does not exist, creating...\n", fileName.c_str());
+
+        File file = sd.open(fileName, FILE_WRITE, true);
+        if (!file) {
+        Serial.println("Failed to open file for writing");
+        return;
+        }
+        file.close();
+    }
+  
+    Serial.println("SUCCESS - sd card initialized.");
+    sd.end();
+}
 
 DataManagementMicroService::DataManagementMicroService() {
-    initSDCard();
     Serial.println("DataManagementMicroService constructor");
+    this->initSDCard();
+
+    // initialize pending events
+    for (int i = 0; i < MAX_STORED_EVENTS; i++) {
+        pendingEvents[i] = Event();
+    }
+    pendingEventsCount = 0;
 }
 
 void DataManagementMicroService::update(const Event* events, int size){
     Serial.println("DataManagementMicroService got " + String(size) + " events");
     const Event empty_event = Event();
 
-    if (!SD.exists(fileName)) {
-        Serial.println("File does not exist. Creating file...");
-        writeFile(SD, fileName.c_str(), "{}");
-    } else {
-        Serial.println("File exists. Appending events...");
-        for (int i = 0; i < size; i++) {
-            if (events[i] == empty_event) {
-                continue;
+    if (!sdCardInitialized) {
+        Serial.println("SD card not initialized. Cannot write events to file.");
+        return;
+    }
+
+    // if file exists, append events to it
+    Serial.println("File exists. Appending events...");
+    spi.begin(SCK, MISO, MOSI, CS);
+    delay(100);
+    sd.begin(CS, spi);
+
+    // append events to file if failed, store them in a circular buffer
+    for (int i = 0; i < size; i++) {
+        if (events[i] == empty_event) {
+            continue;
+        }
+        Serial.println("Appending event " + String(i) + " to file...");
+        bool result = appendFile(sd, fileName.c_str(), events[i].toString().c_str());
+
+        if (!result) {
+            // if maximum number of events is reached, make it a circular buffer
+            if (pendingEventsCount >= MAX_STORED_EVENTS) {
+                pendingEventsCount = 0;
             }
-            Serial.println("Appending event " + String(i) + " to file...");
-            appendFile(SD, fileName.c_str(), events[i].toString().c_str());
+
+            pendingEvents[pendingEventsCount] = events[i];
+            pendingEventsCount++;
         }
     }
+
+    // append events from circular buffer to file
+    for (int i = 0; i < pendingEventsCount; i++) {
+        Serial.println("Appending pending event " + String(i) + " to file...");
+        bool result = appendFile(sd, fileName.c_str(), pendingEvents[i].toString().c_str());
+
+        if (result) {
+            pendingEvents[i] = empty_event;
+        }
+    }
+
+    sd.end();
 }
 
-//void DataManagementMicroService::update(const Event events[], int size){
-//    Serial.println("DataManagementMicroService got" + String(size) + "events" );
-//    const Event empty_event = Event();
-//
-//    if (!SD.exists(fileName)) {
-//        Serial.println("File does not exist. Creating file...");
-//        writeFile(SD, fileName.c_str(), "{}");
-//    } else {
-//        for (int i = 0; i < size; i++) {
-//
-//            if (events[i] == empty_event) {
-//                continue;
-//            }
-//            Serial.println("Appending event" + String(i) + " to file...");
-//            appendFile(SD, fileName.c_str(), events[i].toString().c_str());
-//        }
-//    }
-//}
