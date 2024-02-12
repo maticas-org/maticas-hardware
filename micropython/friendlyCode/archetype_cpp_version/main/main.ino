@@ -9,7 +9,7 @@
 #include "SensorsMicroService.h"
 
 
-#define timeEventManagerFrequency 10
+#define timeEventManagerFrequency 5
 #define sensorsMicroServiceFrequency 30
 #define connectionEventManagerFrequency 60*10
 
@@ -28,9 +28,7 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   delay(100);
-
-  int updateIntervalSecs = 10;
-  TimeEventManager timeEventManager = TimeEventManager(updateIntervalSecs);
+  TimeEventManager timeEventManager = TimeEventManager(timeEventManagerFrequency);
   ConnectionEventManager connectionEventManager;
   SensorsMicroService sensorsMicroService = SensorsMicroService();
   DHTAdapter dhtAdapter = DHTAdapter();
