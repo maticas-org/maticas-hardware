@@ -1,6 +1,7 @@
-#include "secrets.h"
 #include "WiFi.h"
+#include <ArduinoHttpClient.h>
 
+#include "secrets.h"
 #include "SDCard.h"
 #include "EventManager.h"
 #include "TimeEventManager.h"
@@ -36,7 +37,9 @@ void loop() {
 
   sensorsMicroService.AddSensor(&dhtAdapter);
   timeEventManager.subscribe(&sensorsMicroService);
-  sensorsMicroService.subscribe(&dataManagementMicroService);
+  sensorsMicroService.subscribe(&connectionEventManager);
+  connectionEventManager.subscribe(&dataManagementMicroService);
+  //sensorsMicroService.subscribe(&dataManagementMicroService);
   delay(100);
   
   connectionEventManager.main();
