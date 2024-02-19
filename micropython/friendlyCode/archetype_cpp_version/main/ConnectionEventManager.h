@@ -7,14 +7,21 @@
 #include "Event.h"
 #include "Subscriber.h"
 #include "EventManager.h"
+#include "ApiClient.h"
 
-class ConnectionEventManager : public EventManager {
+#define MAX_MEASUREMENTS 30
+
+class ConnectionEventManager : public EventManager, public Subscriber{
 private:
     Event firstConnectionEvent;
     Event lastConnectionEvent;
+    Event measurementEvents[MAX_MEASUREMENTS];
     WiFiClient client;
+    ApiClient apiClient = ApiClient(client);
+
 
 public:
+
     ConnectionEventManager() {
         firstConnectionEvent = Event(CONNECTION_EVENT, SERVICE_UNAVAILABLE_STATUS, "", "{\"error\":\"No connection events yet\"}");
         lastConnectionEvent = firstConnectionEvent;
@@ -24,6 +31,7 @@ public:
         return firstConnectionEvent;
     }
 
+    //------------------------ Event Manager Interface ------------------------
     void notify() override {
         // Run business logic
         main();
@@ -54,6 +62,52 @@ public:
         }
     }
 
+    //------------------------ Subscriber Interface ------------------------
+    void update(const Event& event) override {
+        Serial.println("ConnectionEventManager received an event...");
+        
+        if (event.getType() == MEASUREMENT_EVENT){
+            Serial.println("Received a measurement event");
+            int statusCode = apiClient.sendEvent(event);
+        
+            if (statusCode == 200) {
+                Serial.println("Event sent successfully");
+            } else {
+                Serial.println("Failed to send event");
+            }
+        }else{
+            Serial.println("Received a non-measurement event");
+            std::runtime_error("Received a non-measurement event");
+        }
+
+    }
+
+    void update(const Event* events, int size) override {
+        Serial.println("ConnectionEventManager received an array of events...");
+
+        int* statusCodes = apiClient.sendEvents(events, size);
+        Event remainingEvents[size];
+        int unsentEvents = 0;
+        
+        for (int i = 0; i < size; i++){
+            if (statusCodes[i] != 200) {
+                remainingEvents[i] = events[i];
+                unsentEvents++;
+            }else{
+                remainingEvents[i] = Event();
+            }
+        }
+
+        // Notify subscribers
+        if (unsentEvents > 0) {
+            Serial.println("There are unsent events");
+            for (int i = 0; i < number_of_subs; i++){
+                subscribers_[i]->update(remainingEvents, unsentEvents);
+            }
+        }
+    }
+
+    //------------------------ Business Logic ------------------------
     void connect(bool doReconnect = false) {
 
         // Disconnect if already connected
