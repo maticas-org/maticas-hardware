@@ -1,3 +1,6 @@
+#ifndef SDCard_h
+#define SDCard_h
+
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"
@@ -34,3 +37,5 @@ class DataManagementMicroService : public Subscriber {
     SDFS sd = SD;
     SPIClass spi = SPIClass(VSPI);
 };
+
+#endif
