@@ -14,6 +14,20 @@ Event::Event(int type, int statusCode, const String& timestamp, const String& da
     data_ = data;
 }
 
+Event::Event(String eventString){
+
+    //parse the string to get the event attributes
+    int typeIndex = eventString.indexOf("\"type\":") + 7;
+    int statusCodeIndex = eventString.indexOf("\"statusCode\":") + 14;
+    int timestampIndex = eventString.indexOf("\"timestamp\":\"") + 13;
+    int dataIndex = eventString.indexOf("\"data\":\"") + 8;
+
+    type_ = eventString.substring(typeIndex, eventString.indexOf(",", typeIndex)).toInt();
+    statusCode_ = eventString.substring(statusCodeIndex, eventString.indexOf(",", statusCodeIndex)).toInt();
+    timestamp_ = eventString.substring(timestampIndex, eventString.indexOf("\",", timestampIndex));
+    data_ = eventString.substring(dataIndex, eventString.indexOf("\"}", dataIndex));
+}
+
 int Event::getType() const {
     return type_;
 }

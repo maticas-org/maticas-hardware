@@ -39,7 +39,7 @@ void loop() {
   timeEventManager.subscribe(&sensorsMicroService);
   sensorsMicroService.subscribe(&connectionEventManager);
   connectionEventManager.subscribe(&dataManagementMicroService);
-  //sensorsMicroService.subscribe(&dataManagementMicroService);
+  //dataManagementMicroService.subscribe(&connectionEventManager);
   delay(100);
   
   connectionEventManager.main();

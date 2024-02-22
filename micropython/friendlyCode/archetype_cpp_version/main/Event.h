@@ -25,6 +25,7 @@ class Event {
 public:
     Event();
     Event(int type, int statusCode, const String& timestamp, const String& data);
+    Event(String eventString);
     
     int getType() const;
     int getStatusCode() const;

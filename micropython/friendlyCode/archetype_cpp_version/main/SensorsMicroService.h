@@ -42,6 +42,12 @@ class SensorsMicroService : public EventManager, public Subscriber {
                 if (i < sensors_count && sensors_[i] != nullptr) {
                     Event event = sensors_[i]->request();
 
+                    if (event.getStatusCode() == INTERNAL_SERVER_ERROR) {
+                        Serial.println("SensorsMicroService got an error event: ");
+                        Serial.print(event.toString());
+                        continue;
+                    }
+
                     // Update the timestamp field of the event with the last_time_event_
                     last_measurement_events_[i] = event; // Store event
                     last_measurement_events_[i].setTimestamp(last_time_event_.getTimestamp());

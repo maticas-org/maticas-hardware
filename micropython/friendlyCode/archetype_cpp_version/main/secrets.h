@@ -1,8 +1,8 @@
 #ifndef SECRETS_H
 #define SECRETS_H
 
-#define MY_SSID "ArchLinux"
-#define MY_PASSWORD "nuncaheusadoarch"
+#define MY_SSID "Aulas EICT"
+#define MY_PASSWORD "eict1234"
 #define PING_URLS ["www.google.com", "www.facebook.com", "www.twitter.com"]
 
 extern const String API_URL  = "192.168.1.133"; 
