@@ -11,7 +11,7 @@
 
 
 #define timeEventManagerFrequency 5
-#define sensorsMicroServiceFrequency 30
+#define sensorsMicroServiceFrequency 60*2
 #define connectionEventManagerFrequency 60*10
 
 void setup() {
@@ -59,21 +59,28 @@ void loop() {
   while (true) {
     currentMillis = millis();
     
+    //update the time
     if (currentMillis - previousTimeEventMillis >= timeEventManagerFrequency * 1000) {
       timeEventManager.notify();
       previousTimeEventMillis = currentMillis;
     }
+    currentMillis = millis();
     
+    //update the connection
     if (currentMillis - previousConnectionEventMillis >= connectionEventManagerFrequency * 1000) {
       connectionEventManager.notify();
       previousConnectionEventMillis = currentMillis;
     }
+    currentMillis = millis();
 
+    //update the measurements from sensors
     if (currentMillis - previousSensorsMicroServiceMillis >= sensorsMicroServiceFrequency * 1000) {
       sensorsMicroService.notify();
       previousSensorsMicroServiceMillis = currentMillis;
     }
+    currentMillis = millis();
 
+    //show memory usage
     free_hmem = ESP.getFreeHeap();
     free_mem = ESP.getFreePsram();
 

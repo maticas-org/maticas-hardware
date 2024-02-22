@@ -41,6 +41,9 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     }
 }
 
+/*
+* This method is used to get the file with the smallest last write time.
+*/
 String getPriorityFileName(fs::FS &fs, const char * dirname) {
     File root = fs.open(dirname);
 
@@ -221,6 +224,62 @@ DataManagementMicroService::DataManagementMicroService() {
     pendingEventsToStoreCount = 0;
 }
 
+/*
+* This method is used to get the default file name for the data management microservice.
+* If the file is not set then it generates a new file name based on the template and the file number.
+* If the memory is at the maximum usage percentage then it deletes the oldest file and creates a new one.
+* If the file size is greater than the maximum allowed then it creates a new file, and if the next new file
+* already existed, it checks if its smaller than the maximum allowed size, if not it continues creating new files
+* until it finds one that is smaller than the maximum allowed size.
+*/
+String DataManagementMicroService::defaultSetFileName() {
+
+   if (fileName == "") {
+        fileName = fileNameTemplate + String(fileNumber) + ".jsonl";
+    }
+
+    // initialize SPI
+    spi.begin(SCK, MISO, MOSI, CS);
+    delay(50);
+    sd.begin(CS, spi);
+    delay(50);
+
+    // check sd card memory usage
+    float totalMemory = sd.cardSize();
+    float usedMemory = sd.usedBytes();
+    float memoryUsagePercentage = (usedMemory / totalMemory) * 100;
+    Serial.printf("Memory usage percentage: %f\n", memoryUsagePercentage);
+
+    // if memory usage is greater than maximum allowed, delete oldest file
+    if (memoryUsagePercentage > MAX_MEMORY_USAGE_PERCENTAGE) {
+        Serial.println("Memory usage is greater than maximum allowed. Deleting oldest file...");
+        String priorityFileName = getPriorityFileName(sd, "/sd");
+        deleteFile(sd, priorityFileName.c_str());
+    }
+
+    // check if file exists, if not create it
+    checkIfFileExists(sd, fileName.c_str(), true);
+
+    // check if file size is greater than maximum allowed
+    float fileSize = getFileSize(sd, fileName.c_str()); 
+
+    // if file size is greater than maximum allowed, create a new file
+    while (fileSize > MAX_FILE_SIZE) {
+        Serial.println("File size is greater than maximum allowed. Creating new file...");
+        fileNumber++;
+        fileName = fileNameTemplate + String(fileNumber) + ".jsonl";
+        
+        // check if file exists, if not create it
+        checkIfFileExists(sd, fileName.c_str(), true);
+        
+        // check if file size is greater than maximum allowed
+        fileSize = getFileSize(sd, fileName.c_str());
+    }
+
+    return fileName; 
+}
+
+
 void DataManagementMicroService::initSDCard() {
     Serial.println("Initializing sd card...");
 
@@ -242,27 +301,7 @@ void DataManagementMicroService::initSDCard() {
     sdCardInitialized = true;
     
     // set the name of the file to write to
-    fileNumber      = 1;
-    fileName = fileNameTemplate + String(fileNumber) + ".jsonl";
-
-    // check if file exists, if not create it
-    checkIfFileExists(sd, fileName.c_str(), true);
-
-    // check if file size is greater than maximum allowed
-    float fileSize = getFileSize(sd, fileName.c_str()); 
-
-    // if file size is greater than maximum allowed, create a new file
-    while (fileSize > MAX_FILE_SIZE) {
-        Serial.println("\tFile size is greater than maximum allowed. Creating new file...");
-        fileNumber++;
-        fileName = fileNameTemplate + String(fileNumber) + ".jsonl";
-        
-        // check if file exists, if not create it
-        checkIfFileExists(sd, fileName.c_str(), true);
-        
-        // check if file size is greater than maximum allowed
-        fileSize = getFileSize(sd, fileName.c_str());
-    }
+    defaultSetFileName();
 
     //check if the file exists
     if(checkIfFileExists(sd, fileName.c_str(), false)){
@@ -292,21 +331,15 @@ void DataManagementMicroService::update(const Event* events, int size){
     sd.begin(CS, spi);
     delay(10);
 
-    // append events to file if failed, store them in a circular buffer
+    // append events to file.
+    // if failed, store them in a circular buffer
     for (int i = 0; i < size; i++) {
         if (events[i] == empty_event) {
             continue;
         }
 
-        float fileSize = getFileSize(sd, fileName.c_str());
-        Serial.printf("File size: %f\n", fileSize);
-
-        if (fileSize > MAX_FILE_SIZE) {
-            Serial.println("File size is greater than maximum allowed. Creating new file...");
-            fileNumber++;
-            fileName = fileNameTemplate + String(fileNumber) + ".jsonl";
-            checkIfFileExists(sd, fileName.c_str(), true);
-        }
+        // set the name of the file to write to
+        defaultSetFileName();
 
         Serial.println("Appending event " + String(i) + " to file " + fileName + "...");
         bool result = appendFile(sd, fileName.c_str(), events[i].toString().c_str());
