@@ -42,9 +42,14 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
 }
 
 /*
-* This method is used to get the file with the smallest last write time.
+* This method is used to get the file with the smallest last write time (this is the oldest file, 
+* the one that has been written the first) or the file with the greatest last write time (this is the
+* newest file, the one that has been written the last). This can be controlled by the max parameter.
+*
+* - max = false: get the oldest file, the one with the smallest last write time.
+* - max = true: get the newest file, the one with the greatest last write time.
 */
-String getPriorityFileName(fs::FS &fs, const char * dirname) {
+String getPriorityFileName(fs::FS &fs, const char * dirname, bool max = false) {
     File root = fs.open(dirname);
 
     if(!root){
@@ -60,24 +65,46 @@ String getPriorityFileName(fs::FS &fs, const char * dirname) {
     //sort them by the last write 
     //and return the smallest one
     File file = root.openNextFile();
-    time_t minTime = file.getLastWrite();
-    String minFileName = file.name();
 
-    while(file){
-        if(file.isDirectory()){
+    if (!max){
+        time_t minTime = file.getLastWrite();
+        String minFileName = file.name();
+
+        while(file){
+            if(file.isDirectory()){
+                file = root.openNextFile();
+                continue;
+            }
+
+            time_t t= file.getLastWrite();
+            if (t < minTime) {
+                minTime = t;
+                minFileName = file.name();
+            }
             file = root.openNextFile();
-            continue;
         }
 
-        time_t t= file.getLastWrite();
-        if (t < minTime) {
-            minTime = t;
-            minFileName = file.name();
+        return minFileName;
+    }else{
+        time_t maxTime = file.getLastWrite();
+        String maxFileName = file.name();
+
+        while(file){
+            if(file.isDirectory()){
+                file = root.openNextFile();
+                continue;
+            }
+
+            time_t t= file.getLastWrite();
+            if (t > maxTime) {
+                maxTime = t;
+                maxFileName = file.name();
+            }
+            file = root.openNextFile();
         }
-        file = root.openNextFile();
+
+        return maxFileName;
     }
-
-    return minFileName;
 }
 
 void createDir(fs::FS &fs, const char * path){
@@ -394,6 +421,7 @@ void DataManagementMicroService::notify(){
     sd.begin(CS, spi);
     delay(10);
 
+    //get the name of the file with the smallest last write time
     String priorityFileName = getPriorityFileName(sd, "/sd");
     Serial.println("Priority file to notify: " + priorityFileName);
 
