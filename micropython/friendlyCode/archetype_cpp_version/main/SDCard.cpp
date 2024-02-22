@@ -41,6 +41,42 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     }
 }
 
+String getPriorityFileName(fs::FS &fs, const char * dirname) {
+    File root = fs.open(dirname);
+
+    if(!root){
+        Serial.println("Failed to open directory");
+        return "";
+    }
+
+    if(!root.isDirectory()){
+        Serial.println("Not a directory");
+        return "";
+    }
+
+    //sort them by the last write 
+    //and return the smallest one
+    File file = root.openNextFile();
+    time_t minTime = file.getLastWrite();
+    String minFileName = file.name();
+
+    while(file){
+        if(file.isDirectory()){
+            file = root.openNextFile();
+            continue;
+        }
+
+        time_t t= file.getLastWrite();
+        if (t < minTime) {
+            minTime = t;
+            minFileName = file.name();
+        }
+        file = root.openNextFile();
+    }
+
+    return minFileName;
+}
+
 void createDir(fs::FS &fs, const char * path){
     Serial.printf("Creating Dir: %s\n", path);
     if(fs.mkdir(path)){
@@ -96,9 +132,8 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
 
 bool appendFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("\tAppending to file: %s\n", path);
-
-
     File file = fs.open(path, FILE_APPEND, true);
+
     if(!file){
         Serial.println("\tFailed to open file for appending");
         return false;
@@ -108,10 +143,14 @@ bool appendFile(fs::FS &fs, const char * path, const char * message){
 
     if(file.print(message)){
         Serial.println("\tMessage appended!");
+        float fileSize = file.size();
+        Serial.printf("\tFile size: %f\n", fileSize);
         file.close();
         return true;
     } else {
         Serial.println("\tAppend failed!");
+        float fileSize = file.size();
+        Serial.printf("\tFile size: %f\n", fileSize);
         file.close();
         return false;
     }
@@ -258,6 +297,17 @@ void DataManagementMicroService::update(const Event* events, int size){
         if (events[i] == empty_event) {
             continue;
         }
+
+        float fileSize = getFileSize(sd, fileName.c_str());
+        Serial.printf("File size: %f\n", fileSize);
+
+        if (fileSize > MAX_FILE_SIZE) {
+            Serial.println("File size is greater than maximum allowed. Creating new file...");
+            fileNumber++;
+            fileName = fileNameTemplate + String(fileNumber) + ".jsonl";
+            checkIfFileExists(sd, fileName.c_str(), true);
+        }
+
         Serial.println("Appending event " + String(i) + " to file " + fileName + "...");
         bool result = appendFile(sd, fileName.c_str(), events[i].toString().c_str());
 
@@ -270,7 +320,7 @@ void DataManagementMicroService::update(const Event* events, int size){
                     Serial.println("Circular buffer is full. Overwriting events...");
                 }else{
                     Serial.println("Circular has been full for a while. And problem persists. Rebooting...");
-                    ESP.reset();
+                    ESP.restart();
                 }
 
                 firstTimeResetingCounter = false;
@@ -311,12 +361,15 @@ void DataManagementMicroService::notify(){
     sd.begin(CS, spi);
     delay(10);
 
-    if (!sd.exists(fileName)) {
+    String priorityFileName = getPriorityFileName(sd, "/sd");
+    Serial.println("Priority file to notify: " + priorityFileName);
+
+    if (!sd.exists(priorityFileName)) {
         Serial.println("\tFile does not exist. No events to read.");
         sd.end();
     }else{
         Serial.println("\tFile exists. Reading events...");
-        File file = sd.open(fileName);
+        File file = sd.open(priorityFileName);
 
         if(!file){
             Serial.println("\tFailed to open file for reading");
@@ -370,6 +423,9 @@ void DataManagementMicroService::notify(){
                 for (int i = 0; i < number_of_subs; i++){
                     subscribers_[i]->update(pendingEventsFromSD, eventsCount);
                 }
+
+                //delete the file
+                deleteFile(sd, priorityFileName.c_str());
             }
         }
     }
