@@ -13,6 +13,12 @@ public:
     TimeEventManager(int defaultTimeUpdateIntervalSecs) {
         RTC.begin();
         //RTC.setHourMode(CLOCK_H24);
+        //RTC.setDay(23);
+        //RTC.setMonth(2);
+        //RTC.setYear(2024);
+        //RTC.setHours(16);
+        //RTC.setMinutes(3);
+        //RTC.setSeconds(0);
 
         firstEvent = Event();
         lastEvent = Event();

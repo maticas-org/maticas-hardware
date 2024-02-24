@@ -69,6 +69,11 @@ class SensorsMicroService : public EventManager, public Subscriber {
                 subscribers_[i]->update(last_measurement_events_, nmeasurement_events_); 
             }
 
+            // Reset the last_measurement_events_ to empty events
+            for (int i = 0; i < MAX_STORED_EVENTS; i++) {
+                last_measurement_events_[i] = Event();
+            }
+
             // Reset the number of measurement events
             nmeasurement_events_ = 0;
         }
@@ -105,7 +110,6 @@ class SensorsMicroService : public EventManager, public Subscriber {
 
             if (event.getType() == TIME_EVENT){
                 last_time_event_ = event;
-                notify();
             }else{
                 Serial.println("\nSensorsMicroService got an event of type: ");
                 Serial.print(event.getType());

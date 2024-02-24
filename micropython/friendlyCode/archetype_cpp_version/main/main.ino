@@ -73,6 +73,13 @@ void loop() {
     }
     currentMillis = millis();
 
+    //update the time
+    if (currentMillis - previousTimeEventMillis >= timeEventManagerFrequency * 1000) {
+      timeEventManager.notify();
+      previousTimeEventMillis = currentMillis;
+    }
+    currentMillis = millis();
+
     //update the measurements from sensors
     if (currentMillis - previousSensorsMicroServiceMillis >= sensorsMicroServiceFrequency * 1000) {
       sensorsMicroService.notify();
