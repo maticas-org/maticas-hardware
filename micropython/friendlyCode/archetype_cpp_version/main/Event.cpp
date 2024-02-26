@@ -25,7 +25,7 @@ Event::Event(String eventString){
     type_ = eventString.substring(typeIndex, eventString.indexOf(",", typeIndex)).toInt();
     statusCode_ = eventString.substring(statusCodeIndex, eventString.indexOf(",", statusCodeIndex)).toInt();
     timestamp_ = eventString.substring(timestampIndex, eventString.indexOf("\",", timestampIndex));
-    data_ = eventString.substring(dataIndex, eventString.indexOf("\"}", dataIndex));
+    data_ = eventString.substring(dataIndex, eventString.indexOf("\"}]", dataIndex));
 }
 
 int Event::getType() const {
