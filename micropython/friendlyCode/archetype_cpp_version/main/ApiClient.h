@@ -7,6 +7,7 @@
 #include "secrets.h"
 #include "Event.h"
 
+
 #define MAX_MEASUREMENTS 30
 class ApiClient {
 
@@ -18,6 +19,7 @@ class ApiClient {
 
         ApiClient(WiFiClient &client) : http_(client, API_URL, API_PORT) {
             reset_last_results();
+            http_.setHttpResponseTimeout(HTTP_TIMEOUT);
         }
 
         int sendEvent(const Event& event) {
