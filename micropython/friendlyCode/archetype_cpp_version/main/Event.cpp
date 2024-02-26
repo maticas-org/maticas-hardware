@@ -20,7 +20,7 @@ Event::Event(String eventString){
     int typeIndex = eventString.indexOf("\"type\":") + 7;
     int statusCodeIndex = eventString.indexOf("\"statusCode\":") + 14;
     int timestampIndex = eventString.indexOf("\"timestamp\":\"") + 13;
-    int dataIndex = eventString.indexOf("\"data\":\"") + 8;
+    int dataIndex = eventString.indexOf("\"data\":") + 7;
 
     type_ = eventString.substring(typeIndex, eventString.indexOf(",", typeIndex)).toInt();
     statusCode_ = eventString.substring(statusCodeIndex, eventString.indexOf(",", statusCodeIndex)).toInt();
@@ -59,9 +59,9 @@ String Event::toString() const {
     eventString += statusCode_;
     eventString += ",\"timestamp\":\"";
     eventString += timestamp_;
-    eventString += "\",\"data\":\"";
+    eventString += "\",\"data\":";
     eventString += data_;
-    eventString += "\"}";
+    eventString += "}";
     eventString += "\n";
 
     return eventString;

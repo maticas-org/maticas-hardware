@@ -88,8 +88,8 @@ public:
 
             // Format data in JSON-like string as a list of measurements
             const String timestamp = String(timeEvent.getTimestamp());
-            const String data1 = "{\"variable\": " + TEMPERATURE_UIID + ", \"value\": " + String(temperature) + ", \"crop\": " + CROP_UIID + ", \"timestamp\": " + timestamp + "}";
-            const String data2 = "{\"variable\": " + HUMIDITY_UIID + ", \"value\": " + String(humidity) + ", \"crop\": " + CROP_UIID + ", \"timestamp\": " + timestamp + "}";
+            const String data1 = "{\"variable\": " + TEMPERATURE_UIID + ", \"value\": " + String(temperature) + ", \"crop\": " + CROP_UIID + ", \"timestamp\": \"" + timestamp + "\"}";
+            const String data2 = "{\"variable\": " + HUMIDITY_UIID + ", \"value\": " + String(humidity) + ", \"crop\": " + CROP_UIID + ", \"timestamp\": \"" + timestamp + "\"}";
             const String data = "[" + data1 + ", " + data2 + "]";
             return Event(MEASUREMENT_EVENT, OK_STATUS, timestamp, data);
 

@@ -24,7 +24,7 @@ class ApiClient {
             // Send event to server
             Serial.println("Sending event to server...");
             String contentType = "application/json";
-            String postData = event.toString();
+            String postData = event.getData();
 
             http_.connectionKeepAlive();
             http_.beginRequest();
