@@ -420,7 +420,7 @@ void DataManagementMicroService::notify(){
     delay(10);
 
     //get the name of the file with the smallest last write time
-    String priorityFileName = getPriorityFileName(sd, "/sd");
+    String priorityFileName = "/sd/" + getPriorityFileName(sd, "/sd");
     Serial.println("Priority file to notify: " + priorityFileName);
 
     if (!sd.exists(priorityFileName)) {
@@ -476,6 +476,8 @@ void DataManagementMicroService::notify(){
                 }
 
                 file.close();
+                //delete the file
+                deleteFile(sd, priorityFileName.c_str());
                 sd.end();
 
                 //notify the subscribers with the events read from the file
@@ -483,8 +485,6 @@ void DataManagementMicroService::notify(){
                     subscribers_[i]->update(pendingEventsFromSD, eventsCount);
                 }
 
-                //delete the file
-                deleteFile(sd, priorityFileName.c_str());
             }
         }
     }
