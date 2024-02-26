@@ -8,11 +8,11 @@
 
 class Adapter : public Target, public Adaptee {
 public:
-    void setSpecificRequest(Event (*specificRequestFunc)());
-    Event request() override;
+    void setSpecificRequest(Event (*specificRequestFunc)(Event timeEvent));
+    Event request(Event timeEvent);
 
 private:
-    Event (*specificRequestFunc)();
+    Event (*specificRequestFunc)(Event timeEvent);
 };
 
 #endif // ADAPTER_H

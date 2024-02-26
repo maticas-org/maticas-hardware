@@ -1,7 +1,5 @@
-#include "FS.h"
-#include "SD.h"
-#include "SPI.h"
 #include "SDCard.h"
+File file;
 
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
@@ -17,27 +15,27 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
         return;
     }
 
-    File file = root.openNextFile();
-    while(file){
-        if(file.isDirectory()){
+    File afile = root.openNextFile();
+    while(afile){
+        if(afile.isDirectory()){
             Serial.print("  DIR : ");
-            Serial.print (file.name());
-            time_t t= file.getLastWrite();
+            Serial.print (afile.name());
+            time_t t= afile.getLastWrite();
             struct tm * tmstruct = localtime(&t);
             Serial.printf("  LAST WRITE: %d-%02d-%02d %02d:%02d:%02d\n",(tmstruct->tm_year)+1900,( tmstruct->tm_mon)+1, tmstruct->tm_mday,tmstruct->tm_hour , tmstruct->tm_min, tmstruct->tm_sec);
             if(levels){
-                listDir(fs, file.path(), levels -1);
+                listDir(fs, afile.path(), levels -1);
             }
         } else {
             Serial.print("  FILE: ");
-            Serial.print(file.name());
+            Serial.print(afile.name());
             Serial.print("  SIZE: ");
-            Serial.print(file.size());
-            time_t t= file.getLastWrite();
+            Serial.print(afile.size());
+            time_t t= afile.getLastWrite();
             struct tm * tmstruct = localtime(&t);
             Serial.printf("  LAST WRITE: %d-%02d-%02d %02d:%02d:%02d\n",(tmstruct->tm_year)+1900,( tmstruct->tm_mon)+1, tmstruct->tm_mday,tmstruct->tm_hour , tmstruct->tm_min, tmstruct->tm_sec);
         }
-        file = root.openNextFile();
+        afile = root.openNextFile();
     }
 }
 
@@ -64,43 +62,43 @@ String getPriorityFileName(fs::FS &fs, const char * dirname, bool max = false) {
 
     //sort them by the last write 
     //and return the smallest one
-    File file = root.openNextFile();
+    File afile = root.openNextFile();
 
     if (!max){
-        time_t minTime = file.getLastWrite();
-        String minFileName = file.name();
+        time_t minTime = afile.getLastWrite();
+        String minFileName = afile.name();
 
-        while(file){
-            if(file.isDirectory()){
-                file = root.openNextFile();
+        while(afile){
+            if(afile.isDirectory()){
+                afile = root.openNextFile();
                 continue;
             }
 
-            time_t t= file.getLastWrite();
+            time_t t= afile.getLastWrite();
             if (t < minTime) {
                 minTime = t;
-                minFileName = file.name();
+                minFileName = afile.name();
             }
-            file = root.openNextFile();
+            afile = root.openNextFile();
         }
 
         return minFileName;
     }else{
-        time_t maxTime = file.getLastWrite();
-        String maxFileName = file.name();
+        time_t maxTime = afile.getLastWrite();
+        String maxFileName = afile.name();
 
-        while(file){
-            if(file.isDirectory()){
-                file = root.openNextFile();
+        while(afile){
+            if(afile.isDirectory()){
+                afile = root.openNextFile();
                 continue;
             }
 
-            time_t t= file.getLastWrite();
+            time_t t= afile.getLastWrite();
             if (t > maxTime) {
                 maxTime = t;
-                maxFileName = file.name();
+                maxFileName = afile.name();
             }
-            file = root.openNextFile();
+            afile = root.openNextFile();
         }
 
         return maxFileName;
@@ -128,7 +126,7 @@ void removeDir(fs::FS &fs, const char * path){
 void readFile(fs::FS &fs, const char * path){
     Serial.printf("\tReading file: %s\n", path);
 
-    File file = fs.open(path);
+    file = fs.open(path);
     if(!file){
         Serial.println("\tFailed to open file for reading");
         return;
@@ -144,7 +142,7 @@ void readFile(fs::FS &fs, const char * path){
 void writeFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("\tWriting file: %s\n", path);
 
-    File file = fs.open(path, FILE_WRITE, true);
+    file = fs.open(path, FILE_WRITE, true);
     if(!file){
         Serial.println("\tFailed to open file for writing");
         return;
@@ -162,7 +160,7 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
 
 bool appendFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("\tAppending to file: %s\n", path);
-    File file = fs.open(path, FILE_APPEND, true);
+    file = fs.open(path, FILE_APPEND, true);
 
     if(!file){
         Serial.println("\tFailed to open file for appending");
@@ -206,7 +204,7 @@ void deleteFile(fs::FS &fs, const char * path){
 
 float getFileSize(fs::FS &fs, const char * path){
     Serial.printf("Getting file size: %s\n", path);
-    File file = fs.open(path);
+    file = fs.open(path);
     if(!file){
         Serial.println("Failed to open file for reading");
         return -1.0;
@@ -226,7 +224,7 @@ bool checkIfFileExists(fs::FS &fs, const char * path, bool createIfNotExists){
         Serial.println("\tFile does not exist");
         if (createIfNotExists) {
             Serial.println("\tCreating file...");
-            File file = fs.open(path, FILE_WRITE, true);
+            file = fs.open(path, FILE_WRITE, true);
             if (!file) {
                 Serial.println("\tFailed to open file for writing");
                 return false;

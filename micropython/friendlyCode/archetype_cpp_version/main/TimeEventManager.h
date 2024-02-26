@@ -3,11 +3,14 @@
 #include "EventManager.h"
 #include "Subscriber.h"
 
+#define RESTART_INTERVAL_SECS 10800 // 3 hours
+
 static DS3231 RTC;
 
 class TimeEventManager : public EventManager {
 private:
     int updateIntervalSecs;
+    int startTimeUnix;
 
 public:
     TimeEventManager(int defaultTimeUpdateIntervalSecs) {
@@ -24,6 +27,7 @@ public:
         lastEvent = Event();
 
         updateIntervalSecs = defaultTimeUpdateIntervalSecs;
+        startTimeUnix = RTC.getEpoch();
 
         Serial.begin(9600);
         Serial.println("Initialized TimeEventManager.");
@@ -38,8 +42,22 @@ public:
         }
     }
 
+    void checkForRestart() {
+        //if the distance in time between the current time and the first event's timestamp
+        //is than the RESTART_INTERVAL_SECS, then restart the device
+        int currentTimeUnix = RTC.getEpoch();
+        int timeDiff = currentTimeUnix - startTimeUnix;
+
+        if (timeDiff > RESTART_INTERVAL_SECS) {
+            Serial.println("TimeEventManager: Restarting device due to time interval.");
+            ESP.restart();
+        }
+    }
+
     void main() override {
         Serial.println("\nTimeEventManager running business logic...");
+        checkForRestart();
+
         String data = "";
 
         try {

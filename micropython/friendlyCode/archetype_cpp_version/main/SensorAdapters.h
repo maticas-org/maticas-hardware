@@ -1,6 +1,7 @@
 #include "DHT.h"
 #include "Adapter.h"
 #include "Event.h"
+#include "secrets.h"
 
 #define DHTPIN 4
 #define DHTTYPE DHT11
@@ -31,6 +32,7 @@ private:
     Event (*specificRequestFunc)() = nullptr;
     int maxRetries;
     int retryDelay;
+    long int lastRequestTimestamp = -1;
 
 public:
     DHTAdapter(int maxRetries = 5, int retryDelay = 2100) : Adapter() {
@@ -39,22 +41,22 @@ public:
         this->retryDelay = retryDelay;
     }
 
-    Event request() override {
+    Event request(Event timeEvent){
         Serial.println("DHTAdapter handling request...");
-        return specificRequest();
+        return specificRequest(timeEvent);
     }
 
-    Event specificRequest() override {
+    Event specificRequest(Event timeEvent){
         // Run specific request function if it is set
         // Otherwise, run the default request function
         if (specificRequestFunc != nullptr) {
             return specificRequestFunc();
         } else {
-            return default_request();
+            return default_request(timeEvent);
         }
     }
 
-    Event default_request() {
+    Event default_request(Event timeEvent) {
         float temperatureArray[maxRetries];
         float humidityArray[maxRetries];
 
@@ -84,9 +86,13 @@ public:
             float temperature = average(temperatureArray, validReadings);
             float humidity = average(humidityArray, validReadings);
 
-            // Format data in JSON-like string
-            String data = "{\"temperature\": " + String(temperature) + ", \"humidity\": " + String(humidity) + "}";
-            return Event(MEASUREMENT_EVENT, OK_STATUS, "", data);
+            // Format data in JSON-like string as a list of measurements
+            const String timestamp = String(timeEvent.getTimestamp());
+            const String data1 = "{\"variable\": " + TEMPERATURE_UIID + ", \"value\": " + String(temperature) + ", \"crop\": " + CROP_UIID + ", \"timestamp\": " + timestamp + "}";
+            const String data2 = "{\"variable\": " + HUMIDITY_UIID + ", \"value\": " + String(humidity) + ", \"crop\": " + CROP_UIID + ", \"timestamp\": " + timestamp + "}";
+            const String data = "[" + data1 + ", " + data2 + "]";
+            return Event(MEASUREMENT_EVENT, OK_STATUS, timestamp, data);
+
         } catch (std::exception e) {
             // Print the exception and the message
             Serial.println(e.what());

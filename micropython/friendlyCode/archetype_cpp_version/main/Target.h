@@ -6,7 +6,7 @@
 
 class Target {
 public:
-    virtual Event request() = 0;
+    virtual Event request(Event timeEvent) = 0;
 };
 
 #endif // TARGET_H

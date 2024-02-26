@@ -2,10 +2,11 @@
 #define ADAPTEE_H
 
 #include <Arduino.h>
+#include "Event.h"
 
 class Adaptee {
 public:
-    virtual Event specificRequest() = 0;
+    virtual Event specificRequest(Event timeEvent) = 0;
 };
 
 #endif // ADAPTEE_H
