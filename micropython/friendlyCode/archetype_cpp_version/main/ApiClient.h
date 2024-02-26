@@ -64,10 +64,29 @@ class ApiClient {
             return statusCode;
         }
 
+        int logIn(){
+            Serial.println("\tSending login to server...");
+            String contentType = "application/json";
+
+            http_.connectionKeepAlive();
+            http_.beginRequest();
+            http_.post(API_LOGIN_ENDPOINT);
+            http_.sendHeader("Content-Type", contentType);
+            http_.sendHeader("Content-Length", API_CREDS.length());
+            http_.sendHeader("Custom-Header", "custom");
+            http_.beginBody();
+            http_.print(API_CREDS);
+            http_.endRequest();
+
+            int statusCode = http_.responseStatusCode();
+            return statusCode;
+        }
+
         int* sendEvents(const Event* events, int n) {
             // Send events to server
             Serial.println("Sending events to server...");
             reset_last_results();
+            logIn();
 
             for (int i = 0; i < n; i++){
                 last_results[i] = sendEvent(events[i]);
