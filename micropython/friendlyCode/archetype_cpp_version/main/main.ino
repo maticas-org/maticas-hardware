@@ -10,9 +10,11 @@
 #include "SensorsMicroService.h"
 
 
-#define timeEventManagerFrequency 5
-#define sensorsMicroServiceFrequency 60*2
-#define connectionEventManagerFrequency 60*10
+//time in seconds
+#define timeEventManagerFrequency 5               //5 seconds
+#define sensorsMicroServiceFrequency 60*1         //2 minutes
+#define connectionEventManagerFrequency 60*1     //10 minutes
+#define dataManagementMicroServiceFrequency 60*1  //11 minutes
 
 void setup() {
   // put your setup code here, to run once:
@@ -39,7 +41,7 @@ void loop() {
   timeEventManager.subscribe(&sensorsMicroService);
   sensorsMicroService.subscribe(&connectionEventManager);
   connectionEventManager.subscribe(&dataManagementMicroService);
-  //dataManagementMicroService.subscribe(&connectionEventManager);
+  dataManagementMicroService.subscribe(&connectionEventManager);
   delay(100);
   
   connectionEventManager.main();
@@ -54,6 +56,7 @@ void loop() {
   unsigned long previousTimeEventMillis = 0;
   unsigned long previousConnectionEventMillis = 0;
   unsigned long previousSensorsMicroServiceMillis = 0;
+  unsigned long previousDataManagementMicroServiceMillis = 0;
   unsigned long currentMillis = millis();
 
   while (true) {
@@ -86,6 +89,20 @@ void loop() {
       previousSensorsMicroServiceMillis = currentMillis;
     }
     currentMillis = millis();
+
+    //update the time
+    if (currentMillis - previousTimeEventMillis >= timeEventManagerFrequency * 1000) {
+      timeEventManager.notify();
+      previousTimeEventMillis = currentMillis;
+    }
+    currentMillis = millis();
+
+    //update the data management - this tries to send the data from the sd card to the server
+    if (currentMillis - previousDataManagementMicroServiceMillis >= dataManagementMicroServiceFrequency * 1000) {
+      Serial.println("\n------------------------\n");
+      dataManagementMicroService.notify();
+      previousDataManagementMicroServiceMillis = currentMillis;
+    }
 
     //show memory usage
     free_hmem = ESP.getFreeHeap();
