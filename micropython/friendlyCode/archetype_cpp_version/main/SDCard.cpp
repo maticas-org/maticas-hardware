@@ -1,6 +1,7 @@
 #include "SDCard.h"
-File file;
+#include "CustomUtils.h"
 
+File file;
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     Serial.printf("Listing directory: %s\n", dirname);
@@ -35,8 +36,10 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
             struct tm * tmstruct = localtime(&t);
             Serial.printf("  LAST WRITE: %d-%02d-%02d %02d:%02d:%02d\n",(tmstruct->tm_year)+1900,( tmstruct->tm_mon)+1, tmstruct->tm_mday,tmstruct->tm_hour , tmstruct->tm_min, tmstruct->tm_sec);
         }
+        afile.close();
         afile = root.openNextFile();
     }
+    root.close();
 }
 
 /*
@@ -79,6 +82,7 @@ String getPriorityFileName(fs::FS &fs, const char * dirname, bool max = false) {
                 minTime = t;
                 minFileName = afile.name();
             }
+            afile.close();
             afile = root.openNextFile();
         }
 
@@ -98,9 +102,10 @@ String getPriorityFileName(fs::FS &fs, const char * dirname, bool max = false) {
                 maxTime = t;
                 maxFileName = afile.name();
             }
+            afile.close();
             afile = root.openNextFile();
         }
-
+        root.close();
         return maxFileName;
     }
 }
@@ -145,6 +150,7 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
     file = fs.open(path, FILE_WRITE, true);
     if(!file){
         Serial.println("\tFailed to open file for writing");
+        file.close();
         return;
     }else{
         Serial.println("\tFile opened for writing");
@@ -164,6 +170,7 @@ bool appendFile(fs::FS &fs, const char * path, const char * message){
 
     if(!file){
         Serial.println("\tFailed to open file for appending");
+        file.close();
         return false;
     }else{
         Serial.println("\tFile opened for appending");
@@ -207,6 +214,7 @@ float getFileSize(fs::FS &fs, const char * path){
     file = fs.open(path);
     if(!file){
         Serial.println("Failed to open file for reading");
+        file.close();
         return -1.0;
     }
 
@@ -262,12 +270,6 @@ String DataManagementMicroService::defaultSetFileName() {
    if (fileName == "") {
         fileName = fileNameTemplate + String(fileNumber) + ".jsonl";
     }
-
-    // initialize SPI
-    spi.begin(SCK, MISO, MOSI, CS);
-    delay(50);
-    sd.begin(CS, spi);
-    delay(50);
 
     // check sd card memory usage
     float totalMemory = sd.cardSize();
@@ -339,68 +341,89 @@ void DataManagementMicroService::initSDCard() {
     sd.end();
 }
 
-//--------------------- Subscriber methods ---------------------
-void DataManagementMicroService::update(const Event* events, int size){
-    Serial.println("DataManagementMicroService got " + String(size) + " events");
-    const Event empty_event = Event();
 
+
+void DataManagementMicroService::writeEventsBatch() {
+    if (!sdCardInitialized || pendingEventsToStoreCount == 0) {
+        return; // Nothing to write or SD card not initialized
+    }
+
+    Serial.printf("Writing batch of %d events to file %s...\n", pendingEventsToStoreCount, fileName.c_str());
+    File file = sd.open(fileName.c_str(), FILE_APPEND, true);
+
+    if (!file) {
+        Serial.println("Failed to open file for batch append");
+        return;
+    }else{
+        Serial.println("File opened for batch append");
+    }
+    
+    for (int i = 0; i < pendingEventsToStoreCount; ++i) {
+        Serial.printf("Writing event %d to file... ", i);
+
+        String eventData = pendingEventsToStore[i].toString(); // Assuming Event has a toJson method
+        if (!file.println(eventData)) { // Use println to ensure each event is on a new line
+            Serial.println("Failed to write event to file");
+        }else{
+            Serial.println("OK");
+        }
+    }
+
+    file.close();
+    pendingEventsToStoreCount = 0; // Reset the count after writing
+    Serial.println("Batch write complete.");
+}
+
+//--------------------- Subscriber methods ---------------------
+void DataManagementMicroService::update(const Event* events, int size) {
+    Serial.printf("DataManagementMicroService received %d events\n", size);
     if (!sdCardInitialized) {
         Serial.println("SD card not initialized. Cannot write events to file.");
         return;
     }
 
-    // if file exists, append events to it
-    Serial.printf("Appending events to file %s...\n", fileName.c_str());
+    //if initialized check if the file exists and how many events are stored in it
     spi.begin(SCK, MISO, MOSI, CS);
     delay(100);
     sd.begin(CS, spi);
     delay(10);
 
-    // append events to file.
-    // if failed, store them in a circular buffer
-    for (int i = 0; i < size; i++) {
-        if (events[i] == empty_event) {
-            continue;
+    // Set/Update the name of the file to write to
+    int threshold = max(MAX_STORED_EVENTS, EVENT_BATCH_SIZE);
+
+    // If the buffer is full or will be full after adding the new events, make sure to set to a new file
+    // or to an existing file with enough space
+    if (pendingEventsToStoreCount >= threshold || pendingEventsToStoreCount + size >= threshold) {
+        defaultSetFileName();
+    }
+
+    logMemoryUsage();
+
+    for (int i = 0; i < size; ++i) {
+        // Attempt to write the batch to SD card if the buffer is full
+        if (pendingEventsToStoreCount >= MAX_STORED_EVENTS) {
+            writeEventsBatch(); // Attempt to write current batch before overwriting old events
         }
 
-        // set the name of the file to write to
-        defaultSetFileName();
+        // Insert the new event into the buffer, possibly overwriting the oldest event
+        int insertPosition = pendingEventsToStoreCount % MAX_STORED_EVENTS;
+        pendingEventsToStore[insertPosition] = events[i];
 
-        Serial.println("Appending event " + String(i) + " to file " + fileName + "...");
-        bool result = appendFile(sd, fileName.c_str(), events[i].toString().c_str());
-
-        if (!result) {
-            // if maximum number of events is reached, make it a circular buffer
-            if (pendingEventsToStoreCount >= MAX_STORED_EVENTS) {
-                pendingEventsToStoreCount = 0;
-                
-                if (firstTimeResetingCounter) {
-                    Serial.println("Circular buffer is full. Overwriting events...");
-                }else{
-                    Serial.println("Circular has been full for a while. And problem persists. Rebooting...");
-                    ESP.restart();
-                }
-
-                firstTimeResetingCounter = false;
-            }
-
-            pendingEventsToStore[pendingEventsToStoreCount] = events[i];
+        if (pendingEventsToStoreCount < MAX_STORED_EVENTS) {
+            // Only increment count if we haven't filled the buffer yet
             pendingEventsToStoreCount++;
         }
-    }
 
-    // append events from circular buffer to file
-    for (int i = 0; i < pendingEventsToStoreCount; i++) {
-        Serial.println("Appending Pending SD Store event " + String(i) + " to file " + fileName + "...");
-        bool result = appendFile(sd, fileName.c_str(), pendingEventsToStore[i].toString().c_str());
-
-        if (result) {
-            pendingEventsToStore[i] = empty_event;
+        // Attempt to write after each insert if we've reached the batch size
+        // This check is outside the condition to ensure we attempt to write as soon as possible
+        if (pendingEventsToStoreCount >= EVENT_BATCH_SIZE) {
+            writeEventsBatch(); // If we've reached batch size, write the batch
         }
     }
-
     sd.end();
 }
+
+
 
 //--------------------- EventManager methods ---------------------
 void DataManagementMicroService::notify(){
@@ -422,6 +445,7 @@ void DataManagementMicroService::notify(){
     //get the name of the file with the smallest last write time
     String priorityFileName = "/sd/" + getPriorityFileName(sd, "/sd");
     Serial.println("Priority file to notify: " + priorityFileName);
+    logMemoryUsage();
 
     if (!sd.exists(priorityFileName)) {
         Serial.println("\tFile does not exist. No events to read.");
@@ -479,6 +503,8 @@ void DataManagementMicroService::notify(){
                 //delete the file
                 deleteFile(sd, priorityFileName.c_str());
                 sd.end();
+
+                logMemoryUsage();
 
                 //notify the subscribers with the events read from the file
                 for (int i = 0; i < number_of_subs; i++){

@@ -83,7 +83,7 @@ public:
     }
 
     void update(const Event* events, int size) override {
-        Serial.println("ConnectionEventManager received an array of events...");
+        Serial.printf("ConnectionEventManager received an array of %d events...\n", size);
 
         int* statusCodes = apiClient.sendEvents(events, size);
         Event remainingEvents[size];

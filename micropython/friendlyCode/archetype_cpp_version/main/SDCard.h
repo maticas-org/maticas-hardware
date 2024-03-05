@@ -12,9 +12,10 @@
 #define MISO  19
 #define MOSI  23
 #define CS  5
-#define MAX_STORED_EVENTS 30 //maximum number of events to store in the microservice
-#define MAX_FILE_SIZE 1024 //maximum file size in bytes
-#define MAX_MEMORY_USAGE_PERCENTAGE 90 //maximum memory usage percentage
+#define MAX_STORED_EVENTS 30            //maximum number of events to store in the microservice
+#define MAX_FILE_SIZE 1024              //maximum file size in bytes
+#define MAX_MEMORY_USAGE_PERCENTAGE 90  //maximum memory usage percentage
+#define EVENT_BATCH_SIZE 10             //number of events to be written to the SD card at once
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels);
 void createDir(fs::FS &fs, const char * path);
@@ -28,10 +29,16 @@ void deleteFile(fs::FS &fs, const char * path);
 class DataManagementMicroService : public Subscriber, public EventManager {
   public:
     DataManagementMicroService();
+
+    //----- business logic -----
     void initSDCard();
     String defaultSetFileName();
+    void writeEventsBatch();
+
+  //----- Subscriber and EventManager methods -----
     void update(const Event* events, int size);
     void notify() override;
+
 
   private:
     bool sdCardInitialized = false;

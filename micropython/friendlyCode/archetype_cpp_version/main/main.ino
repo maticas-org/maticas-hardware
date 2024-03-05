@@ -1,6 +1,7 @@
 #include "WiFi.h"
 #include <ArduinoHttpClient.h>
 
+#include "CustomUtils.h"
 #include "secrets.h"
 #include "SDCard.h"
 #include "EventManager.h"
@@ -12,7 +13,7 @@
 
 //time in seconds
 #define timeEventManagerFrequency 5               //5 seconds
-#define sensorsMicroServiceFrequency 60*1         //2 minutes
+#define sensorsMicroServiceFrequency 5*1         //2 minutes
 #define connectionEventManagerFrequency 60*1     //10 minutes
 #define dataManagementMicroServiceFrequency 60*1  //11 minutes
 
@@ -25,7 +26,6 @@ void setup() {
   Serial.println("Hello!");
   delay(100);
 }
-
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -45,13 +45,7 @@ void loop() {
   delay(100);
   
   connectionEventManager.main();
-  long int free_hmem = ESP.getFreeHeap();
-  long int total_hmem = ESP.getHeapSize();
-  long int free_mem = ESP.getFreePsram();
-  long int total_mem = ESP.getPsramSize();
-
-  Serial.printf("Free H. memory: %d B, Total H. memory: %d B, used H. percentage: %.2f\n", free_hmem, total_hmem, ((total_hmem-free_hmem)/total_hmem)*100);
-  Serial.printf("Free memory: %d B, Total memory: %d B\n", free_mem, total_mem);
+  logMemoryUsage();
 
   unsigned long previousTimeEventMillis = 0;
   unsigned long previousConnectionEventMillis = 0;
@@ -105,11 +99,7 @@ void loop() {
     }
 
     //show memory usage
-    free_hmem = ESP.getFreeHeap();
-    free_mem = ESP.getFreePsram();
-
-    Serial.printf("Free H. memory: %d B, Total H. memory: %d B, used H. percentage: %.2f\n", free_hmem, total_hmem, ((total_hmem-free_hmem)/total_hmem)*100);
-    Serial.printf("Free memory: %d B, Total memory: %d B\n", free_mem, total_mem);
+    logMemoryUsage();
     delay(2500);
   }
 
