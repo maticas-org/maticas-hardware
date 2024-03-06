@@ -6816,3 +6816,57 @@ Sending event to server...
 
 	Reading response status code...
 
+Status code: -3
+
+Failed to send event
+
+First time: 1
+
+Event: {"type":2,"statusCode":200,"timestamp":"2000-1-1 0:21:48","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.36, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:21:48"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.20, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:21:48"}],"timesSent":1}
+
+
+	Free H. memory: 216416 B, Total H. memory: 289492 B, used H. percentage: 25.24
+	Free memory: 0 B, Total memory: 0 B
+There are unsent events and it is the first time
+
+DataManagementMicroService received 1 events
+	Free H. memory: 216416 B, Total H. memory: 289492 B, used H. percentage: 25.24
+	Free memory: 0 B, Total memory: 0 B
+	Free H. memory: 188924 B, Total H. memory: 289364 B, used H. percentage: 34.71
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:22:13
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:22:13","data":"","timesSent":0}
+	Free H. memory: 216416 B, Total H. memory: 289492 B, used H. percentage: 25.24
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+
+Connection status code is 200
+
+Connection successful
+
+Checking for unsent measurement events...
+
+ConnectionEventManager notifying subscribers...
+
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.40 *C 
+
+Humidity: 58.00 %	 Temperature: 19.40 *C 
+
+Humidity: 61.00 %	 Temperature: 19.40 *C 
+
