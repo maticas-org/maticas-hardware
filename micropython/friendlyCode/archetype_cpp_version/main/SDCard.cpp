@@ -377,6 +377,8 @@ void DataManagementMicroService::writeEventsBatch() {
 //--------------------- Subscriber methods ---------------------
 void DataManagementMicroService::update(const Event* events, int size) {
     Serial.printf("DataManagementMicroService received %d events\n", size);
+    logMemoryUsage();
+
     if (!sdCardInitialized) {
         Serial.println("SD card not initialized. Cannot write events to file.");
         return;
@@ -480,6 +482,7 @@ void DataManagementMicroService::notify(){
             }else{
                 Serial.println("\tFile is not empty. Reading events...");
                 Event pendingEventsFromSD[eventsCount];
+                //Event* pendingEventsFromSD = new Event[eventsCount];
 
                 //if the file is not empty, read the events and store them in the
                 //pendingEventsFromSD array
@@ -501,16 +504,18 @@ void DataManagementMicroService::notify(){
 
                 file.close();
                 //delete the file
+                logMemoryUsage();
                 deleteFile(sd, priorityFileName.c_str());
                 sd.end();
-
                 logMemoryUsage();
+
 
                 //notify the subscribers with the events read from the file
                 for (int i = 0; i < number_of_subs; i++){
                     subscribers_[i]->update(pendingEventsFromSD, eventsCount);
                 }
 
+                //delete[] pendingEventsFromSD;
             }
         }
     }

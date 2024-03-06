@@ -25,7 +25,8 @@ Event::Event(String eventString){
     type_ = eventString.substring(typeIndex, eventString.indexOf(",", typeIndex)).toInt();
     statusCode_ = eventString.substring(statusCodeIndex, eventString.indexOf(",", statusCodeIndex)).toInt();
     timestamp_ = eventString.substring(timestampIndex, eventString.indexOf("\",", timestampIndex));
-    data_ = eventString.substring(dataIndex, eventString.indexOf("\"}]", dataIndex));
+    data_ = eventString.substring(dataIndex, eventString.indexOf("timesSent") - 2);
+    timesSent = eventString.substring(eventString.indexOf("timesSent") + 11, eventString.indexOf("}", eventString.indexOf("timesSent"))).toInt();
 }
 
 int Event::getType() const {
@@ -60,7 +61,17 @@ String Event::toString() const {
     eventString += ",\"timestamp\":\"";
     eventString += timestamp_;
     eventString += "\",\"data\":";
-    eventString += data_;
+    
+    //if data is empty write ""
+    if (data_ == ""){
+        eventString += "\"\"";
+    }else{
+        eventString += data_;
+    }
+
+    //add the timesSent attribute
+    eventString += ",\"timesSent\":";
+    eventString += timesSent;
     eventString += "}";
     eventString += "\n";
 

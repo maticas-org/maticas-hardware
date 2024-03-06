@@ -1,0 +1,2263 @@
+Connected to WiFi
+
+IP Address: 192.168.1.227
+
+	Free H. memory: 217832 B, Total H. memory: 289828 B, used H. percentage: 24.84
+	Free memory: 0 B, Total memory: 0 B
+	Free H. memory: 217832 B, Total H. memory: 289828 B, used H. percentage: 24.84
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:0:12
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:0:12","data":}
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: nan %	 Temperature: nan *C 
+
+Humidity: nan %	 Temperature: nan *C 
+
+Humidity: nan %	 Temperature: nan *C 
+
+¦ÕHello!
+
+Hello!
+
+Initialized TimeEventManager.
+
+DataManagementMicroService constructor
+
+Initializing sd card...
+
+sd card mounted successfully with 15MB
+sd card type: sdHC
+Used MBs: 15
+Memory usage percentage: 0.102385
+	Checking if file exists: /sd/data1.jsonl
+	File exists
+
+Getting file size: /sd/data1.jsonl
+File size is greater than maximum allowed. Creating new file...
+
+	Checking if file exists: /sd/data2.jsonl
+	File exists
+
+Getting file size: /sd/data2.jsonl
+	Checking if file exists: /sd/data2.jsonl
+	File exists
+
+File exists
+
+SUCCESS - sd card initialized.
+
+Adding subscriber...
+
+
+SensorsMicroService subscribing...
+
+Adding subscriber...
+
+Adding subscriber...
+
+
+ConnectionEventManager running business logic...
+
+Connection status code is 500 or greater 
+
+Connecting to hotspot...
+
+.Connected to WiFi
+
+IP Address: 192.168.1.227
+
+	Free H. memory: 217912 B, Total H. memory: 289860 B, used H. percentage: 24.82
+	Free memory: 0 B, Total memory: 0 B
+	Free H. memory: 217912 B, Total H. memory: 289860 B, used H. percentage: 24.82
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:0:32
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:0:32","data":}
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 59.00 %	 Temperature: 19.80 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:0:32","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.64, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:0:32"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 60.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:0:32"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 189156 B, Total H. memory: 289516 B, used H. percentage: 34.66
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:0:54
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:0:54","data":}
+	Free H. memory: 216636 B, Total H. memory: 289644 B, used H. percentage: 25.21
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:0:54","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.66, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:0:54"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:0:54"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 188896 B, Total H. memory: 289516 B, used H. percentage: 34.75
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:1:18
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:1:18","data":}
+	Free H. memory: 216380 B, Total H. memory: 289644 B, used H. percentage: 25.29
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:1:18","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.64, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:1:18"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:1:18"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 188536 B, Total H. memory: 289484 B, used H. percentage: 34.87
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:1:42
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:1:42","data":}
+
+------------------------
+
+
+DataManagementMicroService notify
+
+Priority file to notify: /sd/data2.jsonl
+
+	Free H. memory: 188516 B, Total H. memory: 289468 B, used H. percentage: 34.88
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+
+	Number of events in file: 0
+
+	File is empty. No events to read.
+
+	Free H. memory: 216028 B, Total H. memory: 289612 B, used H. percentage: 25.41
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+
+Connection status code is 200
+
+Connection successful
+
+ConnectionEventManager notifying subscribers...
+
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:1:42","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.64, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:1:42"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:1:42"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: 404
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 186156 B, Total H. memory: 289244 B, used H. percentage: 35.64
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:1:58
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:1:58","data":}
+	Free H. memory: 213648 B, Total H. memory: 289372 B, used H. percentage: 26.17
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:1:58","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:1:58"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:1:58"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 185932 B, Total H. memory: 289276 B, used H. percentage: 35.73
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:2:21
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:2:21","data":}
+	Free H. memory: 213420 B, Total H. memory: 289404 B, used H. percentage: 26.26
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:2:21","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.68, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:2:21"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:2:21"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 185580 B, Total H. memory: 289244 B, used H. percentage: 35.84
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:2:44
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:2:44","data":}
+
+------------------------
+
+
+DataManagementMicroService notify
+
+Priority file to notify: /sd/data2.jsonl
+
+	Free H. memory: 185548 B, Total H. memory: 289228 B, used H. percentage: 35.85
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+
+	Number of events in file: 0
+
+	File is empty. No events to read.
+
+	Free H. memory: 213068 B, Total H. memory: 289372 B, used H. percentage: 26.37
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+
+Connection status code is 200
+
+Connection successful
+
+ConnectionEventManager notifying subscribers...
+
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:2:44","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.64, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:2:44"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:2:44"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 183180 B, Total H. memory: 289084 B, used H. percentage: 36.63
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:3:2
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:3:2","data":}
+	Free H. memory: 210676 B, Total H. memory: 289212 B, used H. percentage: 27.16
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:3:2","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:3:2"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:3:2"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 186580 B, Total H. memory: 289276 B, used H. percentage: 35.50
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:3:22
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:3:22","data":}
+	Free H. memory: 214068 B, Total H. memory: 289404 B, used H. percentage: 26.03
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:3:22","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:3:22"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:3:22"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 186324 B, Total H. memory: 289276 B, used H. percentage: 35.59
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:3:46
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:3:46","data":}
+
+------------------------
+
+
+DataManagementMicroService notify
+
+Priority file to notify: /sd/data2.jsonl
+
+	Free H. memory: 186296 B, Total H. memory: 289260 B, used H. percentage: 35.60
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+
+	Number of events in file: 0
+
+	File is empty. No events to read.
+
+	Free H. memory: 213816 B, Total H. memory: 289404 B, used H. percentage: 26.12
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+
+Connection status code is 200
+
+Connection successful
+
+ConnectionEventManager notifying subscribers...
+
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:3:46","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.68, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:3:46"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:3:46"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: 404
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 180600 B, Total H. memory: 288956 B, used H. percentage: 37.50
+	Free memory: 0 B, Total memory: 0 B
+Writing batch of 10 events to file /sd/data2.jsonl...
+File opened for batch append
+
+Writing event 0 to file... OK
+
+Writing event 1 to file... OK
+
+Writing event 2 to file... OK
+
+Writing event 3 to file... OK
+
+Writing event 4 to file... OK
+
+Writing event 5 to file... OK
+
+Writing event 6 to file... OK
+
+Writing event 7 to file... OK
+
+Writing event 8 to file... OK
+
+Writing event 9 to file... OK
+
+Batch write complete.
+
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:4:3
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:4:3","data":}
+	Free H. memory: 207892 B, Total H. memory: 289052 B, used H. percentage: 28.08
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:4:3","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:4:3"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:4:3"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 180300 B, Total H. memory: 288972 B, used H. percentage: 37.61
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:4:26
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:4:26","data":}
+	Free H. memory: 208104 B, Total H. memory: 289116 B, used H. percentage: 28.02
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:4:26","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:4:26"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:4:26"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 180272 B, Total H. memory: 288956 B, used H. percentage: 37.61
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:4:49
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:4:49","data":}
+
+------------------------
+
+
+DataManagementMicroService notify
+
+Priority file to notify: /sd/data2.jsonl
+
+	Free H. memory: 180576 B, Total H. memory: 288972 B, used H. percentage: 37.51
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+
+	Number of events in file: 20
+
+	File is not empty. Reading events...
+
+Deleting file: /sd/data2.jsonl
+File deleted
+
+	Free H. memory: 204172 B, Total H. memory: 288780 B, used H. percentage: 29.30
+	Free memory: 0 B, Total memory: 0 B
+ConnectionEventManager received an array of 20 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 20 events
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+
+Core  1 register dump:
+
+PC      : 0x40155ebd  PS      : 0x00060f36  A0      : 0x801505fd  A1      : 0x3ffc8ca0  
+
+A2      : 0x3ffbd79c  A3      : 0x00000002  A4      : 0xa0000000  A5      : 0x4043f73a  
+
+A6      : 0x00000003  A7      : 0x3ffbd79c  A8      : 0x00000000  A9      : 0x3ffc918e  
+
+A10     : 0x3ffc9188  A11     : 0x3ffc8f2e  A12     : 0x00000006  A13     : 0x3ffc9144  
+
+A14     : 0x00060f20  A15     : 0x00000001  SAR     : 0x00000004  EXCCAUSE: 0x00000001  
+
+EXCVADDR: 0x00000000  LBEG    : 0x4008a8e5  LEND    : 0x4008a8f5  LCOUNT  : 0xffffffff  
+
+
+
+
+
+Backtrace: 0x40155eba:0x3ffc8ca0 0x401505fa:0x3ffc8d40 0x40155d5e:0x3ffc9050 0x40155d9a:0x3ffc90e0 0x400de8e4:0x3ffc9120 0x400d289d:0x3ffc91c0 0x400d3ce1:0x3ffc91e0 0x400d5d8d:0x3ffc9240 0x400d4249:0x3ffc9620 0x400d82d7:0x3ffc9a10 0x400e1e39:0x3ffcac40
+
+
+
+
+
+
+
+
+
+ELF file SHA256: e527b70fbbfdb87d
+
+
+
+Rebooting...
+
+!¥÷)ç‚
+l·M9N…
+¥
+½Õâ…Hello!
+
+Hello!
+
+Initialized TimeEventManager.
+
+DataManagementMicroService constructor
+
+Initializing sd card...
+
+sd card mounted successfully with 15MB
+sd card type: sdHC
+Used MBs: 15
+Memory usage percentage: 0.102385
+	Checking if file exists: /sd/data1.jsonl
+	File exists
+
+Getting file size: /sd/data1.jsonl
+File size is greater than maximum allowed. Creating new file...
+
+	Checking if file exists: /sd/data2.jsonl
+	File does not exist
+
+	Creating file...
+
+Getting file size: /sd/data2.jsonl
+	Checking if file exists: /sd/data2.jsonl
+	File exists
+
+File exists
+
+SUCCESS - sd card initialized.
+
+Adding subscriber...
+
+
+SensorsMicroService subscribing...
+
+Adding subscriber...
+
+Adding subscriber...
+
+
+ConnectionEventManager running business logic...
+
+Connection status code is 500 or greater 
+
+Connecting to hotspot...
+
+.Connected to WiFi
+
+IP Address: 192.168.1.227
+
+	Free H. memory: 217620 B, Total H. memory: 289796 B, used H. percentage: 24.91
+	Free memory: 0 B, Total memory: 0 B
+	Free H. memory: 217620 B, Total H. memory: 289796 B, used H. percentage: 24.91
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:6:42
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:6:42","data":}
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:6:42","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.64, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:6:42"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:6:42"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 188912 B, Total H. memory: 289484 B, used H. percentage: 34.74
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:7:3
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:7:3","data":}
+	Free H. memory: 216412 B, Total H. memory: 289612 B, used H. percentage: 25.28
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:7:3","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.68, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:7:3"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:7:3"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 188700 B, Total H. memory: 289500 B, used H. percentage: 34.82
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:7:27
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:7:27","data":}
+	Free H. memory: 216196 B, Total H. memory: 289628 B, used H. percentage: 25.35
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:7:27","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.68, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:7:27"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:7:27"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 188344 B, Total H. memory: 289468 B, used H. percentage: 34.93
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:7:52
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:7:52","data":}
+
+------------------------
+
+
+DataManagementMicroService notify
+
+Priority file to notify: /sd/data2.jsonl
+
+	Free H. memory: 188316 B, Total H. memory: 289452 B, used H. percentage: 34.94
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+
+	Number of events in file: 0
+
+	File is empty. No events to read.
+
+	Free H. memory: 215844 B, Total H. memory: 289596 B, used H. percentage: 25.47
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+
+Connection status code is 200
+
+Connection successful
+
+ConnectionEventManager notifying subscribers...
+
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:7:52","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.64, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:7:52"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:7:52"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: 404
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 186044 B, Total H. memory: 289260 B, used H. percentage: 35.68
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:8:8
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:8:8","data":}
+	Free H. memory: 213540 B, Total H. memory: 289388 B, used H. percentage: 26.21
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:8:8","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:8:8"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:8:8"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 185744 B, Total H. memory: 289260 B, used H. percentage: 35.79
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:8:31
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:8:31","data":}
+	Free H. memory: 213228 B, Total H. memory: 289388 B, used H. percentage: 26.32
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:8:31","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.68, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:8:31"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:8:31"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 185392 B, Total H. memory: 289228 B, used H. percentage: 35.90
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:8:54
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:8:54","data":}
+
+------------------------
+
+
+DataManagementMicroService notify
+
+Priority file to notify: /sd/data2.jsonl
+
+	Free H. memory: 185360 B, Total H. memory: 289212 B, used H. percentage: 35.91
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+
+	Number of events in file: 0
+
+	File is empty. No events to read.
+
+	Free H. memory: 212876 B, Total H. memory: 289356 B, used H. percentage: 26.43
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+
+Connection status code is 200
+
+Connection successful
+
+ConnectionEventManager notifying subscribers...
+
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:8:54","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:8:54"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:8:54"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: 404
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 184828 B, Total H. memory: 289132 B, used H. percentage: 36.07
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:9:10
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:9:10","data":}
+	Free H. memory: 212324 B, Total H. memory: 289260 B, used H. percentage: 26.60
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:9:10","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:9:10"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:9:10"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 184668 B, Total H. memory: 289164 B, used H. percentage: 36.14
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:9:33
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:9:33","data":}
+	Free H. memory: 212168 B, Total H. memory: 289292 B, used H. percentage: 26.66
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.60 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:9:33","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.68, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:9:33"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:9:33"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 184296 B, Total H. memory: 289132 B, used H. percentage: 36.26
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:9:56
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:9:56","data":}
+
+------------------------
+
+
+DataManagementMicroService notify
+
+Priority file to notify: /sd/data2.jsonl
+
+	Free H. memory: 184272 B, Total H. memory: 289116 B, used H. percentage: 36.26
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+
+	Number of events in file: 0
+
+	File is empty. No events to read.
+
+	Free H. memory: 211812 B, Total H. memory: 289260 B, used H. percentage: 26.77
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+
+Connection status code is 200
+
+Connection successful
+
+ConnectionEventManager notifying subscribers...
+
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:9:56","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:9:56"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:9:56"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Now we're connected, send the first part of the request
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: 404
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 183868 B, Total H. memory: 289068 B, used H. percentage: 36.39
+	Free memory: 0 B, Total memory: 0 B
+Writing batch of 10 events to file /sd/data2.jsonl...
+File opened for batch append
+
+Writing event 0 to file... OK
+
+Writing event 1 to file... OK
+
+Writing event 2 to file... OK
+
+Writing event 3 to file... OK
+
+Writing event 4 to file... OK
+
+Writing event 5 to file... OK
+
+Writing event 6 to file... OK
+
+Writing event 7 to file... OK
+
+Writing event 8 to file... OK
+
+Writing event 9 to file... OK
+
+Batch write complete.
+
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:10:12
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:10:12","data":}
+	Free H. memory: 211316 B, Total H. memory: 289196 B, used H. percentage: 26.93
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:10:12","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:10:12"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:10:12"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 183588 B, Total H. memory: 289084 B, used H. percentage: 36.49
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:10:36
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:10:36","data":}
+	Free H. memory: 211428 B, Total H. memory: 289244 B, used H. percentage: 26.90
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+
+DHTAdapter handling request...
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 59.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.70 *C 
+
+Humidity: 62.00 %	 Temperature: 19.80 *C 
+
+SensorsMicroService got event: 
+
+{"type":2,"statusCode":200,"timestamp":"2000-1-1 0:10:36","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 19.72, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:10:36"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 61.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2000-1-1 0:10:36"}]}
+
+SensorsMicroService notifying subscribers...
+
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+There are unsent events
+
+DataManagementMicroService received 1 events
+	Free H. memory: 183572 B, Total H. memory: 289084 B, used H. percentage: 36.50
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+
+	update: 2000-1-1 0:10:59
+
+
+TimeEventManager notifying subscribers...
+
+
+SensorsMicroService got event: 
+
+{"type":0,"statusCode":200,"timestamp":"2000-1-1 0:10:59","data":}
+
+------------------------
+
+
+DataManagementMicroService notify
+
+Priority file to notify: /sd/data2.jsonl
+
+	Free H. memory: 183848 B, Total H. memory: 289084 B, used H. percentage: 36.40
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+
+	Number of events in file: 20
+
+	File is not empty. Reading events...
+
+Deleting file: /sd/data2.jsonl
+File deleted
+
+	Free H. memory: 207476 B, Total H. memory: 288908 B, used H. percentage: 28.19
+	Free memory: 0 B, Total memory: 0 B
+ConnectionEventManager received an array of 20 events...
+Sending events to server...
+
+	Sending login to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Waiting for response status code...
+
+	Reading response status code...
+
+Status code: -3
+
+Failed to send event
+
+Sending event to server...
+
+	Witing forrsos stau ode...
+	Reading eponse stau od..
+Status code: -3
+Failed to send event
+Sending event to server...
+	Waiting for response status code...
+	Reading response status code...
+Status code: -3
+Failed to send event
+Sending event to server...
+	Waiting for response status code...
+	Reading response status code...
+Status code: -3
+Failed to send event
+Sending event to server...
+	Waiting for response status code...
+	Reading response status code...
+Status code: -3
+Failed to send event
+Sending event to server...
+	Waiting for response status code...
+	Reading response status code...

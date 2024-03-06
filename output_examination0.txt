@@ -1,0 +1,651 @@
+!§#¶{(ÁB1«!«òù•à•»!¶J˛B~1ô¨9ÖHello!
+Hello!
+[   251][I][Initialized TimeEventManager.
+DataManagementMicroService constructor
+Initializing sd card...
+sd card mounted successfully with 15MB
+sd card type: sdHC
+Used MBs: 0
+Memory usage percentage: 0.001234
+	Checking if file exists: /sd/data1.jsonl
+	File exists
+Getting file size: /sd/data1.jsonl
+	Checking if file exists: /sd/data1.jsonl
+	File exists
+File exists
+SUCCESS - sd card initialized.
+Adding subscriber...
+
+SensorsMicroService subscribing...
+Adding subscriber...
+Adding subscriber...
+
+ConnectionEventManager running business logic...
+Connection status code is 500 or greater 
+Connecting to hotspot...
+[  1101][D][WiFiGeneric.cpp:1035] _eventCallback(): Arduino Event: 0 - WIFI_READY
+[  1258][D][WiFiGeneric.cpp:1035] _eventCallback(): Arduino Event: 2 - STA_START
+.[  1967][D][WiFiGeneric.cpp:1035] _eventCallback(): Arduino Event: 4 - STA_CONNECTED
+.[  2597][D][WiFiGeneric.cpp:1035] _eventCallback(): Arduino Event: 7 - STA_GOT_IP
+[  2597][D][WiFiGeneric.cpp:1098] _eventCallback(): STA IP: 192.168.0.103, MASK: 255.255.255.0, GW: 192.168.0.1
+Connected to WiFi
+IP Address: 192.168.0.103
+	Free H. memory: 217676 B, Total H. memory: 289684 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+	Free H. memory: 217676 B, Total H. memory: 289684 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:34:35
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:34:35","data":}
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 52.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.40 *C 
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:34:35","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.48, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:34:35"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 52.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:34:35"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[ 20178][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"
+Sending event to server...
+[ 28392][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 188880 B, Total H. memory: 289364 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:35:15
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:35:15","data":}
+	Free H. memory: 216368 B, Total H. memory: 289492 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 52.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:35:15","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.50, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:35:15"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 52.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:35:15"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[ 59511][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"
+Sending event to server...
+[ 67619][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 188496 B, Total H. memory: 289332 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:35:54
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:35:54","data":}
+
+------------------------
+
+DataManagementMicroService notify
+Priority file to notify: /sd/data1.jsonl
+	Free H. memory: 188468 B, Total H. memory: 289316 B, used H. percentage: -5486124068793688683255936251187209270074392635932332070112001988456197381759672947165175699536362793613284725337872111744958183862744647903224103718245670299614498700710006264535590197791934024641512541262359795191593953928908168990292758500391456212260452596575509589842140073806143686060649302051520512.00
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+	Number of events in file: 0
+	File is empty. No events to read.
+	Free H. memory: 214256 B, Total H. memory: 289236 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+Connection status code is 200
+Connection successful
+ConnectionEventManager notifying subscribers...
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 52.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:35:54","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.50, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:35:54"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 52.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:35:54"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+Sending event to server...
+Status code: -4
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 184456 B, Total H. memory: 288900 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:36:10
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:36:10","data":}
+	Free H. memory: 211968 B, Total H. memory: 289044 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 53.00 %	 Temperature: 23.50 *C 
+Humidity: 51.00 %	 Temperature: 23.50 *C 
+Humidity: 53.00 %	 Temperature: 23.60 *C 
+Humidity: 53.00 %	 Temperature: 23.60 *C 
+Humidity: 53.00 %	 Temperature: 23.60 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:36:10","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.56, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:36:10"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 52.60, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:36:10"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[114785][D][WiFiClient.cpp:546] connected(): Disconnected: RES: -1, ERR: 104
+[114837][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Sending event to server...
+[122949][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 184004 B, Total H. memory: 288868 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:36:49
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:36:49","data":}
+	Free H. memory: 211480 B, Total H. memory: 288996 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 53.00 %	 Temperature: 23.60 *C 
+Humidity: 51.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:36:49","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.60, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:36:49"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 52.00, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:36:49"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[153216][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Sending event to server...
+[161405][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 183604 B, Total H. memory: 288836 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:37:27
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:37:27","data":}
+
+------------------------
+
+DataManagementMicroService notify
+Priority file to notify: /sd/data1.jsonl
+	Free H. memory: 183552 B, Total H. memory: 288820 B, used H. percentage: -5486124068793688683255936251187209270074392635932332070112001988456197381759672947165175699536362793613284725337872111744958183862744647903224103718245670299614498700710006264535590197791934024641512541262359795191593953928908168990292758500391456212260452596575509589842140073806143686060649302051520512.00
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+	Number of events in file: 0
+	File is empty. No events to read.
+	Free H. memory: 211096 B, Total H. memory: 288964 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+Connection status code is 200
+Connection successful
+ConnectionEventManager notifying subscribers...
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+Humidity: 51.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:37:27","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.60, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:37:27"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 51.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:37:27"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+Sending event to server...
+Status code: -4
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 183240 B, Total H. memory: 288804 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:37:44
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:37:44","data":}
+	Free H. memory: 210724 B, Total H. memory: 288932 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+Humidity: 51.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:37:44","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.62, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:37:44"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 51.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:37:44"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[208693][D][WiFiClient.cpp:546] connected(): Disconnected: RES: -1, ERR: 104
+[208918][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"
+Sending event to server...
+[218854][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 182860 B, Total H. memory: 288772 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:38:24
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:38:24","data":}
+	Free H. memory: 210336 B, Total H. memory: 288900 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.60 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:38:24","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.68, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:38:24"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 51.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:38:24"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[248971][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"
+Sending event to server...
+[257271][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 182472 B, Total H. memory: 288740 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:39:3
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:39:3","data":}
+
+------------------------
+
+DataManagementMicroService notify
+Priority file to notify: /sd/data1.jsonl
+	Free H. memory: 182432 B, Total H. memory: 288724 B, used H. percentage: -5486124068793688683255936251187209270074392635932332070112001988456197381759672947165175699536362793613284725337872111744958183862744647903224103718245670299614498700710006264535590197791934024641512541262359795191593953928908168990292758500391456212260452596575509589842140073806143686060649302051520512.00
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+	Number of events in file: 0
+	File is empty. No events to read.
+	Free H. memory: 209952 B, Total H. memory: 288868 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+ConnectionEventManager running business logic...
+Connection status code is 200
+Connection successful
+ConnectionEventManager notifying subscribers...
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:39:3","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:39:3"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 51.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:39:3"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+Sending event to server...
+Status code: -4
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 182044 B, Total H. memory: 288692 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:39:19
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:39:19","data":}
+	Free H. memory: 209576 B, Total H. memory: 288836 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+Humidity: 50.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+Humidity: 52.00 %	 Temperature: 23.70 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:39:19","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:39:19"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 51.40, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:39:19"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[303425][D][WiFiClient.cpp:546] connected(): Disconnected: RES: -1, ERR: 104
+[303478][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Sending event to server...
+[311629][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 181720 B, Total H. memory: 288692 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+Writing batch of 10 events to file /sd/data1.jsonl...
+File opened for batch append
+Writing event 0 to file... OK
+Writing event 1 to file... OK
+Writing event 2 to file... OK
+Writing event 3 to file... OK
+Writing event 4 to file... OK
+Writing event 5 to file... OK
+Writing event 6 to file... OK
+Writing event 7 to file... OK
+Writing event 8 to file... OK
+Writing event 9 to file... OK
+Batch write complete.
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:39:58
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:39:58","data":}
+	Free H. memory: 209024 B, Total H. memory: 288788 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 52.00 %	 Temperature: 23.80 *C 
+Humidity: 50.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:39:58","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.72, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:39:58"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 51.00, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:39:58"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[342346][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Sending event to server...
+[350538][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 1 events
+	Free H. memory: 181136 B, Total H. memory: 288628 B, used H. percentage: 0.00
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:40:36
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:40:36","data":}
+
+------------------------
+
+DataManagementMicroService notify
+Priority file to notify: /sd/data1.jsonl
+	Free H. memory: 181488 B, Total H. memory: 288644 B, used H. percentage: -5486124068793688683255936251187209270074392635932332070112001988456197381759672947165175699536362793613284725337872111744958183862744647903224103718245670299614498700710006264535590197791934024641512541262359795191593953928908168990292758500391456212260452596575509589842140073806143686060649302051520512.00
+	Free memory: 0 B, Total memory: 0 B
+	File exists. Reading events...
+	Number of events in file: 20
+	File is not empty. Reading events...
+Deleting file: /sd/data1.jsonl
+File deleted
+	Free H. memory: 204912 B, Total H. memory: 288436 B, used H. percentage: -5486124068793688683255936251187209270074392635932332070112001988456197381759672947165175699536362793613284725337872111744958183862744647903224103718245670299614498700710006264535590197791934024641512541262359795191593953928908168990292758500391456212260452596575509589842140073806143686060649302051520512.00
+	Free memory: 0 B, Total memory: 0 B
+ConnectionEventManager received an array of 20 events...
+Sending events to server...
+	Sending login to server...
+[368360][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Sending event to server...
+[376652][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[392829][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[409010][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[425015][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[441065][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[457106][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[473152][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[489196][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[505245][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[521853][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[538031][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[554041][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[570289][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[586302][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[602341][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[618386][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[634430][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[650481][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[666524][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+Sending event to server...
+[682575][E][WiFiClient.cpp:268] connect(): socket error on fd 49, errno: 104, "Connection reset by peer"
+Status code: -3
+Failed to send event
+There are unsent events
+DataManagementMicroService received 20 events
+Guru Meditation Error: Core  1 panic'ed (Unhandled debug exception). 
+Debug exception reason: Stack canary watchpoint triggered (loopTask) 
+Core  1 register dump:
+PC      : 0x40159b6a  PS      : 0x00060f36  A0      : 0x801542a5  A1      : 0x3ffc8d30  
+A2      : 0x3ffbd79c  A3      : 0x3ffbbea0  A4      : 0x00000000  A5      : 0x00000000  
+A6      : 0x00000003  A7      : 0x3ffbd79c  A8      : 0x00000000  A9      : 0x3ffc921e  
+A10     : 0x3ffc9218  A11     : 0x3ffc8fbe  A12     : 0x00000006  A13     : 0x3ffc91d4  
+A14     : 0x00060f20  A15     : 0x00000001  SAR     : 0x00000004  EXCCAUSE: 0x00000001  
+EXCVADDR: 0x00000000  LBEG    : 0x4008a8e5  LEND    : 0x4008a8f5  LCOUNT  : 0xffffffff  
+
+
+Backtrace: 0x40159b67:0x3ffc8d30 0x401542a2:0x3ffc8dd0 0x40159a06:0x3ffc90e0 0x40159a42:0x3ffc9170 0x400e19d4:0x3ffc91b0 0x400d2d51:0x3ffc9250 0x400d4195:0x3ffc9270 0x400d6241:0x3ffc92d0 0x400d46fd:0x3ffc96b0 0x400d877b:0x3ffc9aa0 0x400e5671:0x3ffcacd0
+
+
+
+
+ELF file SHA256: e6f0179480303a20
+
+Rebooting...
+KR9 º C¡n%∂…OÖg'Sr#r^¬‚¢òÎ§W"ßˆHello!
+Hello!
+[   251][I][Initialized TimeEventManager.
+DataManagementMicroService constructor
+Initializing sd card...
+sd card mounted successfully with 15MB
+sd card type: sdHC
+Used MBs: 0
+Memory usage percentage: 0.001234
+	Checking if file exists: /sd/data1.jsonl
+	File does not exist
+	Creating file...
+Getting file size: /sd/data1.jsonl
+	Checking if file exists: /sd/data1.jsonl
+	File exists
+File exists
+SUCCESS - sd card initialized.
+Adding subscriber...
+
+SensorsMicroService subscribing...
+Adding subscriber...
+Adding subscriber...
+
+ConnectionEventManager running business logic...
+Connection status code is 500 or greater 
+Connecting to hotspot...
+[  1115][D][WiFiGeneric.cpp:1035] _eventCallback(): Arduino Event: 0 - WIFI_READY
+[  1277][D][WiFiGeneric.cpp:1035] _eventCallback(): Arduino Event: 2 - STA_START
+.[  2004][D][WiFiGeneric.cpp:1035] _eventCallback(): Arduino Event: 4 - STA_CONNECTED
+.[  2605][D][WiFiGeneric.cpp:1035] _eventCallback(): Arduino Event: 7 - STA_GOT_IP
+[  2605][D][WiFiGeneric.cpp:1098] _eventCallback(): STA IP: 192.168.0.103, MASK: 255.255.255.0, GW: 192.168.0.1
+Connected to WiFi
+IP Address: 192.168.0.103
+	Free H. memory: 217476 B, Total H. memory: 289652 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+	Free H. memory: 217476 B, Total H. memory: 289652 B, used H. percentage: 1.79
+	Free memory: 0 B, Total memory: 0 B
+
+TimeEventManager running business logic...
+	update: 2024-3-5 18:46:16
+
+TimeEventManager notifying subscribers...
+
+SensorsMicroService got event: 
+{"type":0,"statusCode":200,"timestamp":"2024-3-5 18:46:16","data":}
+
+SensorsMicroService running business logic...
+DHTAdapter handling request...
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+Humidity: 50.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+Humidity: 51.00 %	 Temperature: 23.70 *C 
+SensorsMicroService got event: 
+{"type":2,"statusCode":200,"timestamp":"2024-3-5 18:46:16","data":[{"variable": "3a56695b-005c-48d3-8005-a76f5d0dc9f6", "value": 23.70, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:46:16"}, {"variable": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "value": 50.80, "crop": "5d706a1a-86b0-4bca-b2c8-6a9e52107f27", "timestamp": "2024-3-5 18:46:16"}]}
+
+SensorsMicroService notifying subscribers...
+ConnectionEventManager received an array of 1 events...
+Sending events to server...
+	Sending login to server...
+[ 17454][E][WiFiClient.cpp:268] connect(): socket error on fd 48, errno: 104, "Connection reset by peer"

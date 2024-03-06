@@ -14,8 +14,9 @@
 //time in seconds
 #define timeEventManagerFrequency 5               //5 seconds
 #define sensorsMicroServiceFrequency 5*1         //2 minutes
-#define connectionEventManagerFrequency 60*1     //10 minutes
+#define connectionEventManagerFrequency 30*1     //10 minutes
 #define dataManagementMicroServiceFrequency 60*1  //11 minutes
+#define LED 2
 
 void setup() {
   // put your setup code here, to run once:
@@ -24,7 +25,9 @@ void setup() {
 
   Serial.println("Hello!");
   Serial.println("Hello!");
-  delay(100);
+  pinMode(LED,OUTPUT);
+  digitalWrite(LED,LOW);
+  delay(1000);
 }
 
 void loop() {

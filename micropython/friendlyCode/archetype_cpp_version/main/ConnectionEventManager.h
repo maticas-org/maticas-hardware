@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <WiFi.h> // Include the appropriate WiFi library for your board
 
+#include "CustomUtils.h"
 #include "Event.h"
 #include "Subscriber.h"
 #include "EventManager.h"
@@ -25,6 +26,10 @@ public:
     ConnectionEventManager() {
         firstConnectionEvent = Event(CONNECTION_EVENT, SERVICE_UNAVAILABLE_STATUS, "", "{\"error\":\"No connection events yet\"}");
         lastConnectionEvent = firstConnectionEvent;
+
+        for (int i = 0; i < MAX_MEASUREMENTS; i++){
+            measurementEvents[i] = Event();
+        }
     }
 
     Event getFirstEvent() {
@@ -60,6 +65,18 @@ public:
             Serial.println(message);
             throw std::runtime_error(message.c_str());
         }
+
+        //if there are unsent measurement events, send them to the subscribers
+        Serial.println("Checking for unsent measurement events...");
+        for (int i = 0; i < MAX_MEASUREMENTS; i++){
+            if (measurementEvents[i].getType() == MEASUREMENT_EVENT){
+                for (int j = 0; j < number_of_subs; j++){
+                    subscribers_[j]->update(measurementEvents[i]);
+                }
+                measurementEvents[i] = Event();
+            }
+        }
+
     }
 
     //------------------------ Subscriber Interface ------------------------
@@ -85,25 +102,66 @@ public:
     void update(const Event* events, int size) override {
         Serial.printf("ConnectionEventManager received an array of %d events...\n", size);
 
-        int* statusCodes = apiClient.sendEvents(events, size);
-        Event remainingEvents[size];
+        bool firstTime   = false;
         int unsentEvents = 0;
+        int* statusCodes = apiClient.sendEvents(events, size);
         
+        // Create a new array of events to store the remaining events
+        Event remainingEvents[size];
+        
+
+        // Check the status codes of the events and store the remaining events
         for (int i = 0; i < size; i++){
             if (statusCodes[i] != 200) {
                 remainingEvents[i] = events[i];
+                remainingEvents[i].timesSent++;
                 unsentEvents++;
             }else{
                 remainingEvents[i] = Event();
             }
         }
 
-        // Notify subscribers
-        if (unsentEvents > 0) {
-            Serial.println("There are unsent events");
+        //get the first event that was not sent and check if it is the first time
+        for (int i = 0; i < unsentEvents; i++){
+            if (remainingEvents[i].getType() == MEASUREMENT_EVENT){
+                firstTime = remainingEvents[i].timesSent == 1;
+                Serial.println("First time: " + String(firstTime));
+                Serial.println("Event: " + remainingEvents[i].toString());
+                break;
+            }
+        }
+
+        logMemoryUsage();
+
+        /*
+        * May need to add async logic to handle unsent events, this is because the ESP32 
+        * has a limited amount of memory and may not be able to handle all the events at once
+        * and seems to have problems with nested loops and calls, for example, 
+        * in this scenario dataManagementMicroService.notify() calls the update method of
+        * the ConnectionEventManager, which calls the update method of the subscribers 
+        * (and dataManagementMicroService is a subscriber of ConnectionEventManager)
+        */
+
+        // Notify subscribers if the timesSent attribute of the remaining events is 1 
+        // meaning that the event was sent for the first time, and if there are unsent events
+
+        if (unsentEvents > 0 && firstTime){
+            Serial.println("There are unsent events and it is the first time");
             for (int i = 0; i < number_of_subs; i++){
                 subscribers_[i]->update(remainingEvents, unsentEvents);
             }
+        } else if (unsentEvents > 0){
+            Serial.println("There are unsent events but it is not the first time");
+
+            //leave the notification for the next time
+            for (int i = 0; i < unsentEvents; i++){
+                if (remainingEvents[i].getType() == MEASUREMENT_EVENT){
+                    measurementEvents[i] = remainingEvents[i];
+                }
+            }
+
+        } else {
+            Serial.println("There are no unsent events");
         }
     }
 

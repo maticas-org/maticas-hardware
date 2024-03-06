@@ -35,7 +35,7 @@ class DataManagementMicroService : public Subscriber, public EventManager {
     String defaultSetFileName();
     void writeEventsBatch();
 
-  //----- Subscriber and EventManager methods -----
+    //----- Subscriber and EventManager methods -----
     void update(const Event* events, int size);
     void notify() override;
 
