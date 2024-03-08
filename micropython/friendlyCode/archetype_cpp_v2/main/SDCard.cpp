@@ -265,6 +265,37 @@ DataManagementMicroService::DataManagementMicroService() {
     pendingEventsToStoreCount = 0;
 }
 
+
+void DataManagementMicroService::memoryUsageCheck() {
+    // check sd card memory usage
+    float totalMemory = sd.cardSize();
+    float usedMemory = sd.usedBytes();
+    float memoryUsagePercentage = (usedMemory*100.0)/totalMemory;
+    Serial.printf("SD Card usage percentage: %f\n", memoryUsagePercentage);
+
+    // if memory usage is greater than maximum allowed, but not greater than the safe threshold,
+    // delete the oldest file
+    if (memoryUsagePercentage > MAX_MEMORY_USAGE_PERCENTAGE && memoryUsagePercentage <= SAFE_MEMORY_USAGE_PERCENTAGE_THRESHOLD) {
+        Serial.println("Memory usage is greater than maximum allowed. Deleting oldest file...");
+        String priorityFileName = getPriorityFileName(sd, "/sd");
+        deleteFile(sd, priorityFileName.c_str());
+        usedMemory = sd.usedBytes();
+        memoryUsagePercentage = (usedMemory*100.0)/totalMemory;
+        Serial.printf("SD Card usage percentage after deletion of file: %f\n", memoryUsagePercentage);
+
+    } else if  (memoryUsagePercentage > SAFE_MEMORY_USAGE_PERCENTAGE_THRESHOLD) {
+        Serial.println("Memory usage is greater than safe threshold. Deleting all data in the SD card...");
+        removeDir(sd, "/sd");
+        Serial.println("All data in the SD card has been deleted.");
+
+        // Trigger a reset of the device
+        usedMemory = sd.usedBytes();
+        memoryUsagePercentage = (usedMemory*100.0)/totalMemory;
+        Serial.printf("SD Card usage percentage after deletion of folder: %f\n", memoryUsagePercentage);
+        ESP.restart();
+    }
+}
+
 /*
 * This method is used to get the default file name for the data management microservice.
 * If the file is not set then it generates a new file name based on the template and the file number.
@@ -279,18 +310,8 @@ String DataManagementMicroService::defaultSetFileName() {
         fileName = fileNameTemplate + String(fileNumber) + ".jsonl";
     }
 
-    // check sd card memory usage
-    float totalMemory = sd.cardSize();
-    float usedMemory = sd.usedBytes();
-    float memoryUsagePercentage = (usedMemory*100.0)/totalMemory;
-    Serial.printf("SD Card usage percentage: %f\n", memoryUsagePercentage);
-
-    // if memory usage is greater than maximum allowed, delete oldest file
-    if (memoryUsagePercentage > MAX_MEMORY_USAGE_PERCENTAGE) {
-        Serial.println("Memory usage is greater than maximum allowed. Deleting oldest file...");
-        String priorityFileName = getPriorityFileName(sd, "/sd");
-        deleteFile(sd, priorityFileName.c_str());
-    }
+    // call memory usage check
+    memoryUsageCheck();
 
     // check if file exists, if not create it
     checkIfFileExists(sd, fileName.c_str(), true);

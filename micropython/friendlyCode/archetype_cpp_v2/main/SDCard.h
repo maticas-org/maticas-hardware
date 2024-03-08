@@ -12,10 +12,13 @@
 #define MISO  19
 #define MOSI  23
 #define CS  5
+
 #define MAX_STORED_EVENTS 30            //maximum number of events to store in the microservice
 #define MAX_FILE_SIZE 1024              //maximum file size in bytes
 #define MAX_MEMORY_USAGE_PERCENTAGE 90  //maximum memory usage percentage
 #define EVENT_BATCH_SIZE 10             //number of events to be written to the SD card at once
+#define SAFE_MEMORY_USAGE_PERCENTAGE_THRESHOLD 95 //if memory usage is above this threshold, the microservice will delete all 
+                                                  //data in the SD card, and will trigger a reset of the device 
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels);
 void createDir(fs::FS &fs, const char * path);
@@ -34,6 +37,7 @@ class DataManagementMicroService : public Subscriber{
     void initSDCard();
     String defaultSetFileName();
     void writeEventsBatch();
+    void memoryUsageCheck();
 
     //----- Subscriber methods -----
     void update(const Event* events, int size) override;
