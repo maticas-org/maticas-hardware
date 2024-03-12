@@ -13,10 +13,10 @@
 
 //time in seconds
 #define timeEventManagerFrequency 5              //5 seconds
-#define sensorsMicroServiceFrequency 5*1         //2 minutes
-#define connectionEventManagerFrequency 30*1     //10 minutes
-#define sdStoreFrequency 50*1                    //11 minutes
-#define sdLoadFrequency 65*1                     //12 minutes
+#define sensorsMicroServiceFrequency 40*1        //2 minutes
+#define connectionEventManagerFrequency 41*1    //10 minutes
+#define sdStoreFrequency 60*2                    //11 minutes
+#define sdLoadFrequency 60*1                     //12 minutes
 #define LED 2
 
 void setup() {

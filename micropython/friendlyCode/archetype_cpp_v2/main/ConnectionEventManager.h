@@ -126,18 +126,20 @@ public:
         for (int i = 0; i < size; i++){
             
             // if the data was sent successfully, do not add it to the measurementEvents array
-            if (statusCodes[i] != OK_STATUS && statusCodes[i] != CREATED_STATUS){
-                //if the array is full, remove the oldest event, otherwise, increment the count
-                //and add the event to the array
-                if (measurementEventsCount == MAX_MEASUREMENTS){
-                    for (int j = 0; j < MAX_MEASUREMENTS - 1; j++){
-                        measurementEvents[j] = measurementEvents[j + 1];
-                    }
-                    measurementEvents[MAX_MEASUREMENTS - 1] = events[i];
-                } else {
-                    measurementEvents[measurementEventsCount] = events[i];
-                    measurementEventsCount++;
+            if (statusCodes[i] == OK_STATUS || statusCodes[i] == CREATED_STATUS){
+                continue;
+            }
+
+            //if the array is full, remove the oldest event, otherwise, increment the count
+            //and add the event to the array
+            if (measurementEventsCount == MAX_MEASUREMENTS){
+                for (int j = 0; j < MAX_MEASUREMENTS - 1; j++){
+                    measurementEvents[j] = measurementEvents[j + 1];
                 }
+                measurementEvents[MAX_MEASUREMENTS - 1] = events[i];
+            } else {
+                measurementEvents[measurementEventsCount] = events[i];
+                measurementEventsCount++;
             }
         }
 

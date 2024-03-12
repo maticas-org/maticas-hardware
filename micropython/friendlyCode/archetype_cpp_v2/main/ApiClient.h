@@ -19,7 +19,7 @@ class ApiClient {
 
         ApiClient(WiFiClient &client) : http_(client, API_URL, API_PORT) {
             reset_last_results();
-            http_.setHttpResponseTimeout(HTTP_TIMEOUT);
+            //http_.setHttpResponseTimeout(HTTP_TIMEOUT);
         }
 
         int sendEvent(const Event& event) {
@@ -39,7 +39,7 @@ class ApiClient {
             http_.post(API_ENDPOINT);
             http_.sendHeader("Content-Type", contentType);
             http_.sendHeader("Content-Length", postData.length());
-            http_.sendHeader("Custom-Header", "custom");
+            http_.sendHeader("Authorization", API_TOKEN);
             http_.beginBody();
             http_.print(postData);
             http_.endRequest();
@@ -79,7 +79,6 @@ class ApiClient {
             http_.post(API_LOGIN_ENDPOINT);
             http_.sendHeader("Content-Type", contentType);
             http_.sendHeader("Content-Length", API_CREDS.length());
-            http_.sendHeader("Custom-Header", "custom");
             http_.beginBody();
             http_.print(API_CREDS);
             http_.endRequest();

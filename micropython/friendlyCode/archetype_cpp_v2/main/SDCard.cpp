@@ -286,6 +286,7 @@ void DataManagementMicroService::memoryUsageCheck() {
     } else if  (memoryUsagePercentage > SAFE_MEMORY_USAGE_PERCENTAGE_THRESHOLD) {
         Serial.println("Memory usage is greater than safe threshold. Deleting all data in the SD card...");
         removeDir(sd, "/sd");
+        removeDir(sd, "/");
         Serial.println("All data in the SD card has been deleted.");
 
         // Trigger a reset of the device
