@@ -129,10 +129,15 @@ void createDir(fs::FS &fs, const char * path){
 
 void removeDir(fs::FS &fs, const char * path){
     Serial.printf("Removing Dir: %s\n", path);
-    if(fs.rmdir(path)){
-        Serial.println("Dir removed");
+    
+    if (fs.exists(path)) {
+        if (!fs.rmdir(path)) {
+            Serial.println("Failed to remove directory");
+        }else{
+            Serial.println("Directory removed");
+        }
     } else {
-        Serial.println("rmdir failed");
+        Serial.println("Directory does not exist");
     }
 }
 
@@ -210,10 +215,15 @@ void renameFile(fs::FS &fs, const char * path1, const char * path2){
 
 void deleteFile(fs::FS &fs, const char * path){
     Serial.printf("Deleting file: %s\n", path);
-    if(fs.remove(path)){
-        Serial.println("File deleted");
+    //if the file exists, delete it
+    if (fs.exists(path)) {
+        if (fs.remove(path)) {
+            Serial.println("File deleted");
+        } else {
+            Serial.println("Delete failed");
+        }
     } else {
-        Serial.println("Delete failed");
+        Serial.println("File does not exist");
     }
 }
 
@@ -342,7 +352,7 @@ void DataManagementMicroService::initSDCard() {
 
     // initialize SPI
     spi.begin(SCK, MISO, MOSI, CS);
-    delay(100);
+    delay(500);
   
     // initialize sd card
     if (!sd.begin(CS, spi)) {
@@ -423,9 +433,9 @@ EventArray DataManagementMicroService::getEventsFromSDDynamic(){
 
     //if initialized check if the file exists and how many events are stored in it
     spi.begin(SCK, MISO, MOSI, CS);
-    delay(100);
+    delay(500);
     bool started_ok = sd.begin(CS, spi);
-    delay(100);
+    delay(500);
 
     if (!started_ok) {
         Serial.println("\tFailed to start SD card");
@@ -521,9 +531,9 @@ void DataManagementMicroService::update(const Event* events, int size) {
 
     //if initialized check if the file exists and how many events are stored in it
     spi.begin(SCK, MISO, MOSI, CS);
-    delay(100);
+    delay(500);
     sd.begin(CS, spi);
-    delay(10);
+    delay(500);
 
     // Set/Update the name of the file to write to
     int threshold = max(MAX_STORED_EVENTS, EVENT_BATCH_SIZE);
