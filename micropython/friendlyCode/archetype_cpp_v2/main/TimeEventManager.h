@@ -2,6 +2,7 @@
 #include "Event.h"
 #include "EventManager.h"
 #include "Subscriber.h"
+#include "secrets.h"
 
 #define RESTART_INTERVAL_SECS 10800 // 3 hours
 
@@ -15,12 +16,12 @@ private:
 public:
     TimeEventManager(int defaultTimeUpdateIntervalSecs) {
         RTC.begin();
-        //RTC.setHourMode(CLOCK_H24);
-        //RTC.setDay(23);
-        //RTC.setMonth(2);
+        RTC.setHourMode(CLOCK_H24);
+        //RTC.setDay(14);
+        //RTC.setMonth(3);
         //RTC.setYear(2024);
-        //RTC.setHours(16);
-        //RTC.setMinutes(3);
+        //RTC.setHours(14);
+        //RTC.setMinutes(20);
         //RTC.setSeconds(0);
 
         firstEvent = Event();
@@ -61,8 +62,23 @@ public:
         String data = "";
 
         try {
-            String timestamp = String(RTC.getYear()) + "-" + String(RTC.getMonth()) + "-" + String(RTC.getDay()) + " " +
-                               String(RTC.getHours()) + ":" + String(RTC.getMinutes()) + ":" + String(RTC.getSeconds());
+            
+            int year = RTC.getYear();
+            int month = RTC.getMonth();
+            int day = RTC.getDay();
+            int hour = RTC.getHours();
+            int minute = RTC.getMinutes();
+            int second = RTC.getSeconds();
+
+            // Create timestamp add zero padding
+            const String monthStr = (month < 10) ? "0" + String(month) : String(month);
+            const String dayStr = (day < 10) ? "0" + String(day) : String(day);
+            const String hourStr = (hour < 10) ? "0" + String(hour) : String(hour);
+            const String minuteStr = (minute < 10) ? "0" + String(minute) : String(minute);
+            const String secondStr = (second < 10) ? "0" + String(second) : String(second);
+
+            String timestamp = String(year) + "-" + monthStr + "-" + dayStr + "T" +
+                              hourStr + ":" + minuteStr + ":" + secondStr + " " + TZ;
 
             Event timeEvent(TIME_EVENT, OK_STATUS, timestamp, data);
 
