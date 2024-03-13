@@ -19,7 +19,7 @@ Event::Event(String eventString){
     //parse the string to get the event attributes
     int typeIndex = eventString.indexOf("\"type\":") + 7;
     int statusCodeIndex = eventString.indexOf("\"statusCode\":") + 14;
-    int timestampIndex = eventString.indexOf("\"timestamp\":\"") + 13;
+    int timestampIndex = eventString.indexOf("\"datetime\":\"") + 12;
     int dataIndex = eventString.indexOf("\"data\":") + 7;
 
     type_ = eventString.substring(typeIndex, eventString.indexOf(",", typeIndex)).toInt();
@@ -58,7 +58,7 @@ String Event::toString() const {
     eventString += type_;
     eventString += ",\"statusCode\":";
     eventString += statusCode_;
-    eventString += ",\"timestamp\":\"";
+    eventString += ",\"datetime\":\"";
     eventString += timestamp_;
     eventString += "\",\"data\":";
     
