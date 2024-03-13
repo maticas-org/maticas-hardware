@@ -19,6 +19,7 @@ class ApiClient {
 
         ApiClient(WiFiClient &client) : http_(client, API_URL, API_PORT) {
             reset_last_results();
+            http_.connectionKeepAlive();
             //http_.setHttpResponseTimeout(HTTP_TIMEOUT);
         }
 
@@ -45,9 +46,9 @@ class ApiClient {
             http_.endRequest();
 
             int statusCode = http_.responseStatusCode();
-            String response = http_.responseBody();
+            //String response = http_.responseBody();
 
-            if (statusCode == 0){
+            if (statusCode == HTTP_SUCCESS){
                 Serial.println("Success Sending event");
                 statusCode = http_.responseStatusCode();
                 
@@ -61,12 +62,15 @@ class ApiClient {
             Serial.println("Status code: " + String(statusCode));
             //Serial.println("Response: " + response);
 
-            if (statusCode == 200) {
+            if (statusCode == OK_STATUS || statusCode == CREATED_STATUS) {
                 Serial.println("Event sent successfully");
-            } else {
+            } else if (statusCode == HTTP_ERROR_INVALID_RESPONSE) {
+                Serial.println("Seems like server got the event, but it didn't respond properly");
+            }else{
                 Serial.println("Failed to send event");
             }
-            
+
+            http_.stop(); 
             return statusCode;
         }
 
@@ -84,6 +88,8 @@ class ApiClient {
             http_.endRequest();
 
             int statusCode = http_.responseStatusCode();
+
+            http_.stop(); 
             return statusCode;
         }
 
@@ -100,6 +106,12 @@ class ApiClient {
                     continue;
                 }
                 last_results[i] = sendEvent(events[i]);
+
+                //if the result was HTTP_ERROR_INVALID_RESPONSE,
+                //it means that the server got the event, but it didn't respond properly
+                if (last_results[i] == HTTP_ERROR_INVALID_RESPONSE) {
+                    last_results[i] = OK_STATUS;
+                }
             }
 
             return last_results;
